@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!-- saved from url=(0023)http://tianqi.2345.com/ -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-Control" content="no-transform ">
+    <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible">
+    <title>{% block title %}{% endblock %}</title>
+    <meta content="2345天气预报目前可以查询全国2412个城区一周、全球四天天气预报！今日天气、明日天气和未来几天的气象报告，并且为用户提供生活指数、健康指数、交通指数、旅游指数，及各类天气预报资讯。"
+          name="description">
+    <meta content="天气，天气预报，天气预报查询，天气预报查询一周,2345天气预报" name="keywords">
+    <meta name="applicable-device" content="pc">
+    <link rel="shortcut icon" href="http://tianqi.2345.com/favicon.ico" type="image/x-icon">
+    <link rel="canonical" href="http://tianqi.2345.com/">
+    <link href="./css/global2_v20160908054247.css" rel="stylesheet"
+          type="text/css">
+    <link href="./css/wea_index2_v20160921082803.css" rel="stylesheet"
+          type="text/css">
+</head>
+<body id="header" style="width: 1519px;">
+
+<div class="container" id="mainContainer">
+    <div class="head_w">
+        <div class="head">
+            <span class="logo"><a href="http://tianqi.2345.com/">
+                <img alt="2345天气预报"
+                     src="./_files/logo160722.png"></a></span>
+            <span
+                    class="tsearch"><form action="http://tianqi.2345.com/#" class="clearfix" id="searchForm"
+                                          method="post"
+                                          name="searchForm"><input id="inputSearchCity" autocomplete="off"
+                                                                   class="tsch_inbox ui-autocomplete-input" name="city"
+                                                                   type="text"><a class="tsch_btn1"
+                                                                                  href="http://tianqi.2345.com/#"
+                                                                                  onclick="allCount(&#39;tqSearch&#39;);$(&#39;#searchForm&#39;).submit();return false;">查看天气</a><div
+                    class="suggest-list" id="searchResult"><ul
+                    class="ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all" tabindex="0"
+                    style="z-index: 100; display: none;"></ul></div>
+
+                </form></span>
+        </div>
+        <!--台风专题入口 <div class="corner-rt"><a href="//tianqi.2345.com/news/2016_03_hanchao.htm" onclick="allCount('tianqi_hanchao2')" target="_blank"><img alt="寒潮来袭" height="100" src="/theme2/img/hanchao.png" width="100"></a></div><style> .corner-rt{ position:absolute; right:0; top:0; } </style><script> $(window).bind("resize", function() { var cornerRt; cornerRt = $(".corner-rt"); if ($(this).width() <= 1200) { cornerRt.hide(); } else { cornerRt.show(); } }).trigger("resize"); </script>-->
+    </div><!-- /head_w -->
+    <div class="wrap" id="wrap"><!-- nav_mod -->
+        <div class="nav_mod">
+            <ul>
+                <li class="first_item">
+                    <a class=" {% block nav1 %}{% endblock %}" rel="nofollow" tj="1" href="/realtime"> 实时天气 </a><i></i>
+                </li>
+                <li>
+                    <a class=" {% block nav2 %}{% endblock %}" rel="nofollow" href="http://tianqi.2345.com/history.htm">
+                        历史天气 </a><i></i>
+                </li>
+                <li>
+                    <a class=" {% block nav3 %}{% endblock %}" rel="nofollow" tj="1"
+                       href="http://tianqi.2345.com/t/wxyt/wxyt.htm"> 多日预报 </a><i></i>
+                </li>
+            </ul>
+            <div class="nav_btn_box">
+                <div class="add_favorite"><a class="favorite_btn" href="javascript:;"
+                                             onclick="addToFavorite();allCount(&#39;tianqi_jrsc&#39;);">加入收藏</a>
+                </div>
+            </div>
+        </div>
+        <span class="n_r"></span>
+        {% block content %}{% endblock %}
+    </div><!-- /nav_mod -->
+    <div class="u2683267">
+        <style> .u2683267 {
+            clear: both;
+            padding-bottom: 10px;
+            margin-top: -10px;
+            border-top: 1px solid #ebf3ff;
+        }
+
+        .module-hour-trend {
+            margin-top: 0;
+        } </style>
+        <div id="BAIDU_SSP__wrapper_u2683267_0"></div>
+    </div>
+
+    <div class="u2678481">
+        <style> .u2678481 {
+            margin-bottom: 10px;
+        } </style>
+        <div id="BAIDU_SSP__wrapper_u2678481_0"></div>
+    </div>
+</div><!-- end of div.wrap-->
+<div class="footer">
+    <div class="wp">
+        <p class="p1">
+            <script type="text/javascript"> document.write('<a rel="nofollow" class="f_steer" href="http://bbs.2345.com/fk/index.htm?cName=' + escape('天气') + '" target="_blank">意见反馈</a>'); </script>
+            <a rel="nofollow" class="f_steer" href="http://bbs.2345.com/fk/index.htm?cName=%u5929%u6C14"
+               target="_blank">意见反馈</a><span class="pipe">|</span><a
+                href="http://tianqi.2345.com/tianqifk/index.htm" id="ipCheckError" rel="nofollow" target="_blank"
+                onclick="allCount(&#39;tq_correctlocation&#39;);">更正您的地理位置</a><span class="pipe">|</span><a
+                href="http://tianqi.2345.com/plugin/" target="_blank" title="天气插件">天气插件</a>
+            <script> if (!/msie/.test(navigator.userAgent.toLowerCase())) {
+                document.write('<span class="pipe">|</span><a href="//waptianqi.2345.com/" target="_blank" onclick="document.cookie=\'vmod=mobile;\';">手机网页版</a>');
+            } </script>
+            <span class="pipe">|</span><a href="http://waptianqi.2345.com/" target="_blank"
+                                          onclick="document.cookie=&#39;vmod=mobile;&#39;;">手机网页版</a><span
+                class="pipe">|</span><a href="http://tianqi.2345.com/tianqiapp/" target="_blank" title="2345天气王移动版">手机APP官网</a><span
+                class="pipe">|</span><a href="http://lvyou.2345.com/zhoubianyou.html?tianqi"
+                                        onclick="allCount(&#39;tianqi_lvy_bottom&#39;);" rel="nofollow"
+                                        target="_blank" title="周边游">周边游</a></p>
+        <p class="p2"><a href="http://tianqi.2345.com/seo/sitemap1.htm" target="_blank">网站地图</a><a
+                href="http://tianqi.2345.com/baidu/SitemapIndex.xml" target="_blank">XML地图</a><span
+                class="copyright">版权所有&nbsp;&#169;&nbsp;2345.com</span><a href="http://www.2345.com/icp.jpg"
+                                                                          rel="nofollow" target="_blank">ICP证沪B2-20120099</a><a
+                class="back_index" href="http://tianqi.2345.com/">返回首页</a></p>
+    </div>
+</div>
+</div><!-- end of container--><!--[if IE 6]>
+<div id="poplayerbg" class="poplayerbg">
+    <iframe frameborder="0" src="about:blank;"
+            style="position:absolute;top:0px;right:0px;width:100%;height:100%;z-index:-1;filter:alpha(opacity=0);"></iframe>
+</div><![endif]-->
+<script type="text/javascript">
+    bindInitEvent();
+    loadTopBanner();
+    $('#poplayer').appendTo('body');
+</script>
+<iframe src="./_files/ifr_https.html" style="display: none;"></iframe>
+<iframe src="./_files/ifr_http.html" style="display: none;"></iframe>
+<style> #showqr {
+    display: block;
+    width: 115px;
+    height: 139px;
+    position: fixed;
+    _position: absolute;
+    top: 61.25%;
+    _top: expression(documentElement.scrollTop + documentElement.clientHeight - this.offsetHeight - 100);
+    right: 5px;
+    z-index: 999;
+}
+
+#showqr a {
+    display: block;
+    width: 115px;
+    height: 139px;
+    position: relative;
+    text-decoration: none;
+    background: url("/theme2/img/qr_tianqi_v20160524.png") no-repeat;
+    background-position: 6px 0;
+}
+
+#showqr b {
+    display: block;
+    cursor: pointer;
+    width: 13px;
+    height: 13px;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+}
+
+#showqr.hover a {
+    background-position: -113px 0;
+}
+
+#showqr.hover b {
+    background-position: 0 -14px;
+}
+</style>
+<script type="text/javascript" src="./_files/qrCode_v20160530.js.下载"></script>
+<div id="showqr"><a href="javascript:;" target="_self" onclick="flyQrcode();allCount(&quot;tq_erweima&quot;);"></a><b
+        onclick="closeQr();"></b></div>
+<div style="display:none">
+    <script src="http://union2.50bang.org/js/tianqi"></script>
+    <script> var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?a3f2879f6b3620a363bec646b7a8bcdd";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })(); </script>
+</div>
+<div id="cntvlive2-is-installed"></div>
+</body>
+</html>
