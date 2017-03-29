@@ -3,5 +3,5 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class HistoricalConfig(AppConfig):
-    name = 'historical'
+class AirConfig(AppConfig):
+    name = 'weather'
