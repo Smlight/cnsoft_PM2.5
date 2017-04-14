@@ -14,9 +14,10 @@ class Daily(models.Model):
     pres = models.IntegerField  # 气压
     tmp_max = models.IntegerField  # 最高温度
     tmp_min = models.IntegerField  # 最低温度
+    vis = models.IntegerField  # 能见度
     wind_deg = models.IntegerField  # 风向角度
     wind_spd = models.IntegerField  # 风速
-    aqi = models.IntegerField  #
+    aqi = models.IntegerField  # 空气质量
     pm25 = models.IntegerField  #
 
     class Meta:
@@ -25,19 +26,20 @@ class Daily(models.Model):
 
 # 每小时天气抽象类
 class Hourly(models.Model):
-    city = models.CharField(max_length=30)  #
-    datetime = models.DateTimeField  #
+    city = models.CharField(max_length=30)  # 城市
+    time = models.DateTimeField  # 时间
     cond = models.CharField(max_length=30)  # 天气情况
     hum = models.IntegerField  # 湿度
     pcpn = models.FloatField  # 降水量
     pres = models.IntegerField  # 气压
-    tmp_max = models.IntegerField  # 最高温度
-    tmp_min = models.IntegerField  # 最低温度
+    tmp = models.IntegerField  # 温度
+    vis = models.IntegerField  # 能见度
     wind_dir = models.CharField(max_length=30)  # 风向描述
-    wind_spd = models.IntegerField  # 风速
-    aqi = models.IntegerField  #
+    wind_sc = models.CharField(max_length=30)  # 风强
+    aqi = models.IntegerField  # 空气质量
+    aqi_str = models.CharField(max_length=30)  # 空气质量描述
     pm25 = models.IntegerField  #
-    suggestion = models.CharField(max_length=3000)  #
+    suggestion = models.CharField(max_length=3000)  # 生活建议
 
     class Meta:
         abstract = True

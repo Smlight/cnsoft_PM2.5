@@ -29,14 +29,44 @@ he_str = "https://free-api.heweather.com/v5/weather"  # 和风天气API 接口
 
 def default(request):
     city_str = 'beijing'
-    pre = Realtime.objects.get(city=city_str)
+    try:
+        pre = Realtime.objects.get(city=city_str)
+    except:
+        pre = Realtime(city=city_str)
+        pre.time = datetime.datetime.now() + datetime.timedelta(hours=-2)
     now = pre
-    if pre.datetime + datetime.timedelta(hours=1) < datetime.datetime.now():
-        pre.delete()
+    webmain = str(datetime.datetime.now())
+    if pre.time + datetime.timedelta(hours=1) < datetime.datetime.now():
+        if pre.id:
+            pre.delete()
         payload = {'city': city_str, 'key': he_key}
-        r = requests.get(he_str, params=payload)
-        M = r.json()
-        M = M[u'HeWeather5'][0]
+        # try:
 
-    webmain = r.text
-    return render(request, 'realtime.html', {'webmain': webmain})
+        r = requests.get(he_str, params=payload)
+        J = r.json()
+        J = J[u'HeWeather5'][0]
+        if J[u'status'] != u'ok':
+            pass
+        now = Realtime(city=city_str)
+        now.time = J[u'basic'][u'update'][u'loc']
+        Jnow = J[u'now']
+        now.cond = Jnow[u'cond'][u'txt']
+        now.hum = int(Jnow[u'hum'])
+        now.pcpn = int(Jnow[u'pcpn'])
+        now.pres = int(Jnow[u'pres'])
+        now.tmp = int(Jnow[u'tmp'])
+        now.vis = int(Jnow[u'vis'])
+        now.wind_dir = Jnow[u'wind'][u'dir']
+        now.wind_sc = Jnow[u'wind'][u'sc']
+        Jaqi = J[u'aqi'][u'city']
+        now.aqi = int(Jaqi[u'aqi'])
+        now.aqi_str = Jaqi[u'qlty']
+        now.pm25 = int(Jaqi[u'pm25'])
+        now.suggestion = J[u'suggestion']
+        now.save()
+        webmain = str(J)
+
+        # except:
+        #     webmain = u'NetWork FatalError!'
+
+    return render(request, 'realtime.html', {'webmain': webmain, 'now': now})
