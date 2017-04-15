@@ -4,5 +4,16 @@
 {% block nav1 %}current{% endblock %}
 
 {% block content %}
-{{ webmain }}
+所选城市：{{ now.city }} <br/>
+更新时间：{{ now.time }} <br/>
+天气：{{ now.cond }} <br/>
+湿度：{{ now.hum }} <br/>
+气压：{{ now.pres }} <br/>
+温度：{{ now.tmp }} <br/>
+能见度：{{ now.vis }} <br/>
+{{ now.wind_dir }}{{ now.wind_sc }}级 <br/>
+空气质量：{{ now.aqi }} <br/>
+空气质量描述：{{ now.aqi_str }} <br/>
+PM2.5：{{ now.pm25 }} <br/>
+生活建议：{{ now.suggestion }} <br/>
 {% endblock %}
