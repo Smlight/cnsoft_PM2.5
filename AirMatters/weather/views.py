@@ -12,7 +12,7 @@ from weather.models import Realtime, Forecast
 
 def current_datetime(request):
     now = datetime.datetime.now()
-    return render(request, 'current_datetime.html', {'current_date': now})
+    return render(request, 'pm25.html', {'current_date': now})
 
 
 def hello(request):
@@ -28,8 +28,20 @@ he_str = "https://free-api.heweather.com/v5/weather"  # 和风天气API 接口
 from datetime import datetime, timedelta
 from django.utils import timezone
 
-def default(request):
-    city_str = 'beijing'
+CITYS_CN = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
+            u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'南京', u'Xian': u'西安', u'Wuhan': u'武汉'}
+import json
+
+
+def default(request, city_str):
+    city_str = city_str.capitalize()
+    if city_str[-1] == '/':
+        city_str = city_str[:-1:]
+    if not city_str or city_str not in CITYS_CN:
+        city_str = 'Beijing'
+        city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
+    else:
+        city_note = u'当前城市：%s' % (CITYS_CN[city_str])
 
     flag = 0  # no need to update
     try:
@@ -40,35 +52,47 @@ def default(request):
         pre.delete()
         flag = 2  # data too old
 
+    status_note = u'OK'
     if flag == 0:
         now = pre
     else:
-        payload = {'city': city_str, 'key': he_key}
         try:
+            payload = {'city': CITYS_CN[city_str], 'key': he_key}
             r = requests.get(he_str, params=payload)
             J = r.json()
-            J = J[u'HeWeather5'][0]
-            if J[u'status'] != u'ok':
-                pass
+            J = J[u"HeWeather5"][0]
+            if J[u"status"] != u"ok":
+                raise Exception("Not OK!")
             now = Realtime(city=city_str)
-            now.time = J[u'basic'][u'update'][u'loc']
-            Jnow = J[u'now']
-            now.cond = Jnow[u'cond'][u'txt']
-            now.hum = int(Jnow[u'hum'])
-            now.pcpn = int(Jnow[u'pcpn'])
-            now.pres = int(Jnow[u'pres'])
-            now.tmp = int(Jnow[u'tmp'])
-            now.vis = int(Jnow[u'vis'])
-            now.wind_dir = Jnow[u'wind'][u'dir']
-            now.wind_sc = Jnow[u'wind'][u'sc']
-            Jaqi = J[u'aqi'][u'city']
-            now.aqi = int(Jaqi[u'aqi'])
-            now.aqi_str = Jaqi[u'qlty']
-            now.pm25 = int(Jaqi[u'pm25'])
-            now.suggestion = J[u'suggestion']
+            now.time = J[u"basic"][u"update"][u"loc"]
+            Jnow = J[u"now"]
+            now.cond = Jnow[u"cond"][u"txt"]
+            now.hum = int(Jnow[u"hum"])
+            now.pres = int(Jnow[u"pres"])
+            now.tmp = int(Jnow[u"tmp"])
+            now.vis = int(Jnow[u"vis"])
+            now.wind_dir = Jnow[u"wind"][u"dir"]
+            now.wind_sc = Jnow[u"wind"][u"sc"]
+            Jaqi = J[u"aqi"][u"city"]
+            now.aqi = int(Jaqi[u"aqi"])
+            now.aqi_str = Jaqi[u"qlty"]
+            now.pm25 = int(Jaqi[u"pm25"])
+            now.suggestion = J[u"suggestion"]
             now.save()
-            webmain = str(J)
-        except:
-            pass
-
-    return render(request, 'realtime.html', {'now': now})
+        except requests.ConnectionError:
+            status_note = u'网络连接错误，请重试'
+        except "Not OK!":
+            status_note = u'天气服务器错误，请重试'
+        except Exception, e:
+            status_note = str(e) + u'       内部错误，请联系管理员'
+    if status_note == u'OK':
+        J = eval(str(now.suggestion))
+        LABELS_CN = {u"comf": u"舒适指数", u"cw": u"洗车建议", u"drsg": u"穿衣建议", u"flu": u"感冒指数", u"sport": u"运动建议",
+                     u"trav": u"旅游建议", u"uv": u"紫外线指数", u"air": u"空气指数"}
+        suggest = u""
+        for x in J:
+            suggest += u"%s：%s\n%s\n\n" % (LABELS_CN[x], J[x][u"brf"], J[x][u"txt"])
+        return render(request, 'tianqi.html',
+                      {'status_note': status_note, 'city_note': city_note, 'now': now, 'suggest': suggest})
+    else:
+        return render(request, 'tianqi.html', {'status_note': status_note})
