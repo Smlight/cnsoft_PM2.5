@@ -17,11 +17,12 @@ from django.conf.urls import url
 from django.conf import settings
 from django.contrib import admin
 from django.conf.urls.static import static
-from weather.views import default
+from weather.views import tianqi, pm25
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^tianqi/(.*)$', default),
+    url(r'^tianqi/(.*)$', tianqi),
+    url(r'^pm25/(.*)$', pm25),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

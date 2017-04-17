@@ -30,19 +30,27 @@ from django.utils import timezone
 
 CITYS_CN = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'南京', u'Xian': u'西安', u'Wuhan': u'武汉'}
-import json
 
 
-def default(request, city_str):
+def deteCity(city_str):
     city_str = city_str.capitalize()
-    if city_str[-1] == '/':
-        city_str = city_str[:-1:]
-    if not city_str or city_str not in CITYS_CN:
+    if not city_str:
         city_str = 'Beijing'
         city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
     else:
-        city_note = u'当前城市：%s' % (CITYS_CN[city_str])
+        if city_str[-1] == '/':
+            city_str = city_str[:-1:]
+        if city_str not in CITYS_CN:
+            city_str = 'Beijing'
+            city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
+        else:
+            city_note = u'当前城市：%s' % (CITYS_CN[city_str])
+    return city_str, city_note
 
+
+def tianqi(request, city_str):
+    "Realtime weather information and hourly forecast"
+    city_str, city_note = deteCity(city_str)
     flag = 0  # no need to update
     try:
         pre = Realtime.objects.get(city=city_str)
@@ -96,3 +104,9 @@ def default(request, city_str):
                       {'status_note': status_note, 'city_note': city_note, 'now': now, 'suggest': suggest})
     else:
         return render(request, 'tianqi.html', {'status_note': status_note})
+
+
+def pm25(request, city_str):
+    "Realtime pm2.5 information and hourly forecast"
+    city_str, city_note = deteCity(city_str)
+    return render(request, 'pm25.html', {'city_note': city_note})
