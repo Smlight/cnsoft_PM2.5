@@ -50,6 +50,7 @@ def deteCity(city_str):
 
 def tianqi(request, city_str):
     "Realtime weather information and hourly forecast"
+    # HTTP requests in this function should be changed into asynchronous operation
     city_str, city_note = deteCity(city_str)
     flag = 0  # no need to update
     try:
@@ -106,7 +107,15 @@ def tianqi(request, city_str):
         return render(request, 'tianqi.html', {'status_note': status_note})
 
 
+urban_str = "http://urbanair.msra.cn/U_Air/ChangeCity"
+CITYS_UID = {u'Beijing': u'001', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
+             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'050', u'Xian': u'西安', u'Wuhan': u'武汉'}
+
+
 def pm25(request, city_str):
     "Realtime pm2.5 information and hourly forecast"
+    # HTTP requests in this function should be changed into asynchronous operation
     city_str, city_note = deteCity(city_str)
-    return render(request, 'pm25.html', {'city_note': city_note})
+    payload = {'CityId': CITYS_UID[city_str], 'Standard': '0'}
+    r = requests.get(urban_str, params=payload)
+    return render(request, 'pm25.html', {'city_note': city_note, 'main': r.text})
