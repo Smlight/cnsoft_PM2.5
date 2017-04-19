@@ -13,8 +13,7 @@
         温度：{{ now.tmp }} <br/>
         能见度：{{ now.vis }} <br/>
         {{ now.wind_dir }}{{ now.wind_sc }}级 <br/>
-        空气质量：{{ now.aqi }} <br/>
-        空气质量描述：{{ now.aqi_str }} <br/>
+        AQI：{{ now.aqi }}  {{ now.aqi_str }} <br/>
         PM2.5：{{ now.pm25 }} <br/>
         <pre>{{ suggest }} </pre>
     {% else %}
