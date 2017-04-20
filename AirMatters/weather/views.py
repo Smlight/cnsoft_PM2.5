@@ -1,24 +1,16 @@
 # -*- encoding:utf-8 -*-
 
-from django.shortcuts import render
-
 # Create your views here.
 
+from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
 from weather.models import Beijing, Shanghai, Guangzhou, Shenzhen, Hangzhou, Tianjin, Chengdu, Nanjing, Xian, Wuhan
 from weather.models import Realtime, Forecast
 
-
-def current_datetime(request):
-    now = datetime.datetime.now()
-    return render(request, 'pm25.html', {'current_date': now})
-
-
-def hello(request):
-    return HttpResponse(
-        r'<iframe allowtransparency="true" frameborder="0" width="600" height="98" scrolling="no" src="//tianqi.2345.com/plugin/widget/index.htm?s=2&z=3&t=1&v=0&d=3&bd=0&k=&f=&q=1&e=1&a=1&c=54511&w=600&h=98&align=center"></iframe>')
-
+CITYS_DB = {u'Beijing': Beijing, u'Shanghai': Shanghai, u'Guangzhou': Guangzhou, u'Shenzhen': Shenzhen,
+            u'Hangzhou': Hangzhou, u'Tianjin': Tianjin, u'Chengdu': Chengdu, u'Nanjing': Nanjing, u'Xian': Xian,
+            u'Wuhan': Wuhan}
 
 import requests
 
@@ -108,8 +100,8 @@ def tianqi(request, city_str):
 
 
 urban_str = "http://urbanair.msra.cn/U_Air/ChangeCity"
-CITYS_UID = {u'Beijing': u'001', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
-             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'050', u'Xian': u'西安', u'Wuhan': u'武汉'}
+CITYS_UID = {u'Beijing': u'001', u'Shanghai': u'002', u'Guangzhou': u'009', u'Shenzhen': u'004', u'Hangzhou': u'261',
+             u'Tianjin': u'006', u'Chengdu': u'008', u'Nanjing': u'050', u'Xian': u'138', u'Wuhan': u'003'}
 
 
 def pm25(request, city_str):
