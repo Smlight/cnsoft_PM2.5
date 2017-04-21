@@ -21,20 +21,30 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/weather/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="23">
-              <caret line="34" column="38" lean-forward="false" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
+            <state relative-caret-position="90">
+              <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
               <folding>
                 <element signature="e#26#65#0" expanded="true" />
-                <element signature="e#1466#1470#0" expanded="false" />
-                <element signature="e#1506#1510#0" expanded="false" />
-                <element signature="e#1547#1551#0" expanded="false" />
-                <element signature="e#1587#1591#0" expanded="false" />
-                <element signature="e#1627#1631#0" expanded="false" />
-                <element signature="e#1666#1670#0" expanded="false" />
-                <element signature="e#1705#1709#0" expanded="false" />
-                <element signature="e#1744#1748#0" expanded="false" />
-                <element signature="e#1780#1784#0" expanded="false" />
-                <element signature="e#1817#1821#0" expanded="false" />
+                <element signature="e#1950#1954#0" expanded="false" />
+                <element signature="e#1990#1994#0" expanded="false" />
+                <element signature="e#2031#2035#0" expanded="false" />
+                <element signature="e#2071#2075#0" expanded="false" />
+                <element signature="e#2111#2115#0" expanded="false" />
+                <element signature="e#2150#2154#0" expanded="false" />
+                <element signature="e#2189#2193#0" expanded="false" />
+                <element signature="e#2228#2232#0" expanded="false" />
+                <element signature="e#2264#2268#0" expanded="false" />
+                <element signature="e#2301#2305#0" expanded="false" />
+                <element signature="e#2361#2365#0" expanded="false" />
+                <element signature="e#2403#2407#0" expanded="false" />
+                <element signature="e#2446#2450#0" expanded="false" />
+                <element signature="e#2488#2492#0" expanded="false" />
+                <element signature="e#2530#2534#0" expanded="false" />
+                <element signature="e#2571#2575#0" expanded="false" />
+                <element signature="e#2612#2616#0" expanded="false" />
+                <element signature="e#2653#2657#0" expanded="false" />
+                <element signature="e#2691#2695#0" expanded="false" />
+                <element signature="e#2730#2734#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -43,8 +53,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/weather/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="596">
-              <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+            <state relative-caret-position="711">
+              <caret line="120" column="0" lean-forward="true" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
               <folding>
                 <element signature="e#53#88#0" expanded="true" />
               </folding>
@@ -65,7 +75,7 @@
       <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="518">
+            <state relative-caret-position="736">
               <caret line="32" column="39" lean-forward="false" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
               <folding />
             </state>
@@ -93,7 +103,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>/css/</find>
       <find>realtime</find>
       <find>'</find>
       <find>wrap</find>
@@ -123,6 +132,7 @@
       <find>weat</find>
       <find>ear</find>
       <find>.logo</find>
+      <find>Daily</find>
     </findStrings>
     <replaceStrings>
       <replace>&quot;</replace>
@@ -141,7 +151,6 @@
         <option value="$PROJECT_DIR$/Weather/admin.py" />
         <option value="$PROJECT_DIR$/Weather/views.py" />
         <option value="$PROJECT_DIR$/weather/aa.html" />
-        <option value="$PROJECT_DIR$/weather/models.py" />
         <option value="$PROJECT_DIR$/templates/realtime.html" />
         <option value="$PROJECT_DIR$/templates/current_datetime.html" />
         <option value="$PROJECT_DIR$/AirMatters/urls.py" />
@@ -153,6 +162,7 @@
         <option value="$PROJECT_DIR$/static/css/global.css" />
         <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/weather/views.py" />
+        <option value="$PROJECT_DIR$/weather/models.py" />
       </list>
     </option>
   </component>
@@ -183,8 +193,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -208,24 +216,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="weather" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AirMatters" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AirMatters" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="weather" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="migrations" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -295,6 +285,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -899,7 +891,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
+        <state relative-caret-position="736">
           <caret line="32" column="39" lean-forward="false" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
           <folding />
         </state>
@@ -907,28 +899,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/weather/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="34" column="38" lean-forward="false" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
+        <state relative-caret-position="90">
+          <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
           <folding>
             <element signature="e#26#65#0" expanded="true" />
-            <element signature="e#1466#1470#0" expanded="false" />
-            <element signature="e#1506#1510#0" expanded="false" />
-            <element signature="e#1547#1551#0" expanded="false" />
-            <element signature="e#1587#1591#0" expanded="false" />
-            <element signature="e#1627#1631#0" expanded="false" />
-            <element signature="e#1666#1670#0" expanded="false" />
-            <element signature="e#1705#1709#0" expanded="false" />
-            <element signature="e#1744#1748#0" expanded="false" />
-            <element signature="e#1780#1784#0" expanded="false" />
-            <element signature="e#1817#1821#0" expanded="false" />
+            <element signature="e#1950#1954#0" expanded="false" />
+            <element signature="e#1990#1994#0" expanded="false" />
+            <element signature="e#2031#2035#0" expanded="false" />
+            <element signature="e#2071#2075#0" expanded="false" />
+            <element signature="e#2111#2115#0" expanded="false" />
+            <element signature="e#2150#2154#0" expanded="false" />
+            <element signature="e#2189#2193#0" expanded="false" />
+            <element signature="e#2228#2232#0" expanded="false" />
+            <element signature="e#2264#2268#0" expanded="false" />
+            <element signature="e#2301#2305#0" expanded="false" />
+            <element signature="e#2361#2365#0" expanded="false" />
+            <element signature="e#2403#2407#0" expanded="false" />
+            <element signature="e#2446#2450#0" expanded="false" />
+            <element signature="e#2488#2492#0" expanded="false" />
+            <element signature="e#2530#2534#0" expanded="false" />
+            <element signature="e#2571#2575#0" expanded="false" />
+            <element signature="e#2612#2616#0" expanded="false" />
+            <element signature="e#2653#2657#0" expanded="false" />
+            <element signature="e#2691#2695#0" expanded="false" />
+            <element signature="e#2730#2734#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/weather/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="596">
-          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+        <state relative-caret-position="711">
+          <caret line="120" column="0" lean-forward="true" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
           <folding>
             <element signature="e#53#88#0" expanded="true" />
           </folding>

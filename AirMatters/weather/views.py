@@ -6,6 +6,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
 from weather.models import Beijing, Shanghai, Guangzhou, Shenzhen, Hangzhou, Tianjin, Chengdu, Nanjing, Xian, Wuhan
+from weather.models import PMBeijing, PMShanghai, PMGuangzhou, PMShenzhen, PMHangzhou, PMTianjin, PMChengdu, PMNanjing, \
+    PMXian, PMWuhan
 from weather.models import Realtime, Forecast
 
 CITYS_DB = {u'Beijing': Beijing, u'Shanghai': Shanghai, u'Guangzhou': Guangzhou, u'Shenzhen': Shenzhen,
@@ -103,11 +105,16 @@ urban_str = "http://urbanair.msra.cn/U_Air/ChangeCity"
 CITYS_UID = {u'Beijing': u'001', u'Shanghai': u'002', u'Guangzhou': u'009', u'Shenzhen': u'004', u'Hangzhou': u'261',
              u'Tianjin': u'006', u'Chengdu': u'008', u'Nanjing': u'050', u'Xian': u'138', u'Wuhan': u'003'}
 
+CITYS_PMDB = {u'Beijing': PMBeijing, u'Shanghai': PMShanghai, u'Guangzhou': PMGuangzhou, u'Shenzhen': PMShenzhen,
+              u'Hangzhou': PMHangzhou, u'Tianjin': PMTianjin, u'Chengdu': PMChengdu, u'Nanjing': PMNanjing,
+              u'Xian': PMXian, u'Wuhan': PMWuhan}
+
 
 def pm25(request, city_str):
     "Realtime pm2.5 information and hourly forecast"
     # HTTP requests in this function should be changed into asynchronous operation
     city_str, city_note = deteCity(city_str)
     payload = {'CityId': CITYS_UID[city_str], 'Standard': '0'}
+    nowdb = CITYS_PMDB[city_str]
     r = requests.get(urban_str, params=payload)
     return render(request, 'pm25.html', {'city_note': city_note, 'main': r.text})

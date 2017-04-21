@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-# 历史天气数据表抽象类
+# 每日天气数据表抽象类
 class Daily(models.Model):
     date = models.DateField()  # 日期
     cond = models.CharField(max_length=30)  # 天气情况
@@ -18,6 +18,22 @@ class Daily(models.Model):
     wind_deg = models.IntegerField()  # 风向角度
     wind_spd = models.IntegerField()  # 风速
     aqi = models.IntegerField()  # 空气质量
+    pm25 = models.IntegerField()  #
+
+    class Meta:
+        abstract = True
+
+
+# 城市每小时PM2.5抽象类
+class HPM25(models.Model):
+    time = models.DateTimeField()  # 时间
+    cond = models.CharField(max_length=30)  # 天气情况
+    hum = models.IntegerField()  # 湿度
+    vis = models.IntegerField()  # 能见度
+    wind_dir = models.CharField(max_length=30)  # 风向描述
+    wind_spd = models.IntegerField()  # 风速
+    aqi = models.IntegerField()  # 空气质量
+    aqi_str = models.CharField(max_length=30)  # 空气质量描述
     pm25 = models.IntegerField()  #
 
     class Meta:
@@ -90,4 +106,45 @@ class Xian(Daily):  # 西安
 
 
 class Wuhan(Daily):  # 武汉
+    pass
+
+
+# PM2.5天气具体类，共十个城市
+class PMBeijing(HPM25):  # 北京
+    pass
+
+
+class PMShanghai(HPM25):  # 上海
+    pass
+
+
+class PMGuangzhou(HPM25):  # 广州
+    pass
+
+
+class PMShenzhen(HPM25):  # 深圳
+    pass
+
+
+class PMHangzhou(HPM25):  # 杭州
+    pass
+
+
+class PMTianjin(HPM25):  # 天津
+    pass
+
+
+class PMChengdu(HPM25):  # 成都
+    pass
+
+
+class PMNanjing(HPM25):  # 南京
+    pass
+
+
+class PMXian(HPM25):  # 西安
+    pass
+
+
+class PMWuhan(HPM25):  # 武汉
     pass
