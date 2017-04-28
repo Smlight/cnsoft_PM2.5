@@ -24,6 +24,22 @@ class Daily(models.Model):
         abstract = True
 
 
+# 城市每小时PM2.5抽象类
+class CHPM25(models.Model):
+    time = models.DateTimeField()  # 时间
+    cond = models.CharField(max_length=30)  # 天气情况
+    hum = models.IntegerField()  # 湿度
+    vis = models.IntegerField()  # 能见度
+    wind_dir = models.CharField(max_length=30)  # 风向描述
+    wind_spd = models.IntegerField()  # 风速
+    aqi = models.IntegerField()  # 空气质量
+    aqi_str = models.CharField(max_length=30)  # 空气质量描述
+    pm25 = models.IntegerField()  #
+
+    class Meta:
+        abstract = True
+
+
 # 监测站每小时PM2.5抽象类
 class HPM25(models.Model):
     station = models.CharField(max_length=30)  # 监测站
