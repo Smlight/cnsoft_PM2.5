@@ -121,8 +121,9 @@ def pm25(request):
     city_str = request.GET.get('city')
     city_str, city_note = deteCity(city_str)
     payload = {'CityId': CITYS_UID[city_str], 'Standard': '0'}
+    nowdb = CITYS_PMDB[city_str]
     r = requests.get(urban_str, params=payload)
-    # now = PMRealtime(station=)
+    # now = nowdb(station=)
     return render(request, 'pm25.html', {'city_note': city_note, 'main': r.text})
 
 

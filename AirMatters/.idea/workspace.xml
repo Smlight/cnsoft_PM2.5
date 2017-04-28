@@ -18,55 +18,35 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/weather/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="550">
-              <caret line="116" column="0" lean-forward="true" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+            <state relative-caret-position="366">
+              <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
               <folding>
                 <element signature="e#26#65#0" expanded="true" />
-                <element signature="e#1506#1510#0" expanded="false" />
-                <element signature="e#1549#1553#0" expanded="false" />
-                <element signature="e#1591#1595#0" expanded="false" />
-                <element signature="e#1633#1637#0" expanded="false" />
-                <element signature="e#1674#1678#0" expanded="false" />
-                <element signature="e#1715#1719#0" expanded="false" />
-                <element signature="e#1756#1760#0" expanded="false" />
-                <element signature="e#1794#1798#0" expanded="false" />
-                <element signature="e#1833#1837#0" expanded="false" />
+                <element signature="e#1470#1474#0" expanded="false" />
+                <element signature="e#1513#1517#0" expanded="false" />
+                <element signature="e#1555#1559#0" expanded="false" />
+                <element signature="e#1597#1601#0" expanded="false" />
+                <element signature="e#1638#1642#0" expanded="false" />
+                <element signature="e#1679#1683#0" expanded="false" />
+                <element signature="e#1720#1724#0" expanded="false" />
+                <element signature="e#1758#1762#0" expanded="false" />
+                <element signature="e#1797#1801#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/weather/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="36" column="13" lean-forward="true" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+            <state relative-caret-position="642">
+              <caret line="126" column="27" lean-forward="true" selection-start-line="126" selection-start-column="27" selection-end-line="126" selection-end-column="27" />
               <folding>
                 <element signature="e#53#89#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tq.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/tq.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="13" column="30" lean-forward="true" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/base.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="23">
-              <caret line="32" column="39" lean-forward="false" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -153,8 +133,8 @@
         <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/weather/admin.py" />
         <option value="$PROJECT_DIR$/AirMatters/urls.py" />
-        <option value="$PROJECT_DIR$/weather/views.py" />
         <option value="$PROJECT_DIR$/templates/tq.html" />
+        <option value="$PROJECT_DIR$/weather/views.py" />
         <option value="$PROJECT_DIR$/weather/models.py" />
       </list>
     </option>
@@ -622,15 +602,15 @@
           <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
           <folding>
             <element signature="e#26#65#0" expanded="true" />
-            <element signature="e#1506#1510#0" expanded="false" />
-            <element signature="e#1549#1553#0" expanded="false" />
-            <element signature="e#1591#1595#0" expanded="false" />
-            <element signature="e#1633#1637#0" expanded="false" />
-            <element signature="e#1674#1678#0" expanded="false" />
-            <element signature="e#1715#1719#0" expanded="false" />
-            <element signature="e#1756#1760#0" expanded="false" />
-            <element signature="e#1794#1798#0" expanded="false" />
-            <element signature="e#1833#1837#0" expanded="false" />
+            <element signature="e#1470#1474#0" expanded="false" />
+            <element signature="e#1513#1517#0" expanded="false" />
+            <element signature="e#1555#1559#0" expanded="false" />
+            <element signature="e#1597#1601#0" expanded="false" />
+            <element signature="e#1638#1642#0" expanded="false" />
+            <element signature="e#1679#1683#0" expanded="false" />
+            <element signature="e#1720#1724#0" expanded="false" />
+            <element signature="e#1758#1762#0" expanded="false" />
+            <element signature="e#1797#1801#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -715,31 +695,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/weather/views.py">
+    <entry file="file://$PROJECT_DIR$/weather/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="36" column="13" lean-forward="true" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+        <state relative-caret-position="366">
+          <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
           <folding>
-            <element signature="e#53#89#0" expanded="true" />
+            <element signature="e#26#65#0" expanded="true" />
+            <element signature="e#1470#1474#0" expanded="false" />
+            <element signature="e#1513#1517#0" expanded="false" />
+            <element signature="e#1555#1559#0" expanded="false" />
+            <element signature="e#1597#1601#0" expanded="false" />
+            <element signature="e#1638#1642#0" expanded="false" />
+            <element signature="e#1679#1683#0" expanded="false" />
+            <element signature="e#1720#1724#0" expanded="false" />
+            <element signature="e#1758#1762#0" expanded="false" />
+            <element signature="e#1797#1801#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/weather/models.py">
+    <entry file="file://$PROJECT_DIR$/weather/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="116" column="0" lean-forward="true" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+        <state relative-caret-position="642">
+          <caret line="126" column="27" lean-forward="true" selection-start-line="126" selection-start-column="27" selection-end-line="126" selection-end-column="27" />
           <folding>
-            <element signature="e#26#65#0" expanded="true" />
-            <element signature="e#1506#1510#0" expanded="false" />
-            <element signature="e#1549#1553#0" expanded="false" />
-            <element signature="e#1591#1595#0" expanded="false" />
-            <element signature="e#1633#1637#0" expanded="false" />
-            <element signature="e#1674#1678#0" expanded="false" />
-            <element signature="e#1715#1719#0" expanded="false" />
-            <element signature="e#1756#1760#0" expanded="false" />
-            <element signature="e#1794#1798#0" expanded="false" />
-            <element signature="e#1833#1837#0" expanded="false" />
+            <element signature="e#53#89#0" expanded="true" />
           </folding>
         </state>
       </provider>

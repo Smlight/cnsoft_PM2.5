@@ -50,10 +50,6 @@ class HPM25(models.Model):
         abstract = True
 
 
-class PMRealtime(HPM25):
-    pass
-
-
 # PM2.5天气具体类，共十个城市
 class PMBeijing(HPM25):  # 北京
     pass
