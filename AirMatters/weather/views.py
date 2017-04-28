@@ -2,17 +2,16 @@
 
 # Create your views here.
 
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
-from weather.models import Beijing, Shanghai, Guangzhou, Shenzhen, Hangzhou, Tianjin, Chengdu, Nanjing, Xian, Wuhan
+# from weather.models import Beijing, Shanghai, Guangzhou, Shenzhen, Hangzhou, Tianjin, Chengdu, Nanjing, Xian, Wuhan
 from weather.models import PMBeijing, PMShanghai, PMGuangzhou, PMShenzhen, PMHangzhou, PMTianjin, PMChengdu, PMNanjing, \
     PMXian, PMWuhan
-from weather.models import Realtime, Forecast
+from weather.models import Realtime, Forecast, PMRealtime
 
-CITYS_DB = {u'Beijing': Beijing, u'Shanghai': Shanghai, u'Guangzhou': Guangzhou, u'Shenzhen': Shenzhen,
-            u'Hangzhou': Hangzhou, u'Tianjin': Tianjin, u'Chengdu': Chengdu, u'Nanjing': Nanjing, u'Xian': Xian,
-            u'Wuhan': Wuhan}
+# CITYS_DB = {u'Beijing': Beijing, u'Shanghai': Shanghai, u'Guangzhou': Guangzhou, u'Shenzhen': Shenzhen,
+#             u'Hangzhou': Hangzhou, u'Tianjin': Tianjin, u'Chengdu': Chengdu, u'Nanjing': Nanjing, u'Xian': Xian,
+#             u'Wuhan': Wuhan}
 
 import requests
 
@@ -27,13 +26,11 @@ CITYS_CN = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广�
 
 
 def deteCity(city_str):
-    city_str = city_str.capitalize()
     if not city_str:
         city_str = 'Beijing'
         city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
     else:
-        if city_str[-1] == '/':
-            city_str = city_str[:-1:]
+        city_str = city_str.capitalize()
         if city_str not in CITYS_CN:
             city_str = 'Beijing'
             city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
@@ -42,9 +39,17 @@ def deteCity(city_str):
     return city_str, city_note
 
 
-def tianqi(request, city_str):
+from django.http import HttpResponseRedirect
+
+
+def redi(request):
+    return HttpResponseRedirect('/tq/')
+
+
+def tq(request):
     "Realtime weather information and hourly forecast"
     # HTTP requests in this function should be changed into asynchronous operation
+    city_str = request.GET.get('city')
     city_str, city_note = deteCity(city_str)
     flag = 0  # no need to update
     try:
@@ -95,10 +100,10 @@ def tianqi(request, city_str):
         suggest = u""
         for x in J:
             suggest += u"%s：%s\n%s\n\n" % (LABELS_CN[x], J[x][u"brf"], J[x][u"txt"])
-        return render(request, 'tianqi.html',
+        return render(request, 'tq.html',
                       {'status_note': status_note, 'city_note': city_note, 'now': now, 'suggest': suggest})
     else:
-        return render(request, 'tianqi.html', {'status_note': status_note})
+        return render(request, 'tq.html', {'status_note': status_note})
 
 
 urban_str = "http://urbanair.msra.cn/U_Air/ChangeCity"
@@ -110,11 +115,15 @@ CITYS_PMDB = {u'Beijing': PMBeijing, u'Shanghai': PMShanghai, u'Guangzhou': PMGu
               u'Xian': PMXian, u'Wuhan': PMWuhan}
 
 
-def pm25(request, city_str):
+def pm25(request):
     "Realtime pm2.5 information and hourly forecast"
     # HTTP requests in this function should be changed into asynchronous operation
+    city_str = request.GET.get('city')
     city_str, city_note = deteCity(city_str)
     payload = {'CityId': CITYS_UID[city_str], 'Standard': '0'}
-    nowdb = CITYS_PMDB[city_str]
     r = requests.get(urban_str, params=payload)
+    # now = PMRealtime(station=)
     return render(request, 'pm25.html', {'city_note': city_note, 'main': r.text})
+
+
+ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"

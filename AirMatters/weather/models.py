@@ -24,88 +24,17 @@ class Daily(models.Model):
         abstract = True
 
 
-# 城市每小时PM2.5抽象类
+# 监测站每小时PM2.5抽象类
 class HPM25(models.Model):
+    station = models.CharField(max_length=30)  # 监测站
     time = models.DateTimeField()  # 时间
-    cond = models.CharField(max_length=30)  # 天气情况
-    hum = models.IntegerField()  # 湿度
-    vis = models.IntegerField()  # 能见度
-    wind_dir = models.CharField(max_length=30)  # 风向描述
-    wind_spd = models.IntegerField()  # 风速
-    aqi = models.IntegerField()  # 空气质量
-    aqi_str = models.CharField(max_length=30)  # 空气质量描述
     pm25 = models.IntegerField()  #
 
     class Meta:
         abstract = True
 
 
-# 每小时天气抽象类
-class Hourly(models.Model):
-    city = models.CharField(max_length=30)  # 城市
-    time = models.DateTimeField()  # 时间
-    cond = models.CharField(max_length=30)  # 天气情况
-    hum = models.IntegerField()  # 湿度
-    pres = models.IntegerField()  # 气压
-    tmp = models.IntegerField()  # 温度
-    vis = models.IntegerField()  # 能见度
-    wind_dir = models.CharField(max_length=30)  # 风向描述
-    wind_sc = models.CharField(max_length=30)  # 风强
-    aqi = models.IntegerField()  # 空气质量
-    aqi_str = models.CharField(max_length=30)  # 空气质量描述
-    pm25 = models.IntegerField()  #
-    suggestion = models.CharField(max_length=3000)  # 生活建议
-
-    class Meta:
-        abstract = True
-
-
-class Realtime(Hourly):
-    pass
-
-
-class Forecast(Hourly):
-    pass
-
-
-# 历史天气具体类，共十个城市
-class Beijing(Daily):  # 北京
-    pass
-
-
-class Shanghai(Daily):  # 上海
-    pass
-
-
-class Guangzhou(Daily):  # 广州
-    pass
-
-
-class Shenzhen(Daily):  # 深圳
-    pass
-
-
-class Hangzhou(Daily):  # 杭州
-    pass
-
-
-class Tianjin(Daily):  # 天津
-    pass
-
-
-class Chengdu(Daily):  # 成都
-    pass
-
-
-class Nanjing(Daily):  # 南京
-    pass
-
-
-class Xian(Daily):  # 西安
-    pass
-
-
-class Wuhan(Daily):  # 武汉
+class PMRealtime(HPM25):
     pass
 
 
@@ -147,4 +76,32 @@ class PMXian(HPM25):  # 西安
 
 
 class PMWuhan(HPM25):  # 武汉
+    pass
+
+
+# 每小时天气抽象类
+class Hourly(models.Model):
+    city = models.CharField(max_length=30)  # 城市
+    time = models.DateTimeField()  # 时间
+    cond = models.CharField(max_length=30)  # 天气情况
+    hum = models.IntegerField()  # 湿度
+    pres = models.IntegerField()  # 气压
+    tmp = models.IntegerField()  # 温度
+    vis = models.IntegerField()  # 能见度
+    wind_dir = models.CharField(max_length=30)  # 风向描述
+    wind_sc = models.CharField(max_length=30)  # 风强
+    aqi = models.IntegerField()  # 空气质量
+    aqi_str = models.CharField(max_length=30)  # 空气质量描述
+    pm25 = models.IntegerField()  #
+    suggestion = models.CharField(max_length=3000)  # 生活建议
+
+    class Meta:
+        abstract = True
+
+
+class Realtime(Hourly):
+    pass
+
+
+class Forecast(Hourly):
     pass
