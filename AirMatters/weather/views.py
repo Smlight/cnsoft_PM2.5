@@ -14,6 +14,7 @@ from weather.models import Realtime, Forecast
 #             u'Wuhan': Wuhan}
 
 import requests
+import time
 
 he_key = "88cef94b40a4461ea933dfc44c41f3a2"  # 和风天气API key
 he_str = "https://free-api.heweather.com/v5/weather"  # 和风天气API 接口
@@ -123,8 +124,46 @@ def pm25(request):
     payload = {'CityId': CITYS_UID[city_str], 'Standard': '0'}
     nowdb = CITYS_PMDB[city_str]
     r = requests.get(urban_str, params=payload)
-    # now = nowdb(station=)
+    J = r.json()
+    a = J[u"UpdateTime"]
+    timeArray = time.strptime(a, "%m/%d/%Y %I:%M %p")
+    rightTime = time.strftime("%Y-%m-%d %H:%M", timeArray)
+    for i in range(len(J[u"CNName"])):
+     now = nowdb(station=J[u"CNName"][i])
+     now.time = rightTime
+     temp = J[u"Stations"][i][u"PM25"]
+     if temp is None :
+         now.pm25 = -1
+     else:
+         now.pm25 = int(temp)
+     now.save()
     return render(request, 'pm25.html', {'city_note': city_note, 'main': r.text})
 
 
 ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"
+
+
+def pm25prediction(request):
+    # HTTP requests in this function should be changed into asynchronous operation
+    global pred
+    city_str = request.GET.get('city')
+    city_str, city_note = deteCity(city_str)
+    payload = {'CityId': CITYS_UID[city_str], 'timeSlot': '1', 'Pollutant': 'AQI', 'Standard': '0'}
+    preddb = CITYS_PMDB[city_str]
+    r = requests.get(ubpred_str, params=payload)
+    J = r.json()
+    a = J[u"PredTime"]
+    data = datetime.now().strftime('%Y-%m-%d')
+    data = data + " " + a
+    timeArray = time.strptime(data,"%Y-%m-%d %H:%M")
+    rightTime = time.strftime("%Y-%m-%d %H:%M", timeArray)
+    for i in range(len(J[u"CNName"])):
+     pred = preddb(station=J[u"CNName"][i])
+     pred.time = rightTime
+     temp = J[u"PM25"][i][u"PM25"]
+     if temp == "null":
+         pred.pm25 = -1
+     else:
+         pred.pm25 = int(temp)
+     pred.save()
+    return render(request, 'pm25.html', {'city_note': city_note, 'main': r.text})
