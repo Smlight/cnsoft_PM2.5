@@ -5,11 +5,12 @@
 
 {% block content %}
     {{ city_note }} <br/>
-    时间：{{ time }} <br/>
+    更新时间：{{ time }} <br/>
     <ul>
         {% for row in list %}
             <li>
                 站点：{{ row.station }} &nbsp;
+{#                时间：{{ row.time }}#}
                 PM2.5：
                 {% ifequal row.pm25 -1 %}
                     看什么看
@@ -20,4 +21,7 @@
             </li>
         {% endfor %}
     </ul>
+
+{#    显示趋势图#}
+    <pre>{{ suggest }} </pre>
 {% endblock %}

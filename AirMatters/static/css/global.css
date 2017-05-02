@@ -16,7 +16,11 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
     padding: 0;
     font-weight: normal
 }
-
+p{
+    font-family:Microsoft YaHei;
+    font-size: 15px;
+    color:#4682B4;
+}
 img, iframe {
     border: none
 }
@@ -143,7 +147,6 @@ input::-ms-clear {
 .container {
     min-width: 1000px
 }
-
 .wrap {
     /*position: relative;*/
     width: 1000px;
@@ -325,7 +328,7 @@ input::-ms-clear {
     display: inline;
     font-size: 16px;
     padding-right: 1px;
-    width: 100px;
+    width: 95px;
     overflow: hidden
 }
 

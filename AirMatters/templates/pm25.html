@@ -6,9 +6,10 @@
 {% block content %}
     {{ city_note }} <br/>
     更新时间：{{ time }} <br/>
+    PM2.5：{{ now.pm25 }} <br/>
     能见度：{{ now.vis }} <br/>
     AQI：{{ now.aqi }}  {{ now.aqi_str }} <br/>
-    PM2.5：{{ now.pm25 }} <br/>
+{#    显示趋势图#}
     <ul>
         {% for row in list %}
             <li>
