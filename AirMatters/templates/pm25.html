@@ -4,6 +4,20 @@
 {% block nav2 %}current{% endblock %}
 
 {% block content %}
-{{ city_note }} <br/>
-{{ main }}
+    {{ city_note }} <br/>
+    时间：{{ time }} <br/>
+    <ul>
+        {% for row in list %}
+            <li>
+                站点：{{ row.station }} &nbsp;
+                PM2.5：
+                {% ifequal row.pm25 -1 %}
+                    看什么看
+                {% else %}
+                    {{ row.pm25 }}
+                {% endifequal %}
+                <br/>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

@@ -27,16 +27,12 @@ CITYS_CN = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广�
 
 
 def deteCity(city_str):
-    if not city_str:
+    if city_str and city_str.capitalize() in CITYS_CN:
+        city_str = city_str.capitalize()
+        city_note = u'当前城市：%s' % (CITYS_CN[city_str])
+    else:
         city_str = 'Beijing'
         city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
-    else:
-        city_str = city_str.capitalize()
-        if city_str not in CITYS_CN:
-            city_str = 'Beijing'
-            city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
-        else:
-            city_note = u'当前城市：%s' % (CITYS_CN[city_str])
     return city_str, city_note
 
 
@@ -102,9 +98,10 @@ def tq(request):
         for x in J:
             suggest += u"%s：%s\n%s\n\n" % (LABELS_CN[x], J[x][u"brf"], J[x][u"txt"])
         return render(request, 'tq.html',
-                      {'status_note': status_note, 'city_note': city_note, 'now': now, 'suggest': suggest})
+                      {'status_note': status_note, 'city_str': city_str, 'city_note': city_note, 'now': now,
+                       'suggest': suggest})
     else:
-        return render(request, 'tq.html', {'status_note': status_note})
+        return render(request, 'tq.html', {'status_note': status_note, 'city_str': city_str})
 
 
 urban_str = "http://urbanair.msra.cn/U_Air/ChangeCity"
@@ -128,16 +125,18 @@ def pm25(request):
     a = J[u"UpdateTime"]
     timeArray = time.strptime(a, "%m/%d/%Y %I:%M %p")
     rightTime = time.strftime("%Y-%m-%d %H:%M", timeArray)
+    l = []
     for i in range(len(J[u"CNName"])):
-     now = nowdb(station=J[u"CNName"][i])
-     now.time = rightTime
-     temp = J[u"Stations"][i][u"PM25"]
-     if temp is None :
-         now.pm25 = -1
-     else:
-         now.pm25 = int(temp)
-     now.save()
-    return render(request, 'pm25.html', {'city_note': city_note, 'main': r.text})
+        now = nowdb(station=J[u"CNName"][i])
+        now.time = rightTime
+        temp = J[u"Stations"][i][u"PM25"]
+        if temp is None:
+            now.pm25 = -1
+        else:
+            now.pm25 = int(temp)
+        l.append(now)
+        now.save()
+    return render(request, 'pm25.html', {'city_str': city_str, 'city_note': city_note, 'time': rightTime, 'list': l})
 
 
 ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"
@@ -145,7 +144,7 @@ ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"
 
 def pm25prediction(request):
     # HTTP requests in this function should be changed into asynchronous operation
-    global pred
+    # global pred
     city_str = request.GET.get('city')
     city_str, city_note = deteCity(city_str)
     payload = {'CityId': CITYS_UID[city_str], 'timeSlot': '1', 'Pollutant': 'AQI', 'Standard': '0'}
@@ -155,15 +154,17 @@ def pm25prediction(request):
     a = J[u"PredTime"]
     data = datetime.now().strftime('%Y-%m-%d')
     data = data + " " + a
-    timeArray = time.strptime(data,"%Y-%m-%d %H:%M")
+    timeArray = time.strptime(data, "%Y-%m-%d %H:%M")
     rightTime = time.strftime("%Y-%m-%d %H:%M", timeArray)
+    l = []
     for i in range(len(J[u"CNName"])):
-     pred = preddb(station=J[u"CNName"][i])
-     pred.time = rightTime
-     temp = J[u"PM25"][i][u"PM25"]
-     if temp == "null":
-         pred.pm25 = -1
-     else:
-         pred.pm25 = int(temp)
-     pred.save()
-    return render(request, 'pm25.html', {'city_note': city_note, 'main': r.text})
+        pred = preddb(station=J[u"CNName"][i])
+        pred.time = rightTime
+        temp = J[u"PM25"][i][u"PM25"]
+        if temp == "null":
+            pred.pm25 = -1
+        else:
+            pred.pm25 = int(temp)
+        l.append(pred)
+        pred.save()
+    return render(request, 'pm25.html', {'city_str': city_str, 'city_note': city_note, 'time': rightTime, 'list': l})

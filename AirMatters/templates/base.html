@@ -31,13 +31,14 @@
         <div class="nav_mod">
             <ul>
                 <li class="first_item">
-                    <a class=" {% block nav1 %}{% endblock %}" rel="nofollow" tj="1" href="/tianqi"> 实时天气 </a><i></i>
+                    <a class=" {% block nav1 %}{% endblock %}" rel="nofollow"
+                       href={% url "tq" %}> 实时天气 </a><i></i>
                 </li>
                 <li>
                     <a class=" {% block nav2 %}{% endblock %}" rel="nofollow" href="/pm25"> PM2.5专区 </a><i></i>
                 </li>
                 <li>
-                    <a class=" {% block nav3 %}{% endblock %}" rel="nofollow" tj="1"
+                    <a class=" {% block nav3 %}{% endblock %}" rel="nofollow"
                        href="/tianqi"> 多日预报 </a><i></i>
                 </li>
             </ul>
@@ -49,13 +50,16 @@
 <div class="footer">
     <div class="wp">
         <p class="p1">
-            <a rel="nofollow" class="f_steer" href="http://bbs.2345.com/fk/index.htm?cName=%u5929%u6C14" target="_blank">意见反馈</a>
+            <a rel="nofollow" class="f_steer" href="http://bbs.2345.com/fk/index.htm?cName=%u5929%u6C14"
+               target="_blank">意见反馈</a>
             <span class="pipe">|</span>
-            <a href="http://tianqi.2345.com/tianqifk/index.htm" id="ipCheckError" rel="nofollow" target="_blank" onclick="allCount(&#39;tq_correctlocation&#39;);">更正您的地理位置</a>
+            <a href="http://tianqi.2345.com/tianqifk/index.htm" id="ipCheckError" rel="nofollow" target="_blank"
+               onclick="allCount(&#39;tq_correctlocation&#39;);">更正您的地理位置</a>
             <span class="pipe">|</span>
             <a href="http://tianqi.2345.com/plugin/" target="_blank" title="天气插件">天气插件</a>
             <span class="pipe">|</span>
-            <a href="http://waptianqi.2345.com/" target="_blank" onclick="document.cookie=&#39;vmod=mobile;&#39;;">手机网页版</a>
+            <a href="http://waptianqi.2345.com/" target="_blank"
+               onclick="document.cookie=&#39;vmod=mobile;&#39;;">手机网页版</a>
             <span class="pipe">|</span>
             <a href="http://tianqi.2345.com/tianqiapp/" target="_blank" title="2345天气王移动版">手机APP官网</a>
         </p>
