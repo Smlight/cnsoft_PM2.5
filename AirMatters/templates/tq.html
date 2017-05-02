@@ -5,7 +5,6 @@
 
 {% block content %}
     {% ifequal status_note 'OK' %}
-        <a href="?city=nanjing">nanjing</a><br/>
         {{ city_note }} <br/>
         更新时间：{{ now.time }} <br/>
         天气：{{ now.cond }} <br/>

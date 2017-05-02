@@ -140,15 +140,6 @@ input::-ms-clear {
     margin-bottom: 10px
 }
 
-.head_w .tsch_inbox, .head_w .tsch_btn1, .head_w .tsch_btn2, .nav_mod, .nav_mod .n_r, .nav_mod li.first_item a, .nav_mod .lnktools .add2fav, .myfollow .title, .myfollow .title .arrow, .myfollow .layer .tq_select .btn_dz_del, .city_t .areas .more .arrow, .footer .wp .p2 .back_index {
-    background: url(../images/global-141121.png) no-repeat
-}
-
-.ie8 .myfollow .layer .operate .wydz, .ie7 .myfollow .layer .operate .wydz, .ie6 .myfollow .layer .operate .wydz, .ie8 .myfollow .layer .tq_select .btn_dz_add, .ie7 .myfollow .layer .tq_select .btn_dz_add, .ie6 .myfollow .layer .tq_select .btn_dz_add, .ie8 .myfollow .layer .tq_select .confirm, .ie7 .myfollow .layer .tq_select .confirm, .ie6 .myfollow .layer .tq_select .confirm, .ie8 .myfollow .layer .tq_select .cancel, .ie7 .myfollow .layer .tq_select .cancel, .ie6 .myfollow .layer .tq_select .cancel {
-    background-image: url(../images/btn-empty140721.png);
-    background-repeat: no-repeat
-}
-
 .container {
     min-width: 1000px
 }
@@ -334,13 +325,13 @@ input::-ms-clear {
     display: inline;
     font-size: 16px;
     padding-right: 1px;
-    width: 90px;
+    width: 100px;
     overflow: hidden
 }
 
 .nav_mod li a {
     display: block;
-    width: 88px;
+    width: 98px;
     height: 38px;
     line-height: 2.4;
     border: 1px solid #338ad1;

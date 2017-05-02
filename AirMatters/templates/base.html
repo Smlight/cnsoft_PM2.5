@@ -27,48 +27,65 @@
             </span>
         </div>
     </div><!-- /head_w -->
-    <div class="wrap" id="wrap"><!-- nav_mod -->
+    <div class="wrap" id="wrap">
+        <!-- nav_mod -->
         <div class="nav_mod">
             <ul>
                 <li class="first_item">
-                    <a class=" {% block nav1 %}{% endblock %}" rel="nofollow"
-                       href={% url "tq" %}> 实时天气 </a><i></i>
+                    <a class=" {% block nav1 %}{% endblock %}" href="/tq/?city={{ city_str }}"> 实时天气 </a>
                 </li>
                 <li>
-                    <a class=" {% block nav2 %}{% endblock %}" rel="nofollow" href="/pm25"> PM2.5专区 </a><i></i>
+                    <a class=" {% block nav2 %}{% endblock %}" href="/tqpred/?city={{ city_str }}"> 天气预报 </a>
                 </li>
                 <li>
-                    <a class=" {% block nav3 %}{% endblock %}" rel="nofollow"
-                       href="/tianqi"> 多日预报 </a><i></i>
+                    <a class=" {% block nav3 %}{% endblock %}" href="/pm25/?city={{ city_str }}"> 实时PM2.5 </a>
+                </li>
+                <li>
+                    <a class=" {% block nav4 %}{% endblock %}" href="/pm25pred/?city={{ city_str }}"> PM2.5预报 </a>
                 </li>
             </ul>
         </div>
+        <!-- /nav_mod -->
+        <br/>
+        <div class="nav_mod">
+            <ul>
+                <li><a href="?city=Beijing">北京</a></li>
+                <li><a href="?city=Shanghai">上海</a></li>
+                <li><a href="?city=Guangzhou">广州</a></li>
+                <li><a href="?city=Shenzhen">深圳</a></li>
+                <li><a href="?city=Hangzhou">杭州</a></li>
+                <li><a href="?city=Tianjin">天津</a></li>
+                <li><a href="?city=Chengdu">成都</a></li>
+                <li><a href="?city=Nanjing">南京</a></li>
+                <li><a href="?city=Xian">西安</a></li>
+                <li><a href="?city=Wuhan">武汉</a></li>
+            </ul>
+        </div>
+        <br/>
         {% block content %}{% endblock %}
-    </div><!-- /nav_mod -->
-
-</div><!-- end of div.wrap-->
-<div class="footer">
-    <div class="wp">
-        <p class="p1">
-            <a rel="nofollow" class="f_steer" href="http://bbs.2345.com/fk/index.htm?cName=%u5929%u6C14"
-               target="_blank">意见反馈</a>
-            <span class="pipe">|</span>
-            <a href="http://tianqi.2345.com/tianqifk/index.htm" id="ipCheckError" rel="nofollow" target="_blank"
-               onclick="allCount(&#39;tq_correctlocation&#39;);">更正您的地理位置</a>
-            <span class="pipe">|</span>
-            <a href="http://tianqi.2345.com/plugin/" target="_blank" title="天气插件">天气插件</a>
-            <span class="pipe">|</span>
-            <a href="http://waptianqi.2345.com/" target="_blank"
-               onclick="document.cookie=&#39;vmod=mobile;&#39;;">手机网页版</a>
-            <span class="pipe">|</span>
-            <a href="http://tianqi.2345.com/tianqiapp/" target="_blank" title="2345天气王移动版">手机APP官网</a>
-        </p>
-        <p class="p2">
-            <span class="copyright">版权所有&nbsp;&#169;&nbsp;</span>
-            <a href="http://www.2345.com/icp.jpg" rel="nofollow" target="_blank"></a>
-        </p>
+    </div><!-- end of div.wrap-->
+    <div class="footer">
+        <div class="wp">
+            <p class="p1">
+                <a rel="nofollow" class="f_steer" href="http://bbs.2345.com/fk/index.htm?cName=%u5929%u6C14"
+                   target="_blank">意见反馈</a>
+                <span class="pipe">|</span>
+                <a href="http://tianqi.2345.com/tianqifk/index.htm" id="ipCheckError" rel="nofollow" target="_blank"
+                   onclick="allCount(&#39;tq_correctlocation&#39;);">更正您的地理位置</a>
+                <span class="pipe">|</span>
+                <a href="http://tianqi.2345.com/plugin/" target="_blank" title="天气插件">天气插件</a>
+                <span class="pipe">|</span>
+                <a href="http://waptianqi.2345.com/" target="_blank"
+                   onclick="document.cookie=&#39;vmod=mobile;&#39;;">手机网页版</a>
+                <span class="pipe">|</span>
+                <a href="http://tianqi.2345.com/tianqiapp/" target="_blank" title="2345天气王移动版">手机APP官网</a>
+            </p>
+            <p class="p2">
+                <span class="copyright">版权所有&nbsp;&#169;&nbsp;</span>
+                <a href="http://www.2345.com/icp.jpg" rel="nofollow" target="_blank"></a>
+            </p>
+        </div>
     </div>
-</div>
 </div><!-- end of container-->
 
 </body>

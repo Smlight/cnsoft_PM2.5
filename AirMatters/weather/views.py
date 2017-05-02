@@ -104,6 +104,12 @@ def tq(request):
         return render(request, 'tq.html', {'status_note': status_note, 'city_str': city_str})
 
 
+def tqpred(request):
+    city_str = request.GET.get('city')
+    city_str, city_note = deteCity(city_str)
+    return render(request, 'tqpred.html', {'city_str': city_str, 'city_note': city_note})
+
+
 urban_str = "http://urbanair.msra.cn/U_Air/ChangeCity"
 CITYS_UID = {u'Beijing': u'001', u'Shanghai': u'002', u'Guangzhou': u'009', u'Shenzhen': u'004', u'Hangzhou': u'261',
              u'Tianjin': u'006', u'Chengdu': u'008', u'Nanjing': u'050', u'Xian': u'138', u'Wuhan': u'003'}
@@ -142,7 +148,7 @@ def pm25(request):
 ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"
 
 
-def pm25prediction(request):
+def pm25pred(request):
     # HTTP requests in this function should be changed into asynchronous operation
     # global pred
     city_str = request.GET.get('city')
@@ -167,4 +173,5 @@ def pm25prediction(request):
             pred.pm25 = int(temp)
         l.append(pred)
         pred.save()
-    return render(request, 'pm25.html', {'city_str': city_str, 'city_note': city_note, 'time': rightTime, 'list': l})
+    return render(request, 'pm25pred.html',
+                  {'city_str': city_str, 'city_note': city_note, 'time': rightTime, 'list': l})

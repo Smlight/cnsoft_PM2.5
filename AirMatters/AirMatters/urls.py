@@ -17,14 +17,15 @@ from django.conf.urls import url
 from django.conf import settings
 from django.contrib import admin
 from django.conf.urls.static import static
-from weather.views import redi, tq, pm25, pm25prediction
+from weather.views import redi, tq, tqpred, pm25, pm25pred
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', redi, name="webroot"),
     url(r'^tq/$', tq, name="tq"),
+    url(r'^tqpred/$', tqpred, name="tqpred"),
     url(r'^pm25/$', pm25, name="pm25"),
-    url(r'^pm25prediction/$', pm25prediction, name="pm25prediction"),
+    url(r'^pm25pred/$', pm25pred, name="pm25pred"),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

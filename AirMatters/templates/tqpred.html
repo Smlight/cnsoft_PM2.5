@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}天气预报{% endblock %}
+{% block nav2 %}current{% endblock %}
+
+{% block content %}
+{#    {% ifequal status_note 'OK' %}#}
+        {{ city_note }} <br/>
+{#        更新时间：{{ now.time }} <br/>#}
+{#        天气：{{ now.cond }} <br/>#}
+{#        湿度：{{ now.hum }} <br/>#}
+{#        气压：{{ now.pres }} <br/>#}
+{#        温度：{{ now.tmp }} <br/>#}
+{#        能见度：{{ now.vis }} <br/>#}
+{#        {{ now.wind_dir }}{{ now.wind_sc }}级 <br/>#}
+{#        AQI：{{ now.aqi }}  {{ now.aqi_str }} <br/>#}
+{#        PM2.5：{{ now.pm25 }} <br/>#}
+{#        <pre>{{ suggest }} </pre>#}
+{#    {% else %}#}
+{#        {{ status_note }}#}
+{#    {% endifequal %}#}
+{% endblock %}
