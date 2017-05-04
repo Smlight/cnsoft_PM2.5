@@ -24,6 +24,8 @@ from django.utils import timezone
 
 CITYS_CN = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'南京', u'Xian': u'西安', u'Wuhan': u'武汉'}
+CITYS_ID = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
+            u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'CN101190101', u'Xian': u'CN101110101', u'Wuhan': u'武汉'}
 
 
 def deteCity(city_str):
@@ -62,7 +64,7 @@ def tq(request):
         now = pre
     else:
         try:
-            payload = {'city': CITYS_CN[city_str], 'key': he_key}
+            payload = {'city': CITYS_ID[city_str], 'key': he_key}
             r = requests.get(he_str, params=payload)
             J = r.json()
             J = J[u"HeWeather5"][0]
@@ -89,17 +91,16 @@ def tq(request):
         except "Not OK!":
             status_note = u'天气服务器错误，请重试'
         except Exception, e:
-            status_note = str(e) + u'       内部错误，请联系管理员'
+            status_note = repr(e) + u' 内部错误，请联系管理员'
     if status_note == u'OK':
         J = eval(str(now.suggestion))
         LABELS_CN = {u"comf": u"舒适指数", u"cw": u"洗车建议", u"drsg": u"穿衣建议", u"flu": u"感冒指数", u"sport": u"运动建议",
                      u"trav": u"旅游建议", u"uv": u"紫外线指数", u"air": u"空气指数"}
-        suggest = u""
+        suggest = {}
         for x in J:
-            suggest += u"%s：%s\n%s\n\n" % (LABELS_CN[x], J[x][u"brf"], J[x][u"txt"])
-        return render(request, 'tq.html',
-                      {'status_note': status_note, 'city_str': city_str, 'city_note': city_note, 'now': now,
-                       'suggest': suggest})
+            suggest[LABELS_CN[x]] = [J[x][u"brf"], J[x][u"txt"]]
+        return render(request, 'tq.html', {'status_note': status_note, 'city_str': city_str, 'city_note': city_note,
+                                           'now': Realtime.objects.get(city=city_str), 'suggest': suggest})
     else:
         return render(request, 'tq.html', {'status_note': status_note, 'city_str': city_str})
 

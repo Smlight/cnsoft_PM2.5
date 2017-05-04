@@ -4,15 +4,20 @@
 {% block nav1 %}current{% endblock %}
 
 {% block content %}
-    {{ city_note }} <br/>
-
-    更新时间：{{ now.time|date:"Y-m-d H:i:s" }} <br/>
-    当前天气：{{ now.cond }} <br/>
-    当前温度：{{ now.tmp }}℃ <br/>
-    湿度：{{ now.hum }}%<br/>
-    风力：{{ now.wind_dir }}{{ now.wind_sc }}级 <br/>
-    气压：{{ now.pres }} hpa<br/>
-    {#        显示趋势图#}
-
-    <pre>{{ suggest }} </pre>
+{#    {% ifequal status_note 'OK' %}#}
+        {{ city_note }} <br/>
+        更新时间：{{ now.time | date:"Y-m-d H:i:s" }} <br/>
+        当前天气：{{ now.cond }} <br/>
+        当前温度：{{ now.tmp }}℃ <br/>
+        湿度：{{ now.hum }}%<br/>
+        风力：{{ now.wind_dir }}{{ now.wind_sc }}级 <br/>
+        气压：{{ now.pres }} hpa<br/>
+        {#        显示趋势图#}
+        {% for k,v in suggest.items %}
+            {{ k }}：{{ v.0 }} <br/>
+            {{ v.1 }}<br/>
+        {% endfor %}
+{#    {% else %}#}
+{#        {{ status_note }}#}
+{#    {% endifequal %}#}
 {% endblock %}
