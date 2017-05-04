@@ -121,3 +121,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+ADMINS = (
+    ('Yong Zheng', 'zy-140@163.com'),
+    ('Shiwei Zhang', '2074638138@qq.com'),
+    ('Jing Hong', '674958229@qq.com')
+)

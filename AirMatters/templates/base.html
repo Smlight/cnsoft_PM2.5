@@ -12,6 +12,11 @@
     <meta content="天气，天气预报，天气预报查询，天气预报查询一周" name="keywords">
     <meta name="applicable-device" content="pc">
     <link href="{% static '/css/global.css' %}" rel="stylesheet" type="text/css">
+<script>
+    function toCurrent(e) {
+        e.className="current";
+    }
+</script>
 </head>
 
 <body id="header" style="width: 1519px;">
@@ -31,16 +36,16 @@
         <div class="nav_mod">
             <ul>
                 <li class="first_item">
-                    <a class=" {% block nav1 %}{% endblock %}" href="/tq/?city={{ city_str }}"> 实时天气 </a>
+                    <a class=" {% block nav1 %}{% endblock %}" href="/tq/?city={{ request.GET.city }}"> 实时天气 </a>
                 </li>
                 <li>
-                    <a class=" {% block nav2 %}{% endblock %}" href="/tqpred/?city={{ city_str }}"> 天气预报 </a>
+                    <a class=" {% block nav2 %}{% endblock %}" href="/tqpred/?city={{ request.GET.city }}"> 天气预报 </a>
                 </li>
                 <li>
-                    <a class=" {% block nav3 %}{% endblock %}" href="/pm25/?city={{ city_str }}"> 实时PM2.5 </a>
+                    <a class=" {% block nav3 %}{% endblock %}" href="/pm25/?city={{ request.GET.city }}"> 实时PM2.5 </a>
                 </li>
                 <li>
-                    <a class=" {% block nav4 %}{% endblock %}" href="/pm25pred/?city={{ city_str }}"> PM2.5预报 </a>
+                    <a class=" {% block nav4 %}{% endblock %}" href="/pm25pred/?city={{ request.GET.city }}"> PM2.5预报 </a>
                 </li>
             </ul>
         </div>
@@ -48,16 +53,16 @@
         <br/>
         <div class="nav_mod">
             <ul>
-                <li><a href="?city=Beijing">北京</a></li>
-                <li><a href="?city=Shanghai">上海</a></li>
-                <li><a href="?city=Guangzhou">广州</a></li>
-                <li><a href="?city=Shenzhen">深圳</a></li>
-                <li><a href="?city=Hangzhou">杭州</a></li>
-                <li><a href="?city=Tianjin">天津</a></li>
-                <li><a href="?city=Chengdu">成都</a></li>
-                <li><a href="?city=Nanjing">南京</a></li>
-                <li><a href="?city=Xian">西安</a></li>
-                <li><a href="?city=Wuhan">武汉</a></li>
+                <li><a {% ifequal request.GET.city "Beijing" %}class="current" {% endifequal %} href="?city=Beijing">北京</a></li>
+                <li><a {% ifequal request.GET.city "Shanghai" %}class="current" {% endifequal %} href="?city=Shanghai">上海</a></li>
+                <li><a {% ifequal request.GET.city "Guangzhou" %}class="current" {% endifequal %} href="?city=Guangzhou">广州</a></li>
+                <li><a {% ifequal request.GET.city "Shenzhen" %}class="current" {% endifequal %} href="?city=Shenzhen">深圳</a></li>
+                <li><a {% ifequal request.GET.city "Hangzhou" %}class="current" {% endifequal %} href="?city=Hangzhou">杭州</a></li>
+                <li><a {% ifequal request.GET.city "Tianjin" %}class="current" {% endifequal %} href="?city=Tianjin">天津</a></li>
+                <li><a {% ifequal request.GET.city "Chengdu" %}class="current" {% endifequal %} href="?city=Chengdu">成都</a></li>
+                <li><a {% ifequal request.GET.city "Nanjing" %}class="current" {% endifequal %} href="?city=Nanjing">南京</a></li>
+                <li><a {% ifequal request.GET.city "Xian" %}class="current" {% endifequal %} href="?city=Xian">西安</a></li>
+                <li><a {% ifequal request.GET.city "Wuhan" %}class="current" {% endifequal %} href="?city=Wuhan">武汉</a></li>
             </ul>
         </div>
         <br/>
