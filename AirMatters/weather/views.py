@@ -53,11 +53,11 @@ def tq(request):
     flag = 0  # no need to update
     try:
         pre = Realtime.objects.get(city=city_str)
+        while pre.time + timedelta(hours=1) < timezone.now():
+            pre.delete()
+            pre = Realtime.objects.get(city=city_str)
     except:
-        flag = 1  # no data before
-    if flag == 0 and pre.time + timedelta(hours=1) < timezone.now():
-        pre.delete()
-        flag = 2  # data too old
+        flag = 1  # no data before or data too old
 
     status_note = u'OK'
     if flag == 0:
@@ -99,7 +99,7 @@ def tq(request):
         suggest = {}
         for x in J:
             suggest[LABELS_CN[x]] = [J[x][u"brf"], J[x][u"txt"]]
-        return render(request, 'tq.html', {'status_note': status_note, 'city_str': city_str, 'city_note': city_note,
+        return render(request, 'tq.html', {'status_note': status_note, 'city_note': city_note,
                                            'now': Realtime.objects.get(city=city_str), 'suggest': suggest})
     else:
         return render(request, 'tq.html', {'status_note': status_note, 'city_str': city_str})
@@ -143,7 +143,7 @@ def pm25(request):
             now.pm25 = int(temp)
         l.append(now)
         now.save()
-    return render(request, 'pm25.html', {'city_str': city_str, 'city_note': city_note, 'time': rightTime, 'list': l})
+    return render(request, 'pm25.html', {'city_note': city_note, 'time': rightTime, 'list': l})
 
 
 ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"
