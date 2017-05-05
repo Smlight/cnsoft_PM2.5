@@ -2,7 +2,6 @@
 
 # Create your views here.
 
-from django.http import HttpResponse
 from django.shortcuts import render
 # from weather.models import Beijing, Shanghai, Guangzhou, Shenzhen, Hangzhou, Tianjin, Chengdu, Nanjing, Xian, Wuhan
 from weather.models import PMBeijing, PMShanghai, PMGuangzhou, PMShenzhen, PMHangzhou, PMTianjin, PMChengdu, PMNanjing, \
@@ -27,21 +26,19 @@ CITYS_CN = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广�
 CITYS_ID = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'CN101190101', u'Xian': u'CN101110101', u'Wuhan': u'武汉'}
 
+from django.http import HttpResponseRedirect
+
 
 def deteCity(city_str):
     if city_str and city_str.capitalize() in CITYS_CN:
         city_str = city_str.capitalize()
-        city_note = u'当前城市：%s' % (CITYS_CN[city_str])
     else:
         city_str = 'Beijing'
-        city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
-    return city_str, city_note
-
-
-from django.http import HttpResponseRedirect
+    return city_str
 
 
 def redi(request):
+    # auto city detected shall be added
     return HttpResponseRedirect('/tq/')
 
 
@@ -49,7 +46,10 @@ def tq(request):
     "Realtime weather information and hourly forecast"
     # HTTP requests in this function should be changed into asynchronous operation
     city_str = request.GET.get('city')
-    city_str, city_note = deteCity(city_str)
+    ncity_str = deteCity(city_str)
+    if city_str != ncity_str:
+        return HttpResponseRedirect(request.path + '?city=' + ncity_str)
+    city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
     flag = 0  # no need to update
     try:
         pre = Realtime.objects.get(city=city_str)
@@ -99,7 +99,7 @@ def tq(request):
         suggest = {}
         for x in J:
             suggest[LABELS_CN[x]] = [J[x][u"brf"], J[x][u"txt"]]
-        return render(request, 'tq.html', {'status_note': status_note, 'city_note': city_note,
+        return render(request, 'tq.html', {'status_note': status_note, 'city_str': city_str, 'city_note': city_note,
                                            'now': Realtime.objects.get(city=city_str), 'suggest': suggest})
     else:
         return render(request, 'tq.html', {'status_note': status_note, 'city_str': city_str})
@@ -107,7 +107,10 @@ def tq(request):
 
 def tqpred(request):
     city_str = request.GET.get('city')
-    city_str, city_note = deteCity(city_str)
+    ncity_str = deteCity(city_str)
+    if city_str != ncity_str:
+        return HttpResponseRedirect(request.path + '?city=' + ncity_str)
+    city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
     return render(request, 'tqpred.html', {'city_str': city_str, 'city_note': city_note})
 
 
@@ -124,7 +127,10 @@ def pm25(request):
     "Realtime pm2.5 information and hourly forecast"
     # HTTP requests in this function should be changed into asynchronous operation
     city_str = request.GET.get('city')
-    city_str, city_note = deteCity(city_str)
+    ncity_str = deteCity(city_str)
+    if city_str != ncity_str:
+        return HttpResponseRedirect(request.path + '?city=' + ncity_str)
+    city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
     payload = {'CityId': CITYS_UID[city_str], 'Standard': '0'}
     nowdb = CITYS_PMDB[city_str]
     r = requests.get(urban_str, params=payload)
@@ -143,7 +149,7 @@ def pm25(request):
             now.pm25 = int(temp)
         l.append(now)
         now.save()
-    return render(request, 'pm25.html', {'city_note': city_note, 'time': rightTime, 'list': l})
+    return render(request, 'pm25.html', {'city_str': city_str, 'city_note': city_note, 'time': rightTime, 'list': l})
 
 
 ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"
@@ -153,7 +159,10 @@ def pm25pred(request):
     # HTTP requests in this function should be changed into asynchronous operation
     # global pred
     city_str = request.GET.get('city')
-    city_str, city_note = deteCity(city_str)
+    ncity_str = deteCity(city_str)
+    if city_str != ncity_str:
+        return HttpResponseRedirect(request.path + '?city=' + ncity_str)
+    city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
     payload = {'CityId': CITYS_UID[city_str], 'timeSlot': '1', 'Pollutant': 'AQI', 'Standard': '0'}
     preddb = CITYS_PMDB[city_str]
     r = requests.get(ubpred_str, params=payload)
@@ -176,3 +185,11 @@ def pm25pred(request):
         pred.save()
     return render(request, 'pm25pred.html',
                   {'city_str': city_str, 'city_note': city_note, 'time': rightTime, 'list': l})
+
+
+def login(request):
+    pass
+
+
+def register(request):
+    pass
