@@ -12,10 +12,12 @@
         湿度：{{ now.hum }}%<br/>
         风力：{{ now.wind_dir }}{{ now.wind_sc }}级 <br/>
         气压：{{ now.pres }} hpa<br/>
+        <br>
         {#        显示趋势图#}
         {% for k,v in suggest.items %}
             {{ k }}：{{ v.0 }} <br/>
             {{ v.1 }}<br/>
+            <br>
         {% endfor %}
 {#    {% else %}#}
 {#        {{ status_note }}#}

@@ -16,9 +16,17 @@
 
 <body id="header" style="width: 1519px;">
 
+
 <div class="container" id="mainContainer">
     <div class="head_w">
+         <div class="user_nav" style="padding-left: 900px;height: 20px">
+             <a href="/login" target="_blank">登录</a>
+                <span class="pipe">/</span>
+             <a href="/regist" target="_blank">注册</a>
+         </div>
+
         <div class="head">
+
             <span class="logo">
                 <a href="/">
                     <img alt="Logo" height="95px" src="{% static '/images/logo.jpg' %}">
@@ -63,25 +71,24 @@
         <br/>
         <p> {% block content %}{% endblock %}</p>
     </div><!-- end of div.wrap-->
+
     <div class="footer">
         <div class="wp">
             <p class="p1">
+
                 <a rel="nofollow" class="f_steer" href="http://bbs.2345.com/fk/index.htm?cName=%u5929%u6C14"
                    target="_blank">意见反馈</a>
                 <span class="pipe">|</span>
-                <a href="http://tianqi.2345.com/tianqifk/index.htm" id="ipCheckError" rel="nofollow" target="_blank"
-                   onclick="allCount(&#39;tq_correctlocation&#39;);">更正您的地理位置</a>
+
+                <a rel="nofollow" class="f_steer" href="mailto:zy-140@163.com"
+                >联系我们</a>
                 <span class="pipe">|</span>
-                <a href="http://tianqi.2345.com/plugin/" target="_blank" title="天气插件">天气插件</a>
-                <span class="pipe">|</span>
-                <a href="http://waptianqi.2345.com/" target="_blank"
-                   onclick="document.cookie=&#39;vmod=mobile;&#39;;">手机网页版</a>
-                <span class="pipe">|</span>
-                <a href="http://tianqi.2345.com/tianqiapp/" target="_blank" title="2345天气王移动版">手机APP官网</a>
+                <a rel="nofollow" class="f_steer" href="/tq/?city={{ city_str }}"
+                   target="_self">返回首页</a>
+
             </p>
             <p class="p2">
                 <span class="copyright">版权所有&nbsp;&#169;&nbsp;</span>
-                <a href="http://www.2345.com/icp.jpg" rel="nofollow" target="_blank"></a>
             </p>
         </div>
     </div>
