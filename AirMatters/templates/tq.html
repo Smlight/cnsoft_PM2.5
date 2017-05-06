@@ -2,22 +2,23 @@
 
 {% block title %}实时天气{% endblock %}
 {% block content %}
-{#    {% ifequal status_note 'OK' %}#}
+    <p>
         {{ city_note }} <br/>
-        更新时间：{{ now.time | date:"Y-m-d H:i:s" }} <br/>
-        当前天气：{{ now.cond }} <br/>
-        当前温度：{{ now.tmp }}℃ <br/>
-        湿度：{{ now.hum }}%<br/>
-        风力：{{ now.wind_dir }}{{ now.wind_sc }}级 <br/>
-        气压：{{ now.pres }} hpa<br/>
-        <br>
-        {#        显示趋势图#}
-        {% for k,v in suggest.items %}
-            {{ k }}：{{ v.0 }} <br/>
-            {{ v.1 }}<br/>
+        {% ifequal status_note 'OK' %}
+            更新时间：{{ now.time | date:"Y-m-d H:i:s" }} <br/>
+            当前天气：{{ now.cond }} <br/>
+            当前温度：{{ now.tmp }}℃ <br/>
+            湿度：{{ now.hum }}%<br/>
+            风力：{{ now.wind_dir }}{{ now.wind_sc }}级 <br/>
+            气压：{{ now.pres }} hpa<br/>
             <br>
-        {% endfor %}
-{#    {% else %}#}
-{#        {{ status_note }}#}
-{#    {% endifequal %}#}
+            显示趋势图<br><br>
+            {% for k,v in suggest.items %}
+                {{ k }}：{{ v.0 }} <br/>
+                {{ v.1 }}<br/>
+            {% endfor %}
+        {% else %}
+            Something Happened!!!
+        {% endifequal %}
+    </p>
 {% endblock %}

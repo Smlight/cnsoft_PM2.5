@@ -49,7 +49,6 @@ def tq(request):
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
     city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
-
     try:
         now = Realtime.objects.get(city=city_str)
         J = eval(str(now.suggestion))
@@ -62,7 +61,7 @@ def tq(request):
                                            'now': Realtime.objects.get(city=city_str), 'suggest': suggest})
     except Exception, e:
         print e
-        return render(request, 'tq.html', {'status_note': u"BAD", 'city_str': city_str})
+        return render(request, 'tq.html', {'status_note': u"BAD", 'city_str': city_str, 'city_note': city_note})
 
 
 def tqpred(request):
@@ -77,7 +76,6 @@ def tqpred(request):
 urban_str = "http://urbanair.msra.cn/U_Air/ChangeCity"
 CITYS_UID = {u'Beijing': u'001', u'Shanghai': u'002', u'Guangzhou': u'009', u'Shenzhen': u'004', u'Hangzhou': u'261',
              u'Tianjin': u'006', u'Chengdu': u'008', u'Nanjing': u'050', u'Xian': u'138', u'Wuhan': u'003'}
-
 CITYS_PMDB = {u'Beijing': PMBeijing, u'Shanghai': PMShanghai, u'Guangzhou': PMGuangzhou, u'Shenzhen': PMShenzhen,
               u'Hangzhou': PMHangzhou, u'Tianjin': PMTianjin, u'Chengdu': PMChengdu, u'Nanjing': PMNanjing,
               u'Xian': PMXian, u'Wuhan': PMWuhan}
@@ -85,31 +83,24 @@ CITYS_PMDB = {u'Beijing': PMBeijing, u'Shanghai': PMShanghai, u'Guangzhou': PMGu
 
 def pm25(request):
     "Realtime pm2.5 information and hourly forecast"
-    # HTTP requests in this function should be changed into asynchronous operation
     city_str = request.GET.get('city')
     ncity_str = city_dete(city_str)
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
     city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
-    payload = {'CityId': CITYS_UID[city_str], 'Standard': '0'}
-    nowdb = CITYS_PMDB[city_str]
-    r = requests.get(urban_str, params=payload)
-    J = r.json()
-    a = J[u"UpdateTime"]
-    timeArray = time.strptime(a, "%m/%d/%Y %I:%M %p")
-    rightTime = time.strftime("%Y-%m-%d %H:%M", timeArray)
-    l = []
-    for i in range(len(J[u"CNName"])):
-        now = nowdb(station=J[u"CNName"][i])
-        now.time = rightTime
-        temp = J[u"Stations"][i][u"PM25"]
-        if temp is None:
-            now.pm25 = -1
-        else:
-            now.pm25 = int(temp)
-        l.append(now)
-        now.save()
-    return render(request, 'pm25.html', {'city_str': city_str, 'city_note': city_note, 'time': rightTime, 'list': l})
+    try:
+        nowdb = CITYS_PMDB[city_str]
+        rightTime = nowdb.objects.earliest("time").time
+        qset = nowdb.objects.filter(time=rightTime)
+        l = []
+        for r in qset:
+            l.append(r)
+        return render(request, 'pm25.html',
+                      {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'time': rightTime,
+                       'list': l})
+    except Exception, e:
+        print e
+        return render(request, 'pm25.html', {'status_note': u"BAD", 'city_str': city_str, 'city_note': city_note})
 
 
 ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"

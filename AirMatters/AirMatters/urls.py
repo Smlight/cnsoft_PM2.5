@@ -34,10 +34,9 @@ urlpatterns = [
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 import time
-from threading import Timer
+from threading import Timer, RLock
 from weather.models import Realtime, Forecast
 from datetime import datetime, timedelta, tzinfo
-from django.utils import timezone
 import requests
 
 he_key = "88cef94b40a4461ea933dfc44c41f3a2"  # 和风天气API key
@@ -59,8 +58,11 @@ class LocalTimezone(tzinfo):
     def dst(self, dt):
         return ZERO_TIME_DELTA
 
-    def tzname(self, dt):  # tzname需要返回时区名
+    def tzname(self, dt):
         return '+08:00'
+
+
+spl = RLock()
 
 
 def tq_update():
@@ -72,13 +74,15 @@ def tq_update():
         J = J[u"HeWeather5"][0]
         now = Realtime(city=city_str)
         forma = "%Y-%m-%d %H:%M"
-        now.time = datetime.strptime(J[u"basic"][u"update"][u"loc"], forma).replace(tzinfo=LocalTimezone())
+        if spl.acquire():
+            now.time = datetime.strptime(J[u"basic"][u"update"][u"loc"], forma).replace(tzinfo=LocalTimezone())
+            spl.release()
         flag = 0  # no need to update
         try:
             pre = Realtime.objects.filter(city=city_str)[0]
             while pre.time != now.time:
-                print "pre:", pre.time
-                print "now:", now.time
+                # print "pre:", pre.time
+                # print "now:", now.time
                 print "not eq!"
                 pre.delete()
                 pre = Realtime.objects.filter(city=city_str)[0]
@@ -102,7 +106,45 @@ def tq_update():
             now.save()
         cnt += 1
         # print cnt, flag
-    Timer(600, tq_update).start()
+    Timer(1800, tq_update).start()
+
+
+from weather.models import PMBeijing, PMShanghai, PMGuangzhou, PMShenzhen, PMHangzhou, PMTianjin, PMChengdu, PMNanjing, \
+    PMXian, PMWuhan
+
+CITYS_UID = {u'Beijing': u'001', u'Shanghai': u'002', u'Guangzhou': u'009', u'Shenzhen': u'004', u'Hangzhou': u'261',
+             u'Tianjin': u'006', u'Chengdu': u'008', u'Nanjing': u'050', u'Xian': u'138', u'Wuhan': u'003'}
+CITYS_PMDB = {u'Beijing': PMBeijing, u'Shanghai': PMShanghai, u'Guangzhou': PMGuangzhou, u'Shenzhen': PMShenzhen,
+              u'Hangzhou': PMHangzhou, u'Tianjin': PMTianjin, u'Chengdu': PMChengdu, u'Nanjing': PMNanjing,
+              u'Xian': PMXian, u'Wuhan': PMWuhan}
+
+urban_str = "http://urbanair.msra.cn/U_Air/ChangeCity"
+
+
+def pm25_update():
+    cnt = 0
+    for city_str in CITYS_UID:
+        payload = {'CityId': CITYS_UID[city_str], 'Standard': '0'}
+        nowdb = CITYS_PMDB[city_str]
+        nowdb.objects.all().delete()
+        r = requests.get(urban_str, params=payload)
+        J = r.json()
+        forma = "%m/%d/%Y %I:%M %p"
+        if spl.acquire():
+            rightTime = datetime.strptime(J[u"UpdateTime"], forma).replace(tzinfo=LocalTimezone())
+            spl.release()
+        for i in xrange(len(J[u"CNName"])):
+            now = nowdb(station=J[u"CNName"][i])
+            now.time = rightTime
+            temp = J[u"Stations"][i][u"PM25"]
+            if temp:
+                now.pm25 = int(temp)
+                now.save()
+
+        cnt += 1
+        print cnt
+    Timer(600, pm25_update).start()
 
 
 Timer(0, tq_update).start()
+Timer(0, pm25_update).start()

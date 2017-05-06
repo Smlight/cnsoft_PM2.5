@@ -2,15 +2,17 @@
 
 {% block title %}天气预报{% endblock %}
 {% block content %}
-    {{ city_note }} <br/>
-    更新时间：{{ now.time }} <br/>
+    <p>
+        {{ city_note }} <br/>
+        更新时间：{{ now.time }} <br/>
     <ul>
         {% for row in list %}
             <li>
-                {#               15日日期 天气 气温 风力#}
+{#                15日日期 天气 气温 风力#}
                 <br/>
             </li>
         {% endfor %}
     </ul>
 {#    显示趋势图#}
+    </p>
 {% endblock %}
