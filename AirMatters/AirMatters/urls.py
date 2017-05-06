@@ -1,3 +1,4 @@
+# -*- encoding:utf-8 -*-
 """AirMatters URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -31,3 +32,77 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+import time
+from threading import Timer
+from weather.models import Realtime, Forecast
+from datetime import datetime, timedelta, tzinfo
+from django.utils import timezone
+import requests
+
+he_key = "88cef94b40a4461ea933dfc44c41f3a2"  # 和风天气API key
+he_str = "https://free-api.heweather.com/v5/weather"  # 和风天气API 接口
+
+CITYS_ID = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
+            u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'CN101190101', u'Xian': u'CN101110101', u'Wuhan': u'武汉'}
+
+ZERO_TIME_DELTA = timedelta(0)
+LOCAL_TIME_DELTA = timedelta(hours=8)  # 本地时区偏差
+
+
+class LocalTimezone(tzinfo):
+    """实现北京时间的类"""
+
+    def utcoffset(self, dt):
+        return LOCAL_TIME_DELTA
+
+    def dst(self, dt):
+        return ZERO_TIME_DELTA
+
+    def tzname(self, dt):  # tzname需要返回时区名
+        return '+08:00'
+
+
+def tq_update():
+    cnt = 0
+    for city_str in CITYS_ID:
+        payload = {'city': CITYS_ID[city_str], 'key': he_key}
+        r = requests.get(he_str, params=payload)
+        J = r.json()
+        J = J[u"HeWeather5"][0]
+        now = Realtime(city=city_str)
+        forma = "%Y-%m-%d %H:%M"
+        now.time = datetime.strptime(J[u"basic"][u"update"][u"loc"], forma).replace(tzinfo=LocalTimezone())
+        flag = 0  # no need to update
+        try:
+            pre = Realtime.objects.filter(city=city_str)[0]
+            while pre.time != now.time:
+                print "pre:", pre.time
+                print "now:", now.time
+                print "not eq!"
+                pre.delete()
+                pre = Realtime.objects.filter(city=city_str)[0]
+        except Exception, e:
+            print e
+            flag = 1  # no data before or data too old
+        if flag == 1:
+            Jnow = J[u"now"]
+            now.cond = Jnow[u"cond"][u"txt"]
+            now.hum = int(Jnow[u"hum"])
+            now.pres = int(Jnow[u"pres"])
+            now.tmp = int(Jnow[u"tmp"])
+            now.vis = int(Jnow[u"vis"])
+            now.wind_dir = Jnow[u"wind"][u"dir"]
+            now.wind_sc = Jnow[u"wind"][u"sc"]
+            Jaqi = J[u"aqi"][u"city"]
+            now.aqi = int(Jaqi[u"aqi"])
+            now.aqi_str = Jaqi[u"qlty"]
+            now.pm25 = int(Jaqi[u"pm25"])
+            now.suggestion = J[u"suggestion"]
+            now.save()
+        cnt += 1
+        # print cnt, flag
+    Timer(600, tq_update).start()
+
+
+Timer(0, tq_update).start()

@@ -29,7 +29,7 @@ CITYS_ID = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广�
 from django.http import HttpResponseRedirect
 
 
-def deteCity(city_str):
+def city_dete(city_str):
     if city_str and city_str.capitalize() in CITYS_CN:
         city_str = city_str.capitalize()
     else:
@@ -44,70 +44,30 @@ def redi(request):
 
 def tq(request):
     "Realtime weather information and hourly forecast"
-    # HTTP requests in this function should be changed into asynchronous operation
     city_str = request.GET.get('city')
-    ncity_str = deteCity(city_str)
+    ncity_str = city_dete(city_str)
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
     city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
-    flag = 0  # no need to update
-    try:
-        pre = Realtime.objects.get(city=city_str)
-        while pre.time + timedelta(hours=1) < timezone.now():
-            pre.delete()
-            pre = Realtime.objects.get(city=city_str)
-    except:
-        flag = 1  # no data before or data too old
 
-    status_note = u'OK'
-    if flag == 0:
-        now = pre
-    else:
-        try:
-            payload = {'city': CITYS_ID[city_str], 'key': he_key}
-            r = requests.get(he_str, params=payload)
-            J = r.json()
-            J = J[u"HeWeather5"][0]
-            if J[u"status"] != u"ok":
-                raise Exception("Not OK!")
-            now = Realtime(city=city_str)
-            now.time = J[u"basic"][u"update"][u"loc"]
-            Jnow = J[u"now"]
-            now.cond = Jnow[u"cond"][u"txt"]
-            now.hum = int(Jnow[u"hum"])
-            now.pres = int(Jnow[u"pres"])
-            now.tmp = int(Jnow[u"tmp"])
-            now.vis = int(Jnow[u"vis"])
-            now.wind_dir = Jnow[u"wind"][u"dir"]
-            now.wind_sc = Jnow[u"wind"][u"sc"]
-            Jaqi = J[u"aqi"][u"city"]
-            now.aqi = int(Jaqi[u"aqi"])
-            now.aqi_str = Jaqi[u"qlty"]
-            now.pm25 = int(Jaqi[u"pm25"])
-            now.suggestion = J[u"suggestion"]
-            now.save()
-        except requests.ConnectionError:
-            status_note = u'网络连接错误，请重试'
-        except "Not OK!":
-            status_note = u'天气服务器错误，请重试'
-        except Exception, e:
-            status_note = repr(e) + u' 内部错误，请联系管理员'
-    if status_note == u'OK':
+    try:
+        now = Realtime.objects.get(city=city_str)
         J = eval(str(now.suggestion))
         LABELS_CN = {u"comf": u"舒适指数", u"cw": u"洗车建议", u"drsg": u"穿衣建议", u"flu": u"感冒指数", u"sport": u"运动建议",
                      u"trav": u"旅游建议", u"uv": u"紫外线指数", u"air": u"空气指数"}
         suggest = {}
         for x in J:
             suggest[LABELS_CN[x]] = [J[x][u"brf"], J[x][u"txt"]]
-        return render(request, 'tq.html', {'status_note': status_note, 'city_str': city_str, 'city_note': city_note,
+        return render(request, 'tq.html', {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note,
                                            'now': Realtime.objects.get(city=city_str), 'suggest': suggest})
-    else:
-        return render(request, 'tq.html', {'status_note': status_note, 'city_str': city_str})
+    except Exception, e:
+        print e
+        return render(request, 'tq.html', {'status_note': u"BAD", 'city_str': city_str})
 
 
 def tqpred(request):
     city_str = request.GET.get('city')
-    ncity_str = deteCity(city_str)
+    ncity_str = city_dete(city_str)
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
     city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
@@ -127,7 +87,7 @@ def pm25(request):
     "Realtime pm2.5 information and hourly forecast"
     # HTTP requests in this function should be changed into asynchronous operation
     city_str = request.GET.get('city')
-    ncity_str = deteCity(city_str)
+    ncity_str = city_dete(city_str)
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
     city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
@@ -159,7 +119,7 @@ def pm25pred(request):
     # HTTP requests in this function should be changed into asynchronous operation
     # global pred
     city_str = request.GET.get('city')
-    ncity_str = deteCity(city_str)
+    ncity_str = city_dete(city_str)
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
     city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
