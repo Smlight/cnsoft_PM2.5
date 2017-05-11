@@ -139,8 +139,17 @@ def pm25pred(request):
 
 
 def login(request):
-    pass
+    return render(request, 'login.html')
 
 
 def register(request):
-    pass
+    return render(request,'register.html')
+
+def password(request):
+    return render(request,'password.html')
+
+def noticeWay(request):
+    return render(request,'noticeWay.html')
+
+def suggest(request):
+    return render(request,'suggest.html')

@@ -1,0 +1,40 @@
+{% extends "base2.html" %}
+{% block title %}修改通知方式{% endblock %}
+{% block content %}
+    <p>
+
+    <form action="noticeWay.html" method="post">
+        <table> <br>
+            <tr>
+                <td>修改城市：</td>
+                <td align="center">
+                    <select name="userCity">
+                        <option value="Beijing">北京</option>
+                        <option value="Shanghai">上海</option>
+                        <option value="Guangzhou">广州</option>
+                        <option value="Shenzhen">深圳</option>
+                        <option value="Hangzhou">杭州</option>
+                        <option value="Tianjing">天津</option>
+                        <option value="Chengdu">成都</option>
+                        <option value="Nanjing">南京</option>
+                        <option value="Xian">西安</option>
+                        <option value="Wuhan">武汉</option>
+                    </select>
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        修改通知方式：
+        <input type="checkbox" name="byEmail">电子邮箱
+        <input type="checkbox" name="byPhone">手机
+        <input type="checkbox" name="noNotice">不想收到通知
+        <br>
+        <input type="button" value="提交" name="submit">
+        <input type="button" value="取消" name="cancel">
+    </form>
+
+    </p>
+{% endblock %}

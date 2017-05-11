@@ -18,16 +18,100 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
     font-weight: normal
 }
 
-/*显示的内容样式*/
-.content p {
+/*base1显示的内容样式*/
+.content p, form, select {
     font-family: Microsoft YaHei;
     font-size: 15px;
+    color: #4682B4;
+    line-height: 50px;
+
+}
+
+.content form {
+
+}
+
+.content h2 {
+    font-family: Microsoft YaHei;
+    font-size: 18px;
+    font-weight: 900;
     color: #4682B4;
 }
 
 .user_nav {
-    font-size: 13px;
+    font-size: 15px;
     font-family: "Microsoft YaHei";
+    padding-left: 900px;
+    height: 20px
+
+}
+
+/*base2导航栏*/
+.nav_mod_vetical {
+    margin-top: 25px;
+    line-height: 30px;
+    height: 400px;
+    width: 100px;
+    float: left;
+    padding: 10px;
+    background-color: #338ad1;
+    font-family: Microsoft Yahei
+
+}
+
+.nav_mod_vetical li a {
+    font-size: 16px;
+    display: block;
+    width: 105px;
+    height: 45px;
+    line-height: 2.4;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    overflow: hidden
+}
+
+/*base2内容显示*/
+.base2_content p, form {
+    margin-top: -50px;
+    margin-left: 50px;
+    float: left;
+    padding: 10px;
+    font-family: Microsoft YaHei;
+    font-size: 15px;
+    color: #4682B4;
+    line-height: 50px;
+
+}
+
+.base2_content h2 {
+    font-family: Microsoft YaHei;
+    font-size: 18px;
+    font-weight: 900;
+    color: #4682B4;
+}
+
+input {
+    size: 10px;
+    margin-left: 20px;
+    height: 20px;
+
+}
+
+input[type=checkbox] {
+    width: 15px;
+    height: 15px;
+    margin: 7px;
+}
+
+input[type=button] {
+    font-family: "Microsoft YaHei";
+    width: 50px;
+    height: 30px;
+    font-size: 15px;
+    color: #4682B4;
+    margin-right: 20px;
+    margin-left: 30px;
 
 }
 

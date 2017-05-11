@@ -14,8 +14,7 @@
     <link href="{% static '/css/global.css' %}" rel="stylesheet" type="text/css">
 </head>
 
-
-{#this page is used to show tq&pm2.5 info#}
+{#this page is used to show personal info#}
 
 <body id="header" style="width: 1519px;">
 
@@ -25,19 +24,18 @@
         <div class="user_nav">
             当前用户为：
             {#            {% user.name %}#}
-{#            {% ifequal user.isLogin %}#}
-                <a href="/login" target="_blank">登录</a>
-                <span class="pipe">|</span>
-                <a href="/register" target="_blank">注册</a>
+            {#            {% ifequal user.isLogin %}#}
+            <a href="/login" target="_blank">登录</a>
+            <span class="pipe">|</span>
+            <a href="/register" target="_blank">注册</a>
 
-{#            {% else %}#}
+            {#            {% else %}#}
 
-                <a href="/password" target="_blank">信息管理</a>
-                <span class="pipe">|</span>
-                <a href="/logout" target="_blank">退出登录</a>
-{#            {% endifequal %}#}
-{#        注释的内容为判断用户是否登录的语句 变量补全后可不用注释#}
-{#            退出登录方式为弹窗告知退出 然后将user.isLogin置False#}
+            <a href="/password" target="_blank">信息管理</a>
+            <span class="pipe">|</span>
+            <a href="/logout" target="_blank">退出登录</a>
+            {#            {% endifequal %}#}
+            {#        注释的内容为判断用户是否登录的语句 变量补全后可不用注释#}
 
         </div>
 
@@ -74,42 +72,22 @@
         </div>
         <!-- /nav_mod -->
         <br/>
-        <div class="nav_mod">
+        <div class="nav_mod_vetical">
             <ul>
-                <li><a {% ifequal city_str "Beijing" %}class="current" {% endifequal %}
-                       href="?city=Beijing">北京</a>
+                <li class="first_item">
+                    <a {% ifequal request.path "/tq/" %}class="current" {% endifequal %}
+                       href="/password"> 修改密码</a>
                 </li>
-                <li><a {% ifequal city_str "Shanghai" %}class="current" {% endifequal %}
-                       href="?city=Shanghai">上海</a>
-                </li>
-                <li><a {% ifequal city_str "Guangzhou" %}class="current" {% endifequal %}
-                       href="?city=Guangzhou">广州</a>
-                </li>
-                <li><a {% ifequal city_str "Shenzhen" %}class="current" {% endifequal %}
-                       href="?city=Shenzhen">深圳</a>
-                </li>
-                <li><a {% ifequal city_str "Hangzhou" %}class="current" {% endifequal %}
-                       href="?city=Hangzhou">杭州</a>
-                </li>
-                <li><a {% ifequal city_str "Tianjin" %}class="current" {% endifequal %}
-                       href="?city=Tianjin">天津</a>
-                </li>
-                <li><a {% ifequal city_str "Chengdu" %}class="current" {% endifequal %}
-                       href="?city=Chengdu">成都</a>
-                </li>
-                <li><a {% ifequal city_str "Nanjing" %}class="current" {% endifequal %}
-                       href="?city=Nanjing">南京</a>
-                </li>
-                <li><a {% ifequal city_str "Xian" %}class="current" {% endifequal %}
-                       href="?city=Xian">西安</a>
-                </li>
-                <li><a {% ifequal city_str "Wuhan" %}class="current" {% endifequal %}
-                       href="?city=Wuhan">武汉</a>
+            </ul>
+            <ul>
+                <li>
+                    <a {% ifequal request.path "/tq/" %}class="current" {% endifequal %}
+                       href="/noticeWay"> 修改通知方式</a>
                 </li>
             </ul>
         </div>
         <br/>
-        <div class="content">
+        <div class="base2_content">
             {% block content %}{% endblock %}
         </div>
     </div><!-- end of div.wrap-->
