@@ -99,7 +99,7 @@ def tq_update():
             now.cond = Jnow[u"cond"][u"txt"]
             now.hum = int(Jnow[u"hum"])
             now.pres = int(Jnow[u"pres"])
-            now.pcpn = int(Jnow[u"pcpn"])
+            now.pcpn = float(Jnow[u"pcpn"])
             now.tmp = int(Jnow[u"tmp"])
             now.vis = int(Jnow[u"vis"])
             now.wind_dir = Jnow[u"wind"][u"dir"]
