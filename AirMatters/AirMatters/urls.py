@@ -123,11 +123,8 @@ def tq_update():
                     fore.vis = -1
                     fore.wind_dir = Jfore[u"wind"][u"dir"]
                     fore.wind_sc = Jfore[u"wind"][u"sc"]
-                    Jaqi = J[u"aqi"][u"city"]
                     fore.aqi = -1
-                    # fore.aqi_str = Jaqi[u"qlty"]
                     fore.pm25 = -1
-                    # fore.suggestion = J[u"suggestion"]
                     fore.save()
         cnt += 1
         # print cnt, flag
