@@ -1,27 +1,4 @@
-# -*- encoding:utf-8 -*-
-
-from __future__ import unicode_literals
-
 from django.db import models
-
-
-# 每日天气数据表抽象类
-class Daily(models.Model):
-    date = models.DateField()  # 日期
-    cond = models.CharField(max_length=30)  # 天气情况
-    hum = models.IntegerField()  # 湿度
-    pcpn = models.FloatField()  # 降水量
-    pres = models.IntegerField()  # 气压
-    tmp_max = models.IntegerField()  # 最高温度
-    tmp_min = models.IntegerField()  # 最低温度
-    vis = models.IntegerField()  # 能见度
-    wind_deg = models.IntegerField()  # 风向角度
-    wind_spd = models.IntegerField()  # 风速
-    aqi = models.IntegerField()  # 空气质量
-    pm25 = models.IntegerField()  #
-
-    class Meta:
-        abstract = True
 
 
 # 城市每小时PM2.5抽象类
@@ -99,7 +76,7 @@ class Hourly(models.Model):
     hum = models.IntegerField()  # 湿度
     pres = models.IntegerField()  # 气压
     tmp = models.IntegerField()  # 温度
-    vis = models.IntegerField()  # 能见度
+    vis = models.IntegerField()  # 能见度(km)
     wind_dir = models.CharField(max_length=30)  # 风向描述
     wind_sc = models.CharField(max_length=30)  # 风强
     aqi = models.IntegerField()  # 空气质量
@@ -115,5 +92,24 @@ class Realtime(Hourly):
     pass
 
 
-class Forecast(Hourly):
+# 每日天气数据表抽象类
+class Daily(models.Model):
+    city = models.CharField(max_length=30)  # 城市
+    time = models.DateTimeField()  # 更新时间
+    date = models.DateField()  # 日期
+    cond = models.CharField(max_length=30)  # 天气情况
+    hum = models.IntegerField()  # 湿度
+    pcpn = models.FloatField()  # 降水量
+    pres = models.IntegerField()  # 气压
+    tmp_max = models.IntegerField()  # 最高温度
+    tmp_min = models.IntegerField()  # 最低温度
+    vis = models.IntegerField()  # 能见度(km)
+    wind_deg = models.IntegerField()  # 风向角度
+    wind_spd = models.IntegerField()  # 风速
+
+    class Meta:
+        abstract = True
+
+
+class Forecast(Daily):
     pass

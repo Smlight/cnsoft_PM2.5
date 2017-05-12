@@ -1,5 +1,6 @@
 from django.contrib import admin
-from weather.models import PMBeijing, PMShanghai, PMGuangzhou, PMShenzhen, PMHangzhou, PMTianjin, PMChengdu, PMNanjing, PMXian, PMWuhan
+from weather.models import PMBeijing, PMShanghai, PMGuangzhou, PMShenzhen, PMHangzhou, PMTianjin, PMChengdu, PMNanjing, \
+    PMXian, PMWuhan
 from weather.models import Realtime, Forecast
 
 # Register your models here.

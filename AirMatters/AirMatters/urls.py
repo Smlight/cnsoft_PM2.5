@@ -37,6 +37,8 @@ urlpatterns = [
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+# putting code below is not recommended
+
 import time
 from threading import Timer, RLock
 from weather.models import Realtime, Forecast
@@ -44,7 +46,6 @@ from datetime import datetime, timedelta, tzinfo
 import requests
 
 he_key = "88cef94b40a4461ea933dfc44c41f3a2"  # 和风天气API key
-he_str = "https://free-api.heweather.com/v5/weather"  # 和风天气API 接口
 
 CITYS_ID = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'CN101190101', u'Xian': u'CN101110101', u'Wuhan': u'武汉'}
@@ -71,6 +72,7 @@ spl = RLock()
 
 def tq_update():
     cnt = 0
+    he_str = "https://free-api.heweather.com/v5/weather"
     for city_str in CITYS_ID:
         payload = {'city': CITYS_ID[city_str], 'key': he_key}
         r = requests.get(he_str, params=payload)
@@ -83,21 +85,21 @@ def tq_update():
             spl.release()
         flag = 0  # no need to update
         try:
-            pre = Realtime.objects.filter(city=city_str)[0]
-            while pre.time != now.time:
-                # print "pre:", pre.time
-                # print "now:", now.time
-                print "not eq!"
-                pre.delete()
-                pre = Realtime.objects.filter(city=city_str)[0]
-        except Exception, e:
-            print e
+            pre = Realtime.objects.filter(city=city_str).earliest("time")
+            if pre.time != now.time:
+                raise Exception("not eq!")
+        except Exception as e:
+            print(e)
             flag = 1  # no data before or data too old
         if flag == 1:
+            qset = Realtime.objects.filter(city=city_str)
+            if qset:
+                qset.delete()
             Jnow = J[u"now"]
             now.cond = Jnow[u"cond"][u"txt"]
             now.hum = int(Jnow[u"hum"])
             now.pres = int(Jnow[u"pres"])
+            now.pcpn = int(Jnow[u"pcpn"])
             now.tmp = int(Jnow[u"tmp"])
             now.vis = int(Jnow[u"vis"])
             now.wind_dir = Jnow[u"wind"][u"dir"]
@@ -108,9 +110,70 @@ def tq_update():
             now.pm25 = int(Jaqi[u"pm25"])
             now.suggestion = J[u"suggestion"]
             now.save()
+            Jfores = J[u"hourly_forecast"]
+            for Jfore in Jfores:
+                fore = Realtime(city=city_str)
+                fore.time = datetime.strptime(Jfore[u"date"], forma).replace(tzinfo=LocalTimezone())
+                if now.time < fore.time:
+                    fore.cond = Jfore[u"cond"][u"txt"]
+                    fore.hum = -1
+                    fore.pres = -1
+                    fore.pcpn = -1
+                    fore.tmp = int(Jfore[u"tmp"])
+                    fore.vis = -1
+                    fore.wind_dir = Jfore[u"wind"][u"dir"]
+                    fore.wind_sc = Jfore[u"wind"][u"sc"]
+                    Jaqi = J[u"aqi"][u"city"]
+                    fore.aqi = -1
+                    # fore.aqi_str = Jaqi[u"qlty"]
+                    fore.pm25 = -1
+                    # fore.suggestion = J[u"suggestion"]
+                    fore.save()
         cnt += 1
         # print cnt, flag
-    Timer(1800, tq_update).start()
+    Timer(600, tq_update).start()
+
+
+def tqpred_update():
+    cnt = 0
+    he_str = "https://free-api.heweather.com/v5/forecast"
+    for city_str in CITYS_ID:
+        payload = {'city': CITYS_ID[city_str], 'key': he_key}
+        r = requests.get(he_str, params=payload)
+        J = r.json()
+        J = J[u"HeWeather5"][0]
+        forma = "%Y-%m-%d %H:%M"
+        if spl.acquire():
+            now_time = datetime.strptime(J[u"basic"][u"update"][u"loc"], forma).replace(tzinfo=LocalTimezone())
+            spl.release()
+        flag = 0  # no need to update
+        try:
+            pre_time = Forecast.objects.filter(city=city_str)[0].time
+            if pre_time != now_time:
+                raise Exception("not eq!")
+        except Exception as e:
+            print(e)
+            flag = 1  # no data before or data too old
+        if flag == 1:
+            Forecast.objects.filter(city=city_str).delete()
+            Jday = J[u"daily_forecast"]
+            for Jnow in Jday:
+                now = Forecast(city=city_str)
+                now.time = now_time
+                now.cond = Jnow[u"cond"][u"txt_d"]
+                now.date = Jnow[u"date"]
+                now.hum = int(Jnow[u"hum"])
+                now.pcpn = float(Jnow[u"pcpn"])
+                now.pres = int(Jnow[u"pres"])
+                now.tmp_max = int(Jnow[u"tmp"][u"max"])
+                now.tmp_min = int(Jnow[u"tmp"][u"min"])
+                now.vis = int(Jnow[u"vis"])
+                now.wind_deg = int(Jnow[u"wind"][u"deg"])
+                now.wind_spd = int(Jnow[u"wind"][u"spd"])
+                now.save()
+        cnt += 1
+        # print cnt, flag
+    Timer(3600, tq_update).start()
 
 
 from weather.models import PMBeijing, PMShanghai, PMGuangzhou, PMShenzhen, PMHangzhou, PMTianjin, PMChengdu, PMNanjing, \
@@ -122,11 +185,10 @@ CITYS_PMDB = {u'Beijing': PMBeijing, u'Shanghai': PMShanghai, u'Guangzhou': PMGu
               u'Hangzhou': PMHangzhou, u'Tianjin': PMTianjin, u'Chengdu': PMChengdu, u'Nanjing': PMNanjing,
               u'Xian': PMXian, u'Wuhan': PMWuhan}
 
-urban_str = "http://urbanair.msra.cn/U_Air/ChangeCity"
-
 
 def pm25_update():
     cnt = 0
+    urban_str = "http://urbanair.msra.cn/U_Air/ChangeCity"
     for city_str in CITYS_UID:
         payload = {'CityId': CITYS_UID[city_str], 'Standard': '0'}
         nowdb = CITYS_PMDB[city_str]
@@ -137,18 +199,47 @@ def pm25_update():
         if spl.acquire():
             rightTime = datetime.strptime(J[u"UpdateTime"], forma).replace(tzinfo=LocalTimezone())
             spl.release()
-        for i in xrange(len(J[u"CNName"])):
+        for i in range(len(J[u"CNName"])):
             now = nowdb(station=J[u"CNName"][i])
             now.time = rightTime
             temp = J[u"Stations"][i][u"PM25"]
             if temp:
                 now.pm25 = int(temp)
                 now.save()
-
         cnt += 1
-        print cnt
+        print(cnt)
     Timer(600, pm25_update).start()
 
 
+def pm25pred_update():
+    cnt = 0
+    ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"
+    for city_str in CITYS_UID:
+        payload = {'CityId': CITYS_UID[city_str], 'timeSlot': '1', 'Pollutant': 'AQI', 'Standard': '0'}
+        preddb = CITYS_PMDB[city_str]
+        preddb.objects.all().delete()
+        r = requests.get(ubpred_str, params=payload)
+        J = r.json()
+        now_time = datetime.now()
+        forma = "%H:%M"
+        if spl.acquire():
+            rightTime = datetime.strptime(J[u"PredTime"], forma).replace(year=now_time.year, month=now_time.month,
+                                                                         day=now_time.day, tzinfo=LocalTimezone())
+            # print(rightTime)
+            spl.release()
+        for i in range(len(J[u"CNName"])):
+            pred = preddb(station=J[u"CNName"][i])
+            pred.time = rightTime
+            temp = J[u"PM25"][i][u"PM25"]
+            if temp:
+                pred.pm25 = int(temp)
+                pred.save()
+        cnt += 1
+        print(cnt)
+    Timer(600, pm25pred_update).start()
+
+
 Timer(0, tq_update).start()
+Timer(0, tqpred_update).start()
 Timer(0, pm25_update).start()
+Timer(0, pm25pred_update).start()

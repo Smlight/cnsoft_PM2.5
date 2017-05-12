@@ -1,7 +1,5 @@
 # -*- encoding:utf-8 -*-
 
-# Create your views here.
-
 from django.shortcuts import render
 # from weather.models import Beijing, Shanghai, Guangzhou, Shenzhen, Hangzhou, Tianjin, Chengdu, Nanjing, Xian, Wuhan
 from weather.models import PMBeijing, PMShanghai, PMGuangzhou, PMShenzhen, PMHangzhou, PMTianjin, PMChengdu, PMNanjing, \
@@ -14,12 +12,6 @@ from weather.models import Realtime, Forecast
 
 import requests
 import time
-
-he_key = "88cef94b40a4461ea933dfc44c41f3a2"  # 和风天气API key
-he_str = "https://free-api.heweather.com/v5/weather"  # 和风天气API 接口
-
-from datetime import datetime, timedelta
-from django.utils import timezone
 
 CITYS_CN = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'南京', u'Xian': u'西安', u'Wuhan': u'武汉'}
@@ -50,7 +42,7 @@ def tq(request):
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
     city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
     try:
-        now = Realtime.objects.get(city=city_str)
+        now = Realtime.objects.filter(city=city_str).earliest("time")
         J = eval(str(now.suggestion))
         LABELS_CN = {u"comf": u"舒适指数", u"cw": u"洗车建议", u"drsg": u"穿衣建议", u"flu": u"感冒指数", u"sport": u"运动建议",
                      u"trav": u"旅游建议", u"uv": u"紫外线指数", u"air": u"空气指数"}
@@ -58,9 +50,9 @@ def tq(request):
         for x in J:
             suggest[LABELS_CN[x]] = [J[x][u"brf"], J[x][u"txt"]]
         return render(request, 'tq.html', {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note,
-                                           'now': Realtime.objects.get(city=city_str), 'suggest': suggest})
-    except Exception, e:
-        print e
+                                           'now': now, 'suggest': suggest})
+    except Exception as e:
+        print(e)
         return render(request, 'tq.html', {'status_note': u"BAD", 'city_str': city_str, 'city_note': city_note})
 
 
@@ -70,7 +62,16 @@ def tqpred(request):
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
     city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
-    return render(request, 'tqpred.html', {'city_str': city_str, 'city_note': city_note})
+    try:
+        qset = Forecast.objects.filter(city=city_str)
+        l = []
+        for r in qset:
+            l.append(r)
+        return render(request, 'tqpred.html',
+                      {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'list': l})
+    except Exception as e:
+        print(e)
+        return render(request, 'tq.html', {'status_note': u"BAD", 'city_str': city_str, 'city_note': city_note})
 
 
 urban_str = "http://urbanair.msra.cn/U_Air/ChangeCity"
@@ -90,52 +91,40 @@ def pm25(request):
     city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
     try:
         nowdb = CITYS_PMDB[city_str]
+        now = Realtime.objects.filter(city=city_str).earliest("time")
         rightTime = nowdb.objects.earliest("time").time
         qset = nowdb.objects.filter(time=rightTime)
         l = []
         for r in qset:
             l.append(r)
         return render(request, 'pm25.html',
-                      {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'time': rightTime,
-                       'list': l})
-    except Exception, e:
-        print e
+                      {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'now': now,
+                       'time': rightTime, 'list': l})
+    except Exception as e:
+        print(e)
         return render(request, 'pm25.html', {'status_note': u"BAD", 'city_str': city_str, 'city_note': city_note})
 
 
-ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"
-
-
 def pm25pred(request):
-    # HTTP requests in this function should be changed into asynchronous operation
     # global pred
     city_str = request.GET.get('city')
     ncity_str = city_dete(city_str)
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
     city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
-    payload = {'CityId': CITYS_UID[city_str], 'timeSlot': '1', 'Pollutant': 'AQI', 'Standard': '0'}
-    preddb = CITYS_PMDB[city_str]
-    r = requests.get(ubpred_str, params=payload)
-    J = r.json()
-    a = J[u"PredTime"]
-    data = datetime.now().strftime('%Y-%m-%d')
-    data = data + " " + a
-    timeArray = time.strptime(data, "%Y-%m-%d %H:%M")
-    rightTime = time.strftime("%Y-%m-%d %H:%M", timeArray)
-    l = []
-    for i in range(len(J[u"CNName"])):
-        pred = preddb(station=J[u"CNName"][i])
-        pred.time = rightTime
-        temp = J[u"PM25"][i][u"PM25"]
-        if temp == "null":
-            pred.pm25 = -1
-        else:
-            pred.pm25 = int(temp)
-        l.append(pred)
-        pred.save()
-    return render(request, 'pm25pred.html',
-                  {'city_str': city_str, 'city_note': city_note, 'time': rightTime, 'list': l})
+    try:
+        preddb = CITYS_PMDB[city_str]
+        rightTime = preddb.objects.earliest("time").time
+        qset = preddb.objects.filter(time=rightTime)
+        l = []
+        for r in qset:
+            l.append(r)
+        return render(request, 'pm25pred.html',
+                      {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'time': rightTime,
+                       'list': l})
+    except Exception as e:
+        print(e)
+        return render(request, 'pm25pred.html', {'status_note': u"BAD", 'city_str': city_str, 'city_note': city_note})
 
 
 def login(request):
@@ -143,13 +132,16 @@ def login(request):
 
 
 def register(request):
-    return render(request,'register.html')
+    return render(request, 'register.html')
+
 
 def password(request):
-    return render(request,'password.html')
+    return render(request, 'password.html')
+
 
 def noticeWay(request):
-    return render(request,'noticeWay.html')
+    return render(request, 'noticeWay.html')
+
 
 def suggest(request):
-    return render(request,'suggest.html')
+    return render(request, 'suggest.html')

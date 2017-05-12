@@ -4,7 +4,7 @@
 {% block content %}
     <p>
         {{ city_note }} <br/>
-        更新时间：{{ time }} <br/>
+        更新时间：{{ time | date:"Y-m-d H:i:s" }} <br/>
         {% for row in list %}
             站点：{{ row.station }} &nbsp;
             PM2.5：
