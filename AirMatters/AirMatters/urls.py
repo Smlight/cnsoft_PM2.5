@@ -199,6 +199,7 @@ def pm25_update():
         for i in range(len(J[u"CNName"])):
             now = nowdb(station=J[u"CNName"][i])
             now.time = rightTime
+            now.timeSlot = 0
             temp = J[u"Stations"][i][u"PM25"]
             if temp:
                 now.pm25 = int(temp)
@@ -211,28 +212,31 @@ def pm25_update():
 def pm25pred_update():
     cnt = 0
     ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"
+
     for city_str in CITYS_UID:
-        payload = {'CityId': CITYS_UID[city_str], 'timeSlot': '1', 'Pollutant': 'AQI', 'Standard': '0'}
         preddb = CITYS_PMDB[city_str]
         preddb.objects.all().delete()
-        r = requests.get(ubpred_str, params=payload)
-        J = r.json()
-        now_time = datetime.now()
-        forma = "%H:%M"
-        if spl.acquire():
-            rightTime = datetime.strptime(J[u"PredTime"], forma).replace(year=now_time.year, month=now_time.month,
-                                                                         day=now_time.day, tzinfo=LocalTimezone())
-            # print(rightTime)
-            spl.release()
-        for i in range(len(J[u"CNName"])):
-            pred = preddb(station=J[u"CNName"][i])
-            pred.time = rightTime
-            temp = J[u"PM25"][i][u"PM25"]
-            if temp:
-                pred.pm25 = int(temp)
-                pred.save()
-        cnt += 1
-        print(cnt)
+        for x in range(1, 7):
+            payload = {'CityId': CITYS_UID[city_str], 'timeSlot': x, 'Pollutant': 'AQI', 'Standard': '0'}
+            r = requests.get(ubpred_str, params=payload)
+            J = r.json()
+            now_time = datetime.now()
+            forma = "%H:%M"
+            if spl.acquire():
+                rightTime = datetime.strptime(J[u"PredTime"], forma).replace(year=now_time.year, month=now_time.month,
+                                                                             day=now_time.day, tzinfo=LocalTimezone())
+                # print(rightTime)
+                spl.release()
+            for i in range(len(J[u"CNName"])):
+                pred = preddb(station=J[u"CNName"][i])
+                pred.time = rightTime
+                pred.timesSlot = x
+                temp = J[u"PM25"][i][u"PM25"]
+                if temp:
+                    pred.pm25 = int(temp)
+                    pred.save()
+    cnt += 1
+    print(cnt)
     Timer(600, pm25pred_update).start()
 
 
