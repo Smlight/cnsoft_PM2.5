@@ -40,7 +40,7 @@ def tq(request):
     ncity_str = city_dete(city_str)
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
-    city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
+    city_note = (CITYS_CN[city_str])
     try:
         now = Realtime.objects.filter(city=city_str).earliest("time")
         J = eval(str(now.suggestion))

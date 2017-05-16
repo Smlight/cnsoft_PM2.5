@@ -1,69 +1,54 @@
 {% extends "base.html" %}
+{% load static %}
 <script src="Chart.js"></script>
 
 {% block title %}实时天气{% endblock %}
 {% block content %}
-    <p>
-        {{ city_note }} <br/>
-        {% ifequal status_note 'OK' %}
-            更新时间：{{ now.time | date:"Y-m-d H:i:s" }} <br/>
-            当前天气：{{ now.cond }} <br/>
-            当前温度：{{ now.tmp }}℃ <br/>
-            湿度：{{ now.hum }}%<br/>
-            风力：{{ now.wind_dir }}{{ now.wind_sc }}级 <br/>
-            气压：{{ now.pres }} hpa<br/>
+
+    {% ifequal status_note 'OK' %}
+
+        <div class="city">
+            <img src="{% static '/images/pos.png' %}" style="width: 40px;">{{ city_note }}
+        </div>
+        <div class="temperature">
+            {{ now.tmp }}℃
+
+            <span class="nowWeather"> {{ now.cond }}</span>
+            <span class="time">更新于{{ now.time | date:"Y-m-d H:i:s" }}</span>
+        </div>
+
+        <div class="hum">
+            湿度 {{ now.hum }}%
+            <span class="wind">
+                {{ now.wind_dir }} {{ now.wind_sc }}级
+
+            </span>
+
+        </div>
+        <br><br>
 
 
-            <br>
+
+        <div class="weatherPic">
+
+            显示12h温度趋势图<br><br>
+
+        </div>
 
 
-
-            <canvas id="canvas"></canvas>
-            <script>
-                var lineChartData = {
-                    labels: ["Data 1", "Data 2", "Data 3", "Data 4", "Data 5", "Data 6", "Data 7"],
-                    datasets: [{
-                        fillColor: "rgba(220,220,220,0)",
-                        strokeColor: "rgba(220,180,0,1)",
-                        pointColor: "rgba(220,180,0,1)",
-                        data: [20, 30, 80, 20, 40, 10, 60]
-                    }, {
-                        fillColor: "rgba(151,187,205,0)",
-                        strokeColor: "rgba(151,187,205,1)",
-                        pointColor: "rgba(151,187,205,1)",
-                        data: [60, 10, 40, 30, 80, 30, 20]
-                    }]
-
-                }
-
-                Chart.defaults.global.animationSteps = 50;
-                Chart.defaults.global.tooltipYPadding = 16;
-                Chart.defaults.global.tooltipCornerRadius = 0;
-                Chart.defaults.global.tooltipTitleFontStyle = "normal";
-                Chart.defaults.global.tooltipFillColor = "rgba(0,160,0,0.8)";
-                Chart.defaults.global.animationEasing = "easeOutBounce";
-                Chart.defaults.global.responsive = true;
-                Chart.defaults.global.scaleLineColor = "black";
-                Chart.defaults.global.scaleFontSize = 16;
-
-                var ctx = document.getElementById("canvas").getContext("2d");
-                var LineChartDemo = new Chart(ctx).Line(lineChartData, {
-                    pointDotRadius: 10,
-                    bezierCurve: false,
-                    scaleShowVerticalLines: false,
-                    scaleGridLineColor: "black"
-                });
-
-            </script>
-            显示趋势图<br><br>
-
+        <div class="suggestion">
 
             {% for k,v in suggest.items %}
                 {{ k }}：{{ v.0 }} <br/>
                 {{ v.1 }}<br/>
             {% endfor %}
-            {% else %}
-            Something Happened!!!
-        {% endifequal %}
-    </p>
+
+        </div>
+
+
+
+        {% else %}
+        Something Happened!!!
+    {% endifequal %}
+
 {% endblock %}
