@@ -25,6 +25,7 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
     color: #4682B4;
     line-height: 50px;
 
+
 }
 
 .content form {
@@ -41,7 +42,7 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 .user_nav {
     font-size: 15px;
     font-family: "Microsoft YaHei";
-    padding-left: 900px;
+    padding-left: 800px;
     height: 20px
 
 }
@@ -114,6 +115,12 @@ input[type=button] {
     margin-left: 30px;
 
 }
+
+.container {
+    min-width: 1000px;
+   background-color: rgba(0,0,0,0.5);
+}
+
 
 img, iframe {
     border: none
@@ -214,9 +221,7 @@ input::-ms-clear {
     color: #888
 }
 
-.container {
-    min-width: 1000px
-}
+
 
 .wrap {
     /*position: relative;*/

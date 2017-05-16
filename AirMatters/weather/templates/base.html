@@ -17,7 +17,7 @@
 
 {#this page is used to show tq&pm2.5 info#}
 
-<body id="header" style="width: 1519px;">
+<body id="header" background="{% static '/images/back.jpg' %}" style="width: 1200px;background-attachment:fixed">
 
 <div class="container" id="mainContainer">
     <div class="head_w">
@@ -34,7 +34,8 @@
 
                 <a href="/password" target="_blank">信息管理</a>
                 <span class="pipe">|</span>
-                <a href="/logout" target="_blank">退出登录</a>
+
+                <a onclick="alert('退出登录成功!')">退出登录</a>
 {#            {% endifequal %}#}
 {#        注释的内容为判断用户是否登录的语句 变量补全后可不用注释#}
 {#            退出登录方式为弹窗告知退出 然后将user.isLogin置False#}
