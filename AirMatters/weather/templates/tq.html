@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-<script src="Chart.js"></script>
+<script src="../../static/js/Chart.js"></script>
 
 {% block title %}实时天气{% endblock %}
 {% block content %}
@@ -42,6 +42,7 @@
                 {{ k }}：{{ v.0 }} <br/>
                 {{ v.1 }}<br/>
             {% endfor %}
+
 
         </div>
 

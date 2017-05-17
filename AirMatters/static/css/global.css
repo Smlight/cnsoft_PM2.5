@@ -22,41 +22,46 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 .content p, form, select {
     font-family: Microsoft YaHei;
     font-size: 15px;
-    color: #4682B4;
+    color:black;
     line-height: 50px;
 
 }
+
 .city {
     font-family: "Microsoft YaHei UI";
     /*font-family: "Arial Black";*/
     font-size: 20px;
     color: white;
 
-
 }
+
 .temperature {
     font-family: "Microsoft YaHei";
     font-size: 80px;
     color: white;
 
 }
-.temperature .nowWeather{
+
+.temperature .nowWeather {
     font-family: "Microsoft YaHei";
     font-size: 30px;
     color: white;
 
 }
-.temperature .time{
+
+.temperature .time {
     font-family: "Microsoft YaHei";
     font-size: 20px;
     color: white;
 
 }
+
 .hum {
-   font-family: "Microsoft YaHei";
+    font-family: "Microsoft YaHei";
     font-size: 25px;
     color: white;
 }
+
 .hum .wind {
     font-family: "Microsoft YaHei";
     font-size: 25px;
@@ -64,9 +69,15 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 }
 
 .weatherPic {
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
+.suggestion {
+    font-family: "Microsoft YaHei";
+    font-size: 25px;
+    color: white;
+
+}
 
 .user_nav {
     font-size: 15px;
@@ -85,22 +96,22 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 }
 
 /*base2导航栏*/
-.nav_mod_vetical {
+.nav_mod_vertical {
     margin-top: 25px;
     line-height: 30px;
     height: 400px;
-    width: 100px;
+    width: 110px;
     float: left;
-    padding: 10px;
-    background-color: #338ad1;
-    font-family: Microsoft Yahei
+    padding: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-family: Microsoft Yahei;
 
 }
 
-.nav_mod_vetical li a {
+.nav_mod_vertical li a {
     font-size: 16px;
     display: block;
-    width: 105px;
+    width: 110px;
     height: 45px;
     line-height: 2.4;
     text-align: center;
@@ -108,16 +119,29 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
     text-decoration: none;
     overflow: hidden
 }
+.nav_mod_vertical li a:hover {
+    background-color: rgba(50, 118, 58, 0.5);
+    border-color: rgba(50, 118, 58, 0.5);
+    text-decoration: none;
+    color: white
+}
+
+.nav_mod_vertical li a.current {
+    background-color: rgba(0, 100, 0, 0.7);
+    text-decoration: none;
+    color: white
+}
+
 
 /*base2内容显示*/
 .base2_content p, form {
-    margin-top: -50px;
-    margin-left: 50px;
+    margin-top: -40px;
+    margin-left: 60px;
     float: left;
     padding: 10px;
     font-family: Microsoft YaHei;
     font-size: 15px;
-    color: #4682B4;
+    color: white;
     line-height: 50px;
 
 }
@@ -126,7 +150,7 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
     font-family: Microsoft YaHei;
     font-size: 18px;
     font-weight: 900;
-    color: #4682B4;
+    color: white;
 }
 
 input {
@@ -147,9 +171,10 @@ input[type=button] {
     width: 50px;
     height: 30px;
     font-size: 15px;
-    color: #4682B4;
+    color: white;
     margin-right: 20px;
     margin-left: 30px;
+    background-color: rgba(0,0,0,0.5);
 
 }
 
@@ -298,8 +323,6 @@ input::-ms-clear {
     z-index: 1;
 }
 
-
-
 .head_w .tsearch {
     display: block;
     padding-top: 21px
@@ -413,8 +436,8 @@ input::-ms-clear {
 .nav_mod {
     position: relative;
     z-index: 11;
-    height: 40px;
-    background-color: rgba(0,0,0,0.5);
+    height: 45px;
+    background-color: rgba(0, 0, 0, 0.5);
     background-position: -25px -50px;
     font-family: Microsoft Yahei
 }
@@ -442,7 +465,7 @@ input::-ms-clear {
 .nav_mod li a {
     display: block;
     width: 98px;
-    height: 40px;
+    height: 45px;
     line-height: 2.4;
     /*border: 1px solid rgba(0,0,0,0.5);*/
     text-align: center;
@@ -452,14 +475,14 @@ input::-ms-clear {
 }
 
 .nav_mod li a:hover {
-    background-color: rgba(50,118,58,0.5);
-    border-color: rgba(50,118,58,0.5);
+    background-color: rgba(50, 118, 58, 0.5);
+    border-color: rgba(50, 118, 58, 0.5);
     text-decoration: none;
     color: white
 }
 
 .nav_mod li a.current {
-    background-color:rgba(0,100,0,0.7);
+    background-color: rgba(0, 100, 0, 0.7);
     /*border-color:rgba(0,0,0,0.5);*/
     text-decoration: none;
     color: white
@@ -474,15 +497,8 @@ input::-ms-clear {
     background-color: #3695e2
 }
 
-.nav_mod li.first_item a {
-    background-position: -225px -100px;
-    border: none;
-    padding: 1px
-}
 
-.nav_mod li.first_item a:hover, .nav_mod li.first_item a.current {
-    background-position: 0 -100px
-}
+
 
 .nav_mod .nav_btn_box {
     position: absolute;
