@@ -14,45 +14,46 @@
     <link href="{% static '/css/global.css' %}" rel="stylesheet" type="text/css">
 </head>
 
+
 {#this page is used to show personal info#}
 
-<body id="header" style="width: 1519px;">
+<body id="header" background="{% static '/images/back.png' %}" style="background-attachment :fixed">
+
+<div class="user_nav">
+    当前用户为：
+    {#            {% user.name %}#}
+    {#            {% ifequal user.isLogin %}#}
+    <a href="/login" target="_blank">登录</a>
+    <span class="pipe">|</span>
+    <a href="/register" target="_blank">注册</a>
+
+    {#            {% else %}#}
+
+    <a href="/password" target="_blank">信息管理</a>
+    <span class="pipe">|</span>
+
+    <a onclick="alert('退出登录成功!')">退出登录</a>
+    {#            {% endifequal %}#}
+    {#        注释的内容为判断用户是否登录的语句 变量补全后可不用注释#}
+    {#            退出登录方式为弹窗告知退出 然后将user.isLogin置False#}
+
+</div>
 
 <div class="container" id="mainContainer">
     <div class="head_w">
-
-        <div class="user_nav">
-            当前用户为：
-            {#            {% user.name %}#}
-            {#            {% ifequal user.isLogin %}#}
-            <a href="/login" target="_blank">登录</a>
-            <span class="pipe">|</span>
-            <a href="/register" target="_blank">注册</a>
-
-            {#            {% else %}#}
-
-            <a href="/password" target="_blank">信息管理</a>
-            <span class="pipe">|</span>
-            <a href="/logout" target="_blank">退出登录</a>
-            {#            {% endifequal %}#}
-            {#        注释的内容为判断用户是否登录的语句 变量补全后可不用注释#}
-
-        </div>
-
         <div class="head">
-
             <span class="logo">
-                <a href="/">
-                    <img alt="Logo" height="95px" src="{% static '/images/logo.jpg' %}">
-                </a>
+
+                <img alt="Logo" height="90px" src="{% static '/images/logo.png' %}">
             </span>
         </div>
     </div><!-- /head_w -->
+
     <div class="wrap" id="wrap">
         <!-- nav_mod -->
         <div class="nav_mod">
             <ul>
-                <li class="first_item">
+                <li>
                     <a {% ifequal request.path "/tq/" %}class="current" {% endifequal %}
                        href="/tq/?city={{ city_str }}"> 实时天气 </a>
                 </li>
@@ -70,26 +71,26 @@
                 </li>
             </ul>
         </div>
-        <!-- /nav_mod -->
+        <!-- /nav_mod_vertical -->
         <br/>
-        <div class="nav_mod_vetical">
+        <div class="nav_mod_vertical">
             <ul>
-                <li class="first_item">
-                    <a {% ifequal request.path "/tq/" %}class="current" {% endifequal %}
-                       href="/password"> 修改密码</a>
+                <li>
+                    <a {% ifequal request.path "/password/" %} class="current" {% endifequal %}
+                                                         href="/password"> 修改密码</a>
                 </li>
             </ul>
             <ul>
                 <li>
-                    <a {% ifequal request.path "/tq/" %}class="current" {% endifequal %}
+                    <a {% ifequal request.path "/noticeWay/" %}class="current" {% endifequal %}
                        href="/noticeWay"> 修改通知方式</a>
                 </li>
             </ul>
         </div>
-        <br/>
         <div class="base2_content">
             {% block content %}{% endblock %}
         </div>
+
     </div><!-- end of div.wrap-->
 
     <div class="footer">

@@ -19,6 +19,8 @@ CITYS_ID = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广�
             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'CN101190101', u'Xian': u'CN101110101', u'Wuhan': u'武汉'}
 
 from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
 
 
 def city_dete(city_str):
@@ -40,7 +42,7 @@ def tq(request):
     ncity_str = city_dete(city_str)
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
-    city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
+    city_note = (CITYS_CN[city_str])
     try:
         now = Realtime.objects.filter(city=city_str).earliest("time")
         J = eval(str(now.suggestion))
@@ -128,6 +130,13 @@ def pm25pred(request):
 
 
 def login(request):
+    if request.method == "post":
+        username = request.POST.get("userName")
+        userpwd = request.POST.get("userPwd")
+        user = authenticate(username=username, password=userpwd)
+        if user:
+            login(request, user)
+            return redirect('/noticeWay.html')
     return render(request, 'login.html')
 
 

@@ -21,7 +21,7 @@ class CHPM25(models.Model):
 class HPM25(models.Model):
     station = models.CharField(max_length=30)  # 监测站
     time = models.DateTimeField()  # 时间
-    timesSlot = models.IntegerField()  # 预测时间节点
+    timeSlot = models.IntegerField()  # 预测时间节点
     pm25 = models.IntegerField()  #
 
     class Meta:

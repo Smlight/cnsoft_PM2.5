@@ -230,7 +230,7 @@ def pm25pred_update():
             for i in range(len(J[u"CNName"])):
                 pred = preddb(station=J[u"CNName"][i])
                 pred.time = rightTime
-                pred.timesSlot = x
+                pred.timeSlot = x
                 temp = J[u"PM25"][i][u"PM25"]
                 if temp:
                     pred.pm25 = int(temp)

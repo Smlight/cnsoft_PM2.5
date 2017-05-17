@@ -22,47 +22,96 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 .content p, form, select {
     font-family: Microsoft YaHei;
     font-size: 15px;
-    color: #4682B4;
+    color:black;
     line-height: 50px;
 
 }
 
-.content form {
+.city {
+    font-family: "Microsoft YaHei UI";
+    /*font-family: "Arial Black";*/
+    font-size: 20px;
+    color: white;
 
 }
 
-.content h2 {
-    font-family: Microsoft YaHei;
-    font-size: 18px;
-    font-weight: 900;
-    color: #4682B4;
+.temperature {
+    font-family: "Microsoft YaHei";
+    font-size: 80px;
+    color: white;
+
+}
+
+.temperature .nowWeather {
+    font-family: "Microsoft YaHei";
+    font-size: 30px;
+    color: white;
+
+}
+
+.temperature .time {
+    font-family: "Microsoft YaHei";
+    font-size: 20px;
+    color: white;
+
+}
+
+.hum {
+    font-family: "Microsoft YaHei";
+    font-size: 25px;
+    color: white;
+}
+
+.hum .wind {
+    font-family: "Microsoft YaHei";
+    font-size: 25px;
+    color: white;
+}
+
+.weatherPic {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.suggestion {
+    font-family: "Microsoft YaHei";
+    font-size: 25px;
+    color: white;
+
 }
 
 .user_nav {
     font-size: 15px;
     font-family: "Microsoft YaHei";
-    padding-left: 900px;
-    height: 20px
+    height: 40px;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding-left: 800px;
+    padding-top: 15px;
+
+}
+
+.user_nav a {
+    color: #ffffff;
 
 }
 
 /*base2导航栏*/
-.nav_mod_vetical {
+.nav_mod_vertical {
     margin-top: 25px;
     line-height: 30px;
     height: 400px;
-    width: 100px;
+    width: 110px;
     float: left;
-    padding: 10px;
-    background-color: #338ad1;
-    font-family: Microsoft Yahei
+    padding: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-family: Microsoft Yahei;
 
 }
 
-.nav_mod_vetical li a {
+.nav_mod_vertical li a {
     font-size: 16px;
     display: block;
-    width: 105px;
+    width: 110px;
     height: 45px;
     line-height: 2.4;
     text-align: center;
@@ -70,16 +119,29 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
     text-decoration: none;
     overflow: hidden
 }
+.nav_mod_vertical li a:hover {
+    background-color: rgba(50, 118, 58, 0.5);
+    border-color: rgba(50, 118, 58, 0.5);
+    text-decoration: none;
+    color: white
+}
+
+.nav_mod_vertical li a.current {
+    background-color: rgba(0, 100, 0, 0.7);
+    text-decoration: none;
+    color: white
+}
+
 
 /*base2内容显示*/
 .base2_content p, form {
-    margin-top: -50px;
-    margin-left: 50px;
+    margin-top: -40px;
+    margin-left: 60px;
     float: left;
     padding: 10px;
     font-family: Microsoft YaHei;
     font-size: 15px;
-    color: #4682B4;
+    color: white;
     line-height: 50px;
 
 }
@@ -88,7 +150,7 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
     font-family: Microsoft YaHei;
     font-size: 18px;
     font-weight: 900;
-    color: #4682B4;
+    color: white;
 }
 
 input {
@@ -109,9 +171,15 @@ input[type=button] {
     width: 50px;
     height: 30px;
     font-size: 15px;
-    color: #4682B4;
+    color: white;
     margin-right: 20px;
     margin-left: 30px;
+    background-color: rgba(0,0,0,0.5);
+
+}
+
+.container {
+    min-width: 1000px;
 
 }
 
@@ -214,10 +282,6 @@ input::-ms-clear {
     color: #888
 }
 
-.container {
-    min-width: 1000px
-}
-
 .wrap {
     /*position: relative;*/
     width: 1000px;
@@ -255,13 +319,8 @@ input::-ms-clear {
 
 .head_w .logo {
     position: absolute;
-    top: 5px;
-    left: 0px;
-    z-index: 1
-}
 
-.head_w .logo a {
-    display: block
+    z-index: 1;
 }
 
 .head_w .tsearch {
@@ -377,8 +436,8 @@ input::-ms-clear {
 .nav_mod {
     position: relative;
     z-index: 11;
-    height: 40px;
-    background-color: #338ad1;
+    height: 45px;
+    background-color: rgba(0, 0, 0, 0.5);
     background-position: -25px -50px;
     font-family: Microsoft Yahei
 }
@@ -406,9 +465,9 @@ input::-ms-clear {
 .nav_mod li a {
     display: block;
     width: 98px;
-    height: 38px;
+    height: 45px;
     line-height: 2.4;
-    border: 1px solid #338ad1;
+    /*border: 1px solid rgba(0,0,0,0.5);*/
     text-align: center;
     color: white;
     text-decoration: none;
@@ -416,15 +475,15 @@ input::-ms-clear {
 }
 
 .nav_mod li a:hover {
-    background-color: #1e77c9;
-    border-color: #1972af;
+    background-color: rgba(50, 118, 58, 0.5);
+    border-color: rgba(50, 118, 58, 0.5);
     text-decoration: none;
     color: white
 }
 
 .nav_mod li a.current {
-    background-color: #186fbf;
-    border-color: #0f66a2;
+    background-color: rgba(0, 100, 0, 0.7);
+    /*border-color:rgba(0,0,0,0.5);*/
     text-decoration: none;
     color: white
 }
@@ -438,15 +497,8 @@ input::-ms-clear {
     background-color: #3695e2
 }
 
-.nav_mod li.first_item a {
-    background-position: -225px -100px;
-    border: none;
-    padding: 1px
-}
 
-.nav_mod li.first_item a:hover, .nav_mod li.first_item a.current {
-    background-position: 0 -100px
-}
+
 
 .nav_mod .nav_btn_box {
     position: absolute;
@@ -587,7 +639,7 @@ input::-ms-clear {
     position: relative;
     *zoom: 1;
     margin-top: 14px;
-    background-color: #3e91dd;
+    background-color: rgba(0, 0, 0, 0.7);
     height: 90px
 }
 
@@ -617,17 +669,17 @@ input::-ms-clear {
 }
 
 .footer .wp .p1 .pipe {
-    color: #94bfe0;
+    color: white;
     margin: 0 10px
 }
 
 .footer .wp .p2 {
     font-size: 12px;
-    color: #bdd8ec
+    color: white;
 }
 
 .footer .wp .p2 a {
-    color: #bdd8ec;
+    color: white;
     margin-right: 10px
 }
 
