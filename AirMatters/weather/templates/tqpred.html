@@ -4,15 +4,21 @@
 {% block content %}
     <p>
         {{ city_note }} <br/>
-        更新时间：{{ now.time }} <br/>
+        更新时间：{{ time | date:"Y-m-d H:i:s" }} <br/>
     <ul>
         {% for row in list %}
             <li>
-{#                15日日期 天气 气温 风力#}
+                日期：{{ row.date | date:"Y-m-d" }}<br/>
+                最高温：{{ row.tmp_max }}<br/>
+                最低温：{{ row.tmp_min }}<br/>
+                降水量：{{ row.pcpn }}<br/>
+                压力：{{ row.pres }}<br/>
+                湿度：{{ row.hum }}<br/>
+                能见度：{{ row.vis }}<br/>
                 <br/>
             </li>
         {% endfor %}
     </ul>
-{#    显示趋势图#}
+    {#    显示趋势图#}
     </p>
 {% endblock %}

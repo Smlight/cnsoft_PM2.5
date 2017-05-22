@@ -69,8 +69,9 @@ def tqpred(request):
         l = []
         for r in qset:
             l.append(r)
+            up_time = r.time
         return render(request, 'tqpred.html',
-                      {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'list': l})
+                      {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'time': up_time, 'list': l})
     except Exception as e:
         print(e)
         return render(request, 'tq.html', {'status_note': u"BAD", 'city_str': city_str, 'city_note': city_note})
