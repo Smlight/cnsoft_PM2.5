@@ -212,7 +212,6 @@ def pm25_update():
 def pm25pred_update():
     cnt = 0
     ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"
-
     for city_str in CITYS_UID:
         preddb = CITYS_PMDB[city_str]
         preddb.objects.all().delete()
@@ -234,7 +233,9 @@ def pm25pred_update():
                 temp = J[u"PM25"][i][u"PM25"]
                 if temp:
                     pred.pm25 = int(temp)
-                    pred.save()
+                else:
+                    pred.pm25 = -1
+                pred.save()
     cnt += 1
     print(cnt)
     Timer(600, pm25pred_update).start()

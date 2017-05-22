@@ -2,20 +2,20 @@
 
 {% block title %}PM2.5预报{% endblock %}
 {% block content %}
-    <p>
-        {{ city_note }} <br/>
-        更新时间：{{ time | date:"Y-m-d H:i:s" }} <br/>
-        {% for row in list %}
-            站点：{{ row.station }} &nbsp;
-            PM2.5：
-            {% ifequal row.pm25 -1 %}
-                看什么看
-            {% else %}
-                {{ row.pm25 }}
-            {% endifequal %}
-            <br/>
+    {{ city_note }} <br/>
+    更新时间：{{ time | date:"Y-m-d H:i:s" }} <br/>
+    <table border="0" cellspacing="30">
+        {% for sta, list in dict.items %}
+            <tr>
+                <td>{{ sta }} </td>
+                {% for x in list %}
+                    {% ifnotequal x -1 %}
+                        <td>{{ x }}</td>
+                    {% endifnotequal %}
+                {% endfor %}
+            </tr>
         {% endfor %}
-{#        显示趋势图#}
+    </table>
+    {#        显示趋势图#}
     <pre>{{ suggest }} </pre>
-    </p>
 {% endblock %}

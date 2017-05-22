@@ -67,9 +67,11 @@ def tqpred(request):
     try:
         qset = Forecast.objects.filter(city=city_str)
         l = []
+        up_time = None
         for r in qset:
+            if not up_time:
+                up_time = r.time
             l.append(r)
-            up_time = r.time
         return render(request, 'tqpred.html',
                       {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'time': up_time, 'list': l})
     except Exception as e:
@@ -109,7 +111,6 @@ def pm25(request):
 
 
 def pm25pred(request):
-    # global pred
     city_str = request.GET.get('city')
     ncity_str = city_dete(city_str)
     if city_str != ncity_str:
@@ -117,14 +118,18 @@ def pm25pred(request):
     city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
     try:
         preddb = CITYS_PMDB[city_str]
-        rightTime = preddb.objects.earliest("time").time
-        qset = preddb.objects.filter(time=rightTime)
-        l = []
+        qset = preddb.objects.order_by("station", "timeSlot")
+        tab = {}
+        up_time = None
         for r in qset:
-            l.append(r)
+            if not up_time:
+                up_time = r.time
+            if not tab.get(r.station):
+                tab[r.station] = []
+            tab.setdefault(r.station, []).append(r.pm25)
         return render(request, 'pm25pred.html',
-                      {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'time': rightTime,
-                       'list': l})
+                      {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'time': up_time,
+                       'dict': tab})
     except Exception as e:
         print(e)
         return render(request, 'pm25pred.html', {'status_note': u"BAD", 'city_str': city_str, 'city_note': city_note})
