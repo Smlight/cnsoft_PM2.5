@@ -42,7 +42,7 @@ def tq(request):
     ncity_str = city_dete(city_str)
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
-    city_note = (CITYS_CN[city_str])
+    city_note = CITYS_CN[city_str]
     try:
         now = Realtime.objects.filter(city=city_str).earliest("time")
         J = eval(str(now.suggestion))
@@ -63,7 +63,7 @@ def tqpred(request):
     ncity_str = city_dete(city_str)
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
-    city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
+    city_note = CITYS_CN[city_str]
     try:
         qset = Forecast.objects.filter(city=city_str)
         l = []
@@ -93,12 +93,12 @@ def pm25(request):
     ncity_str = city_dete(city_str)
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
-    city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
+    city_note = CITYS_CN[city_str]
     try:
         nowdb = CITYS_PMDB[city_str]
         now = Realtime.objects.filter(city=city_str).earliest("time")
         rightTime = nowdb.objects.earliest("time").time
-        qset = nowdb.objects.filter(time=rightTime)
+        qset = nowdb.objects.filter(timeSlot=0)
         l = []
         for r in qset:
             l.append(r)
@@ -115,10 +115,10 @@ def pm25pred(request):
     ncity_str = city_dete(city_str)
     if city_str != ncity_str:
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
-    city_note = u'城市已设定为：%s' % (CITYS_CN[city_str])
+    city_note = CITYS_CN[city_str]
     try:
         preddb = CITYS_PMDB[city_str]
-        qset = preddb.objects.order_by("station", "timeSlot")
+        qset = preddb.objects.all()
         tab = {}
         up_time = None
         for r in qset:

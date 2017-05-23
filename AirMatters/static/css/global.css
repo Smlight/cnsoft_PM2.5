@@ -22,7 +22,7 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 .content p, form, select {
     font-family: Microsoft YaHei;
     font-size: 15px;
-    color:black;
+    color: black;
     line-height: 50px;
 
 }
@@ -53,7 +53,12 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
     font-family: "Microsoft YaHei";
     font-size: 20px;
     color: white;
+}
 
+.time {
+    font-family: "Microsoft YaHei";
+    font-size: 20px;
+    color: white;
 }
 
 .hum {
@@ -76,6 +81,17 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
     font-family: "Microsoft YaHei";
     font-size: 25px;
     color: white;
+
+}
+
+.predtable {
+    font-size: 1.5em;
+    color: white;
+    text-align: center;
+}
+
+.predtable tr {
+    border: solid 1px;
 
 }
 
@@ -119,6 +135,7 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
     text-decoration: none;
     overflow: hidden
 }
+
 .nav_mod_vertical li a:hover {
     background-color: rgba(50, 118, 58, 0.5);
     border-color: rgba(50, 118, 58, 0.5);
@@ -131,7 +148,6 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
     text-decoration: none;
     color: white
 }
-
 
 /*base2内容显示*/
 .base2_content p, form {
@@ -174,7 +190,7 @@ input[type=button] {
     color: white;
     margin-right: 20px;
     margin-left: 30px;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 
 }
 
@@ -491,9 +507,6 @@ input::-ms-clear {
     height: 24px;
     background-color: #3695e2
 }
-
-
-
 
 .nav_mod .nav_btn_box {
     position: absolute;

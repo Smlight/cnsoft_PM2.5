@@ -1,21 +1,44 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}PM2.5预报{% endblock %}
+{% block title %}PM2.5实时预报{% endblock %}
 {% block content %}
-    {{ city_note }} <br/>
-    更新时间：{{ time | date:"Y-m-d H:i:s" }} <br/>
-    <table border="0" cellspacing="30">
-        {% for sta, list in dict.items %}
+    <div class="city">
+        <img src="{% static '/images/pos.png' %}" style="width: 40px;">{{ city_note }}
+    </div>
+    <span class="time">更新于{{ time | date:"Y-m-d H:i:s" }}</span>
+    <div class="predtable">
+        <span style="font-size: 1.8em">{{ city_note }}各站点PM2.5数据</span>
+        <table rules="rows" width="98%">
+            <thead>
             <tr>
-                <td>{{ sta }} </td>
-                {% for x in list %}
-                    {% ifnotequal x -1 %}
-                        <td>{{ x }}</td>
-                    {% endifnotequal %}
-                {% endfor %}
+                <th width="23%">站点</th>
+                <th width="11%">实时</th>
+                <th width="11%">1小时内</th>
+                <th width="11%">1-2小时</th>
+                <th width="11%">2-3小时</th>
+                <th width="11%">3-4小时</th>
+                <th width="11%">4-5小时</th>
+                <th width="11%">5-6小时</th>
             </tr>
-        {% endfor %}
-    </table>
+            </thead>
+            <tbody>
+            {% for sta, list in dict.items %}
+                <tr>
+                    <td>{{ sta }} </td>
+                    {% for x in list %}
+                        <td>
+                            {% ifnotequal x -1 %}
+                                {{ x }}
+                            {% else %}
+                                ？
+                            {% endifnotequal %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}</tbody>
+        </table>
+    </div>
     {#        显示趋势图#}
     <pre>{{ suggest }} </pre>
 {% endblock %}

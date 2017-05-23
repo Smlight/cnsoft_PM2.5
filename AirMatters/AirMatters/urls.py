@@ -205,7 +205,7 @@ def pm25_update():
                 now.pm25 = int(temp)
                 now.save()
         cnt += 1
-        print(cnt)
+        # print(cnt)
     Timer(600, pm25_update).start()
 
 
@@ -213,9 +213,10 @@ def pm25pred_update():
     cnt = 0
     ubpred_str = "http://urbanair.msra.cn/U_Air/GetPredictionV3"
     for city_str in CITYS_UID:
+        cnt += 1
         preddb = CITYS_PMDB[city_str]
-        preddb.objects.all().delete()
         for x in range(1, 7):
+            preddb.objects.filter(timeSlot=x).delete()
             payload = {'CityId': CITYS_UID[city_str], 'timeSlot': x, 'Pollutant': 'AQI', 'Standard': '0'}
             r = requests.get(ubpred_str, params=payload)
             J = r.json()
@@ -236,8 +237,7 @@ def pm25pred_update():
                 else:
                     pred.pm25 = -1
                 pred.save()
-    cnt += 1
-    print(cnt)
+            print(cnt, x)
     Timer(600, pm25pred_update).start()
 
 

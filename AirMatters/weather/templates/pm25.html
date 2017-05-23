@@ -1,22 +1,25 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}实时PM2.5{% endblock %}
 {% block content %}
-    <p>
-        {{ city_note }} <br/>
-        {% ifequal status_note 'OK' %}
-            更新时间：{{ time | date:"Y-m-d H:i:s" }} <br/>
+    {% ifequal status_note 'OK' %}
+        <div class="city">
+            <img src="{% static '/images/pos.png' %}" style="width: 40px;">{{ city_note }}
+        </div>
+        <span class="time">更新于{{ time | date:"Y-m-d H:i:s" }}</span>
+        <p>
             PM2.5：{{ now.pm25 }} <br/>
             能见度：{{ now.vis }} <br/>
-            AQI：{{ now.aqi }}  {{ now.aqi_str }} <br/>
+            AQI：{{ now.aqi }} {{ now.aqi_str }} <br/>
             显示趋势图<br><br>
             {% for row in list %}
                 站点：{{ row.station }} &nbsp;
                 PM2.5：{{ row.pm25 }}
                 <br/>
             {% endfor %}
-        {% else %}
-            粗问题辣，啥都木有。
-        {% endifequal %}
-    </p>
+        </p>
+    {% else %}
+        粗问题辣，啥都木有。
+    {% endifequal %}
 {% endblock %}
