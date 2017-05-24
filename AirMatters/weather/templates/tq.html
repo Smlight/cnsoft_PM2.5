@@ -5,7 +5,6 @@
 {% block content %}
 
     {% ifequal status_note 'OK' %}
-
         <div class="city">
             <img src="{% static '/images/pos.png' %}" style="width: 40px;">{{ city_note }}
         </div>
@@ -15,77 +14,71 @@
             <span class="nowWeather"> {{ now.cond }}</span>
             <span class="time">更新于{{ now.time | date:"Y-m-d H:i:s" }}</span>
         </div>
-
         <div class="hum">
             湿度 {{ now.hum }}%
             <span class="wind">
-                {{ now.wind_dir }} {{ now.wind_sc }}级
-
+                {{ now.wind_dir }}&nbsp;{{ now.wind_sc }}
             </span>
-
         </div>
-        <br><br>
-
-
-
-        {#        <div class="weatherPic">#}
-        {##}
-        {#            显示12h温度趋势图<br><br>#}
-        {##}
-        {#        </div>#}
+        {#        <br>{{ llsit }}#}
+        {#        <br>{{ dlist }}#}
         <script src={% static '/js/Chart.js' %}></script>
-        <canvas id="myChart" width="400" height="400"></canvas>
-        <script>
-            var ctx = document.getElementById("myChart");
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
+        <div class="weatherPic" style="width: 800px;">
+            <canvas id="tqlinechart"></canvas>
+        </div>
+        {% autoescape off %}
+            <script>
+                var ctx = document.getElementById("tqlinechart");
+                var chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: {{ llsit }},
+                            datasets: [
+                                {
+                                    label: "温度",
+                                    fill: false,
+                                    lineTension: 0.1,
+                                    backgroundColor: "rgba(75,192,192,0.4)",
+                                    borderColor: "rgba(75,192,192,1)",
+                                    borderCapStyle: 'butt',
+                                    borderDash: [],
+                                    borderDashOffset: 0.0,
+                                    borderJoinStyle: 'miter',
+                                    pointBorderColor: "rgba(75,192,192,1)",
+                                    pointBackgroundColor: "#fff",
+                                    pointBorderWidth: 1,
+                                    pointHoverRadius: 5,
+                                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                                    pointHoverBorderWidth: 2,
+                                    pointRadius: 1,
+                                    pointHitRadius: 10,
+                                    data: {{ dlist }},
+                                    spanGaps: false
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        min: {{ tmin }},
+                                        max: {{ tmax }},
+                                        fixedStepSize: 1
+                                    }
+                                }]
                             }
-                        }]
-                    }
-                }
-            });
-        </script>
+                        }
+                    })
+                ;
+            </script>
+        {% endautoescape %}
         <div class="suggestion">
-
             {% for k,v in suggest.items %}
                 {{ k }}：{{ v.0 }} <br/>
                 {{ v.1 }}<br/>
             {% endfor %}
-
-
         </div>
-
-
-
     {% else %}
         Something Happened!!!
     {% endifequal %}

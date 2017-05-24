@@ -104,6 +104,8 @@ def tq_update():
             now.vis = int(Jnow[u"vis"])
             now.wind_dir = Jnow[u"wind"][u"dir"]
             now.wind_sc = Jnow[u"wind"][u"sc"]
+            if not u'微' in now.wind_sc:
+                now.wind_sc += u'级'
             Jaqi = J[u"aqi"][u"city"]
             now.aqi = int(Jaqi[u"aqi"])
             now.aqi_str = Jaqi[u"qlty"]
@@ -114,20 +116,21 @@ def tq_update():
             for Jfore in Jfores:
                 fore = Realtime(city=city_str)
                 fore.time = datetime.strptime(Jfore[u"date"], forma).replace(tzinfo=LocalTimezone())
-                if now.time < fore.time:
-                    fore.cond = Jfore[u"cond"][u"txt"]
-                    fore.hum = -1
-                    fore.pres = -1
-                    fore.pcpn = -1
-                    fore.tmp = int(Jfore[u"tmp"])
-                    fore.vis = -1
-                    fore.wind_dir = Jfore[u"wind"][u"dir"]
-                    fore.wind_sc = Jfore[u"wind"][u"sc"]
-                    fore.aqi = -1
-                    fore.pm25 = -1
-                    fore.save()
+                fore.cond = Jfore[u"cond"][u"txt"]
+                fore.hum = -1
+                fore.pres = -1
+                fore.pcpn = -1
+                fore.tmp = int(Jfore[u"tmp"])
+                fore.vis = -1
+                fore.wind_dir = Jfore[u"wind"][u"dir"]
+                fore.wind_sc = Jfore[u"wind"][u"sc"]
+                if not u'微' in fore.wind_sc:
+                    fore.wind_sc += u'级'
+                fore.aqi = -1
+                fore.pm25 = -1
+                fore.save()
         cnt += 1
-        # print cnt, flag
+        print(cnt, flag)
     Timer(600, tq_update).start()
 
 
@@ -237,7 +240,7 @@ def pm25pred_update():
                 else:
                     pred.pm25 = -1
                 pred.save()
-            print(cnt, x)
+                # print(cnt, x)
     Timer(600, pm25pred_update).start()
 
 

@@ -44,15 +44,38 @@ def tq(request):
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
     city_note = CITYS_CN[city_str]
     try:
-        now = Realtime.objects.filter(city=city_str).earliest("time")
+        qset = Realtime.objects.filter(city=city_str)
+        now = qset[0]
         J = eval(str(now.suggestion))
         LABELS_CN = {u"comf": u"舒适指数", u"cw": u"洗车建议", u"drsg": u"穿衣建议", u"flu": u"感冒指数", u"sport": u"运动建议",
                      u"trav": u"旅游建议", u"uv": u"紫外线指数", u"air": u"空气指数"}
         suggest = {}
         for x in J:
             suggest[LABELS_CN[x]] = [J[x][u"brf"], J[x][u"txt"]]
+        llist = []
+        dlist = []
+        try:
+            llist.append(qset[1].time.hour)
+            dlist.append(qset[1].tmp)
+            for row in qset[2:]:
+                ltmp = llist[-1]
+                dtmp = dlist[-1]
+                llist.append(ltmp + 1)
+                dlist.append(dtmp * 2.0 / 3 + row.tmp * 1.0 / 3)
+                llist.append(ltmp + 2)
+                dlist.append(dtmp * 1.0 / 3 + row.tmp * 2.0 / 3)
+                llist.append(row.time.hour)
+                dlist.append(row.tmp)
+            llist = [str((x + 8) % 24) + u'时' for x in llist]
+            dlist = [round(x, 0) for x in dlist]
+            tmax, tmin = max(dlist), min(dlist)
+            tmax, tmin = tmax + (tmax - tmin) / 3.0, tmin - (tmax - tmin) / 3.0
+            tmax, tmin = int(tmax + 0.5), int(tmin)
+        except Exception as e:
+            pass
         return render(request, 'tq.html', {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note,
-                                           'now': now, 'suggest': suggest})
+                                           'now': now, 'llsit': llist, 'dlist': dlist, 'tmax': tmax,
+                                           'tmin': tmin, 'suggest': suggest})
     except Exception as e:
         print(e)
         return render(request, 'tq.html', {'status_note': u"BAD", 'city_str': city_str, 'city_note': city_note})
