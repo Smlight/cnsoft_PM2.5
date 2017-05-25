@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # 城市每小时PM2.5抽象类
@@ -114,3 +115,14 @@ class Daily(models.Model):
 
 class Forecast(Daily):
     pass
+
+
+# 用户扩展类
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, unique=True, verbose_name='user')
+    phone = models.CharField(max_length=20)
+    noNotice = models.BooleanField()
+    byPhone = models.BooleanField()
+    byEmail = models.BooleanField()
+
+

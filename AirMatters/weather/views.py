@@ -5,6 +5,7 @@ from django.shortcuts import render
 from weather.models import PMBeijing, PMShanghai, PMGuangzhou, PMShenzhen, PMHangzhou, PMTianjin, PMChengdu, PMNanjing, \
     PMXian, PMWuhan
 from weather.models import Realtime, Forecast
+from weather.models import UserProfile
 
 # CITYS_DB = {u'Beijing': Beijing, u'Shanghai': Shanghai, u'Guangzhou': Guangzhou, u'Shenzhen': Shenzhen,
 #             u'Hangzhou': Hangzhou, u'Tianjin': Tianjin, u'Chengdu': Chengdu, u'Nanjing': Nanjing, u'Xian': Xian,
@@ -19,8 +20,10 @@ CITYS_ID = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广�
             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'CN101190101', u'Xian': u'CN101110101', u'Wuhan': u'武汉'}
 
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.template import RequestContext
 
 
 def city_dete(city_str):
@@ -158,7 +161,7 @@ def pm25pred(request):
         return render(request, 'pm25pred.html', {'status_note': u"BAD", 'city_str': city_str, 'city_note': city_note})
 
 
-def login(request):
+def userlogin(request):
     if request.method == "post":
         username = request.POST.get("userName")
         userpwd = request.POST.get("userPwd")
@@ -169,7 +172,50 @@ def login(request):
     return render(request, 'login.html')
 
 
+def userlogout(request):
+    logout(request)
+    return render(request, 'login.html')
+
+
 def register(request):
+    errors = []
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('userName', '')
+            userpwd = request.POST.get('userPwd', '')
+            userpwd2 = request.POST.get('userPwd2', '')
+            userEmail = request.POST.get('userEmail', '')
+            userPhone = request.POST.get('userPhone', '')
+            notice = request.POST.get('noNotice', '')
+            byPhone = request.POST.get('byPhone', '')
+            byEmail = request.POST.get('byEmail', '')
+            if userpwd != userpwd2:
+                errors.append("两次输入的密码不一致!")
+                return render_to_response("register.html", RequestContext(request,
+                                                                          {'username': username, 'userEmail': userEmail,
+                                                                           'errors': errors}))
+            filterResult = User.objects.filter(username=username)
+            if len(filterResult) > 0:
+                errors.append("用户名已存在")
+                return render_to_response("register.html", RequestContext(request,
+                                                                          {'username': username, 'userEmail': userEmail,
+                                                                           'errors': errors}))
+            user = User()
+            user.username = username
+            user.set_password(userpwd)
+            user.email = userEmail
+            user.save()
+
+            profile = UserProfile()
+            profile.user_id = user.id
+            profile.phone = userPhone
+            profile.noNotice = notice
+            profile.byPhone = byPhone
+            profile.byEmail = byEmail
+            profile.save()
+    except Exception as e:
+        errors.append(str(e))
+        return render_to_response("register.html", RequestContext(request, {'errors': errors}))
     return render(request, 'register.html')
 
 
