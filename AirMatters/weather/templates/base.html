@@ -12,6 +12,7 @@
     <meta content="天气，天气预报，天气预报查询，天气预报查询一周" name="keywords">
     <meta name="applicable-device" content="pc">
     <link href="{% static '/css/global.css' %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static '/js/Popup.js' %}"></script>
 </head>
 
 
@@ -23,9 +24,116 @@
     当前用户为：
     {#            {% user.name %}#}
     {#            {% ifequal user.isLogin %}#}
-    <a href="/login" target="_blank">登录</a>
+    <a href="javascript:void(0)" id="LoginHref" onclick="login()">登录</a>
+
+    <div class="mini_login" id="mini_login">
+        <!-- 表单 -->
+        <form action="" method="post">
+            <div class="item firstLine" id="firstLine">
+                <span class="pop_title">登录</span>
+                <span class="login_close" id="close_minilogin">×</span>
+            </div>
+            <div class="loginContent">
+
+                <table>
+                    <tr>
+                        <td> 用户名：</td>
+                        <td><input type="text" name="userName"></td>
+                    </tr>
+                    <tr>
+
+                        <td>密码：</td>
+                        <td><input type="password" name="userPwd"></td>
+
+                    </tr>
+                </table>
+            </div>
+            {#            <br>#}
+            <input href="javascript:void(0)" type="button" class="btn_login" value=" 登录 ">
+
+            <input type="button" id="cancelLogin" value=" 取消 ">
+
+        </form>
+
+    </div>
+    <div class="cover"></div>
+
+
     <span class="pipe">|</span>
-    <a href="/register" target="_blank">注册</a>
+
+    <a href="javascript:void(0)" id="RegisterHref" onclick="register()">注册</a>
+
+    <div class="mini_register" id="mini_register">
+        <!-- 表单 -->
+        <form action="" method="post">
+            <div class="item firstLine" id="firstLine">
+                <span class="pop_title">注册</span>
+                <span class="register_close" id="close_miniregister">×</span>
+            </div>
+            <div class="registerContent">
+                <table>
+                    <tr>
+                        <td> 用户名：</td>
+                        <td><input type="text" name="userName"></td>
+                    </tr>
+                    <tr>
+
+                        <td>密码：</td>
+                        <td><input type="password" name="userPwd"></td>
+
+                    </tr>
+                    <tr>
+                        <td>重复密码：</td>
+                        <td><input type="password" name="userPwd2"></td>
+                        {#                    判断密码是否相同#}
+                    </tr>
+                    <tr>
+
+                        <td> 电子邮箱：</td>
+                        <td><input type="text" name="userEmail"></td>
+
+                    </tr>
+                    <tr>
+
+                        <td> 手机：</td>
+                        <td><input type="text" name="userPhone"></td>
+
+                    </tr>
+                    <tr>
+                        <td> 常用城市：</td>
+
+                        <td align="center"><select name="userCity">
+                            <option value="Beijing">北京</option>
+                            <option value="Shanghai">上海</option>
+                            <option value="Guangzhou">广州</option>
+                            <option value="Shenzhen">深圳</option>
+                            <option value="Hangzhou">杭州</option>
+                            <option value="Tianjing">天津</option>
+                            <option value="Chengdu">成都</option>
+                            <option value="Nanjing">南京</option>
+                            <option value="Xian">西安</option>
+                            <option value="Wuhan">武汉</option>
+                        </select></td>
+                    </tr>
+
+
+                </table>
+            </div>
+
+
+            想要收到通知的方式：
+            <input type="checkbox" name="byEmail">电子邮箱
+            <input type="checkbox" name="byPhone">手机
+            <input type="checkbox" name="noNotice">不想收到通知
+            <br>
+
+            <input type="button" class="btn_register" value=" 注册 ">
+
+            <input type="button" id="cancelRegister" value=" 取消 ">
+        </form>
+
+    </div>
+    <div class="cover"></div>
 
     {#            {% else %}#}
 
@@ -47,7 +155,7 @@
 
             <span class="logo">
 
-                <img alt="Logo"  height="90px" src="{% static '/images/logo.png' %}">
+                <img alt="Logo" height="90px" src="{% static '/images/logo.png' %}">
             </span>
         </div>
     </div><!-- /head_w -->
@@ -55,7 +163,7 @@
         <!-- nav_mod -->
         <div class="nav_mod">
             <ul>
-                <li >
+                <li>
                     <a {% ifequal request.path "/tq/" %}class="current" {% endifequal %}
                        href="/tq/?city={{ city_str }}"> 实时天气 </a>
                 </li>
@@ -69,7 +177,7 @@
                 </li>
                 <li>
                     <a {% ifequal request.path "/pm25pred/" %}class="current" {% endifequal %}
-                       href="/pm25pred/?city={{ city_str }}"> PM2.5实时预报 </a>
+                       href="/pm25pred/?city={{ city_str }}"> PM2.5预报 </a>
                 </li>
             </ul>
         </div>
@@ -136,6 +244,7 @@
         </div>
     </div>
 </div><!-- end of container-->
+
 
 </body>
 </html>

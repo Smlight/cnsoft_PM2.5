@@ -1,33 +1,23 @@
 {% load static %}
 <!DOCTYPE html>
-<!-- saved from url=(0023)http://tianqi.2345.com/ -->
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="Cache-Control" content="no-transform ">
-    <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible">
-    <title>注册</title>
-    <meta name="applicable-device" content="pc">
-    <link href="{% static '/css/global.css' %}" rel="stylesheet" type="text/css">
+    <title>js制作带有遮罩弹出层实现登录小窗口</title>
+
 </head>
-
-<body id="header" style="width: 1519px;padding-top: 100px">
-
-<div class="container" id="mainContainer">
-
-    <div class="wrap" id="wrap">
-
-        <div class="content">
+<body>
 
 
 
-            <form action="tq.html" method="post">
-                <table >
-                    <tr>
-                        <td >
-                            <h2>注册</h2>
-                        </td>
-                    </tr>
+<h1>该页面已废弃！</h1>
+
+<form action="" method="post">
+            <div class="item firstLine" id="firstLine">
+                <span class="pop_title">注册</span>
+                <span class="register_close" id="close_miniregister">×</span>
+            </div>
+            <div class="registerContent">
+                <table>
                     <tr>
                         <td> 用户名：</td>
                         <td><input type="text" name="userName"></td>
@@ -35,13 +25,13 @@
                     <tr>
 
                         <td>密码：</td>
-                        <td><input type="text" name="userPwd"></td>
+                        <td><input type="password" name="userPwd"></td>
 
                     </tr>
                     <tr>
                         <td>重复密码：</td>
                         <td><input type="password" name="userPwd2"></td>
-                        {#                判断密码是否相同#}
+                        {#                    判断密码是否相同#}
                     </tr>
                     <tr>
 
@@ -74,22 +64,19 @@
 
 
                 </table>
-
-                想要收到通知的方式：
-                <input type="checkbox" name="byEmail">电子邮箱
-                <input type="checkbox" name="byPhone">手机
-                <input type="checkbox" name="noNotice">不想收到通知
-                <br>
-                <input type="button" value="注册" name="submit">
-                <input type="button" value="取消" name="cancel">
-
-                {#                如果注册成功，user.isLogin置为TRUE#}
-            </form>
-        </div>
-    </div><!-- end of div.wrap-->
+            </div>
 
 
-</div><!-- end of container-->
+            想要收到通知的方式：
+            <input type="checkbox" name="byEmail">电子邮箱
+            <input type="checkbox" name="byPhone">手机
+            <input type="checkbox" name="noNotice">不想收到通知
+            <br>
+
+            <input type="button" class="btn_register" value=" 注册 ">
+
+            <input type="button" id="cancelRegister" value=" 取消 ">
+        </form>
 
 </body>
 </html>
