@@ -22,8 +22,13 @@
         </div>
         {#        <br>{{ llsit }}#}
         {#        <br>{{ dlist }}#}
+        <br>
         <script src={% static '/js/Chart.js' %}></script>
-        <div class="weatherPic" style="width: 800px;">
+        <div class="weatherPic" style="width: 900px;">
+            <div class="sixhpred">
+                六小时预报
+            </div>
+
             <canvas id="tqlinechart"></canvas>
         </div>
         {% autoescape off %}
@@ -46,11 +51,11 @@
                                     borderJoinStyle: 'miter',
                                     pointBorderColor: "rgba(75,192,192,1)",
                                     pointBackgroundColor: "#fff",
-                                    pointBorderWidth: 1,
-                                    pointHoverRadius: 5,
+                                    pointBorderWidth: 6,
+                                    pointHoverRadius: 6,
                                     pointHoverBackgroundColor: "rgba(75,192,192,1)",
                                     pointHoverBorderColor: "rgba(220,220,220,1)",
-                                    pointHoverBorderWidth: 2,
+                                    pointHoverBorderWidth: 3,
                                     pointRadius: 1,
                                     pointHitRadius: 10,
                                     data: {{ dlist }},
@@ -60,6 +65,7 @@
                         },
                         options: {
                             scales: {
+
                                 yAxes: [{
                                     ticks: {
                                         min: {{ tmin }},
@@ -73,12 +79,69 @@
                 ;
             </script>
         {% endautoescape %}
+        <r><br>
         <div class="suggestion">
-            {% for k,v in suggest.items %}
-                {{ k }}：{{ v.0 }} <br/>
-                {{ v.1 }}<br/>
-            {% endfor %}
+        <div class="sugTitle">生活建议</div>
+
+            <table >
+
+                <tr>
+                    <td>
+                        紫外线指数
+                        <br>
+                        {{ suggest.紫外线指数.0 }}
+                    </td>
+                      <td>
+                        感冒指数
+                          <br>
+                          {{ suggest.感冒指数.0 }}
+                    </td>
+                     <td>
+                        舒适指数
+                         <br>
+
+                        {{ suggest.舒适指数.0 }}
+                    </td>
+                      <td class="lastTd">
+                        穿衣
+                         <br>
+                         {{ suggest.穿衣建议.0}}
+                      </td>
+                </tr>
+                <tr>
+
+                    <td>
+                        运动
+                       <br>
+                        {{ suggest.运动建议.0 }}
+                    </td>
+                    <td>
+                        旅游
+                        <br>
+                        {{ suggest.旅游建议.0 }}
+                    </td>
+                    <td>
+                        洗车
+                        <br>
+                        {{ suggest.洗车建议.0 }}
+                    </td>
+                    <td class="lastTd">
+
+                        <br>
+
+                    </td>
+
+
+
+                </tr>
+            </table>
+
+
         </div>
+        {% for k,v in suggest.items %}
+            {{ k }}：{{ v.0 }} <br/>
+            {{ v.1 }}<br/>
+        {% endfor %}
     {% else %}
         Something Happened!!!
     {% endifequal %}

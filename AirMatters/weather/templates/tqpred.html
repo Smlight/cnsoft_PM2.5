@@ -7,21 +7,42 @@
         <img src="{% static '/images/pos.png' %}" style="width: 40px;">{{ city_note }}
     </div>
     <span class="time">更新于{{ time | date:"Y-m-d H:i:s" }}</span>
-    <p>
-    <ul>
-        {% for row in list %}
-            <li>
-                日期：{{ row.date | date:"Y-m-d" }}<br/>
-                最高温：{{ row.tmp_max }}<br/>
-                最低温：{{ row.tmp_min }}<br/>
-                降水量：{{ row.pcpn }}<br/>
-                压力：{{ row.pres }}<br/>
-                湿度：{{ row.hum }}<br/>
-                能见度：{{ row.vis }}<br/>
-                <br/>
-            </li>
-        {% endfor %}
-    </ul>
+
+    <br>
+    <br>
+    <div class="preWea">
+        <div class="preWeaTitle">
+            预报
+
+        </div>
+        <div class="preWeaInfo">
+            <table>
+                <tr>
+                    <td>日期</td>
+                    <td>最高温度</td>
+                    <td>最低温度</td>
+                    <td>降水量</td>
+                    <td>压力</td>
+                    <td>湿度</td>
+                    <td>能见度</td>
+                      
+                </tr>
+                {% for row in list %}
+                    <tr>
+                        <td>{{ row.date | date:"Y-m-d" }}</td>
+                        <td>{{ row.tmp_max }}℃</td>
+                        <td>{{ row.tmp_min }}℃</td>
+                        <td>{{ row.pcpn }}mm</td>
+                        <td>{{ row.pres }}hPa</td>
+                        <td>{{ row.hum }}%</td>
+                        <td>{{ row.vis }}km</td>
+
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
     {#    显示趋势图#}
-    </p>
+
 {% endblock %}

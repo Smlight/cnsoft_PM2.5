@@ -75,13 +75,58 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 
 .weatherPic {
     background-color: rgba(0, 0, 0, 0.5);
+    padding-left: 20px;
+    padding-top: 10px;
+
+}
+
+.sixhpred {
+    font-family: "Microsoft YaHei";
+    font-size: 20px;
+    color: white;
+
 }
 
 .suggestion {
-    font-family: "Microsoft YaHei";
-    font-size: 25px;
-    color: white;
+    width: 900px;
 
+    background-color: rgba(0, 0, 0, 0.5);
+
+}
+
+.sugTitle {
+    font-family: "Microsoft YaHei";
+    font-size: 20px;
+    color: white;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.suggestion table {
+    font-size: 17px;
+    width: 900px;
+    border-collapse: collapse;
+
+}
+
+.suggestion tr {
+
+    border-top: 1px solid rgba(255, 255, 255, 0.7);
+
+}
+
+.suggestion td {
+    border-right: 1px solid rgba(255, 255, 255, 0.7);
+    font-family: "Microsoft YaHei";
+    width: 200px;
+    height: 100px;
+    color: white;
+    text-align: center;
+}
+
+.suggestion .lastTd {
+    border-right: 0px;
 }
 
 .predtable {
@@ -93,6 +138,39 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 .predtable tr {
     border: solid 1px;
 
+}
+
+.preWea {
+     background-color: rgba(0, 0, 0, 0.3);
+
+}
+
+.preWeaTitle {
+    font-family: "Microsoft YaHei";
+    font-size: 20px;
+    color: white;
+    padding-left: 30px;
+    padding-top: 20px;
+}
+
+.preWeaInfo {
+
+    padding-right: 100px;
+    padding-left: 20px;
+    padding-top: 10px;
+    font-family: "Microsoft YaHei";
+
+}
+.preWeaInfo table {
+     border-top: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.preWeaInfo td {
+    width: 200px;
+    height: 100px;
+    font-size: 18px;
+    color: white;
+    text-align: center;
 }
 
 .user_nav {
@@ -194,7 +272,6 @@ input[type=button] {
 
 }
 
-
 /*登录界面*/
 .mini_login {
     display: none;
@@ -219,30 +296,29 @@ input[type=button] {
     font-size: 18px;
     font-weight: bold;
 
-
 }
+
 .mini_login .item .login_close {
     display: inline-block;
     float: right;
     cursor: pointer;
 }
-.mini_login form{
+
+.mini_login form {
     color: #666;
     /*background: white;*/
-     padding: 0px;
+    padding: 0px;
     margin: 0px;
 }
-.mini_login .loginContent{
+
+.mini_login .loginContent {
     padding-left: 50px;
 }
-
-
-
 
 /*注册弹窗*/
 .mini_register {
     display: none;
-    position:fixed;
+    position: fixed;
     z-index: 999;
     background: white;
 
@@ -263,25 +339,25 @@ input[type=button] {
     font-size: 18px;
     font-weight: bold;
 
-
 }
+
 .mini_register .item .register_close {
     display: inline-block;
     float: right;
     cursor: pointer;
 }
-.mini_register form{
+
+.mini_register form {
     color: #666;
     /*background: white;*/
-     padding: 0px;
+    padding: 0px;
     margin: 0px;
 
 }
-.mini_register .registerContent{
+
+.mini_register .registerContent {
     padding-left: 100px;
 }
-
-
 
 /* 遮罩层样式 */
 .cover {
