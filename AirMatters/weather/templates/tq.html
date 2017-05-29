@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block title %}实时天气{% endblock %}
 {% block content %}
 
@@ -17,8 +16,8 @@
         <div class="hum">
             湿度 {{ now.hum }}%
             <span class="wind">
-                {{ now.wind_dir }}&nbsp;{{ now.wind_sc }}
-            </span>
+                        {{ now.wind_dir }}&nbsp;{{ now.wind_sc }}
+                    </span>
         </div>
         {#        <br>{{ llsit }}#}
         {#        <br>{{ dlist }}#}
@@ -32,98 +31,191 @@
             <canvas id="tqlinechart"></canvas>
         </div>
         {% autoescape off %}
-            <script>
-                var ctx = document.getElementById("tqlinechart");
-                var chart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: {{ llsit }},
-                            datasets: [
-                                {
-                                    label: "温度",
-                                    fill: false,
-                                    lineTension: 0.1,
-                                    backgroundColor: "rgba(75,192,192,0.4)",
-                                    borderColor: "rgba(75,192,192,1)",
-                                    borderCapStyle: 'butt',
-                                    borderDash: [],
-                                    borderDashOffset: 0.0,
-                                    borderJoinStyle: 'miter',
-                                    pointBorderColor: "rgba(75,192,192,1)",
-                                    pointBackgroundColor: "#fff",
-                                    pointBorderWidth: 6,
-                                    pointHoverRadius: 6,
-                                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                                    pointHoverBorderColor: "rgba(220,220,220,1)",
-                                    pointHoverBorderWidth: 3,
-                                    pointRadius: 1,
-                                    pointHitRadius: 10,
-                                    data: {{ dlist }},
-                                    spanGaps: false
-                                }
-                            ]
-                        },
-                        options: {
-                            scales: {
-
-                                yAxes: [{
-                                    ticks: {
-                                        min: {{ tmin }},
-                                        max: {{ tmax }},
-                                        fixedStepSize: 1
-                                    }
-                                }]
+        <script>
+            var ctx = document.getElementById("tqlinechart");
+            var chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: {{ llsit }},
+                        datasets: [
+                            {
+                                label: "温度",
+                                fill: false,
+                                lineTension: 0.1,
+                                backgroundColor: "rgba(75,192,192,0.4)",
+                                borderColor: "rgba(75,192,192,1)",
+                                borderCapStyle: 'butt',
+                                borderDash: [],
+                                borderDashOffset: 0.0,
+                                borderJoinStyle: 'miter',
+                                pointBorderColor: "rgba(75,192,192,1)",
+                                pointBackgroundColor: "#fff",
+                                pointBorderWidth: 6,
+                                pointHoverRadius: 6,
+                                pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                                pointHoverBorderColor: "rgba(220,220,220,1)",
+                                pointHoverBorderWidth: 3,
+                                pointRadius: 1,
+                                pointHitRadius: 10,
+                                data: {{ dlist }},
+                                spanGaps: false
                             }
-                        }
-                    })
-                ;
-            </script>
-        {% endautoescape %}
-        <r><br>
-        <div class="suggestion">
-        <div class="sugTitle">生活建议</div>
+                        ]
+                    },
+                    options: {
+                        scales: {
 
-            <table >
+                            yAxes: [{
+                                ticks: {
+                                    min: {{ tmin }},
+                                    max: {{ tmax }},
+                                    fixedStepSize: 1
+                                }
+                            }]
+                        }
+                    }
+                })
+            ;
+        </script>
+        {% endautoescape %}
+        <br><br>
+        <div class="suggestion">
+            <div class="sugTitle">生活建议</div>
+
+            <table>
 
                 <tr>
-                    <td>
+
+                    <script>
+{#                        修改显示的代码#}
+                        function zwxOver(obj) {
+                            obj.innerHTML = "{{ suggest.紫外线指数.1  }}";
+                            obj.style.fontSize = "15px";
+                        }
+                        function zwxOut(obj) {
+                            obj.innerHTML = "紫外线指数 <br> {{ suggest.紫外线指数.0 }}"
+                            obj.style.fontSize = "17px";
+                        }
+
+                        function gmOver(obj) {
+                            obj.innerHTML = "{{ suggest.感冒指数.1  }}";
+                            obj.style.fontSize = "15px";
+                        }
+                        function gmOut(obj) {
+                            obj.innerHTML = "感冒指数 <br> {{ suggest.感冒指数.0 }}"
+                            obj.style.fontSize = "17px";
+                        }
+
+                        function ssOver(obj) {
+                            obj.innerHTML = "{{ suggest.舒适指数.1  }}";
+                            obj.style.fontSize = "15px";
+                        }
+                        function ssOut(obj) {
+                            obj.innerHTML = "舒适指数 <br> {{ suggest.舒适指数.0 }}"
+                            obj.style.fontSize = "17px";
+                        }
+
+                        function cyOver(obj) {
+                            obj.innerHTML = "{{ suggest.穿衣建议.1  }}";
+                            obj.style.fontSize = "15px";
+                        }
+                        function cyOut(obj) {
+                            obj.innerHTML = "穿衣建议 <br> {{ suggest.穿衣建议.0 }}"
+                            obj.style.fontSize = "17px";
+                        }
+
+                        function ydOver(obj) {
+                            obj.innerHTML = "{{ suggest.运动建议.1  }}";
+                            obj.style.fontSize = "15px";
+                        }
+                        function ydOut(obj) {
+                            obj.innerHTML = "运动建议 <br> {{ suggest.运动建议.0 }}"
+                            obj.style.fontSize = "17px";
+                        }
+
+                        function lyOver(obj) {
+                            obj.innerHTML = "{{ suggest.旅游建议.1  }}";
+                            obj.style.fontSize = "15px";
+                        }
+                        function lyOut(obj) {
+                            obj.innerHTML = "旅游建议 <br> {{ suggest.旅游建议.0 }}"
+                            obj.style.fontSize = "17px";
+                        }
+
+                        function xcOver(obj) {
+                            obj.innerHTML = "{{ suggest.洗车建议.1  }}";
+                            obj.style.fontSize = "15px";
+                        }
+                        function xcOut(obj) {
+                            obj.innerHTML = "洗车建议 <br> {{ suggest.洗车建议.0 }}"
+                            obj.style.fontSize = "17px";
+                        }
+
+
+                    </script>
+                    <td class="sugPics">
+                        <img src="{% static '/images/zwx.png' %}" style="width: 40px;">
+                    </td>
+                    <td onmouseover="zwxOver(this)" onmouseout="zwxOut(this)">
                         紫外线指数
                         <br>
                         {{ suggest.紫外线指数.0 }}
                     </td>
-                      <td>
-                        感冒指数
-                          <br>
-                          {{ suggest.感冒指数.0 }}
+
+
+                    <td class="sugPics">
+                        <img src="{% static '/images/gm.png' %}" style="width: 40px;">
                     </td>
-                     <td>
+                    <td onmouseover="gmOver(this)" onmouseout="gmOut(this)">
+                        感冒指数
+                        <br>
+                        {{ suggest.感冒指数.0 }}
+                    </td>
+                    <td class="sugPics">
+                        <img src="{% static '/images/ss.png' %}" style="width: 40px;">
+                    </td>
+                    <td onmouseover="ssOver(this)" onmouseout="ssOut(this)">
                         舒适指数
-                         <br>
+                        <br>
 
                         {{ suggest.舒适指数.0 }}
                     </td>
-                      <td class="lastTd">
-                        穿衣
-                         <br>
-                         {{ suggest.穿衣建议.0}}
-                      </td>
+                    <td class="sugPics">
+                        <img src="{% static '/images/cy.png' %}" style="width: 40px;">
+                    </td>
+                    <td class="lastTd" onmouseover="cyOver(this)" onmouseout="cyOut(this)">
+                        穿衣建议
+                        <br>
+                        {{ suggest.穿衣建议.0}}
+                    </td>
                 </tr>
                 <tr>
-
-                    <td>
-                        运动
-                       <br>
+                    <td class="sugPics">
+                        <img src="{% static '/images/yd.png' %}" style="width: 40px;">
+                    </td>
+                    <td onmouseover="ydOver(this)" onmouseout="ydOut(this)">
+                        运动建议
+                        <br>
                         {{ suggest.运动建议.0 }}
                     </td>
-                    <td>
-                        旅游
+                    <td class="sugPics">
+                        <img src="{% static '/images/ly.png' %}" style="width: 40px;">
+                    </td>
+                    <td onmouseover="lyOver(this)" onmouseout="lyOut(this)">
+                        旅游建议
                         <br>
                         {{ suggest.旅游建议.0 }}
                     </td>
-                    <td>
-                        洗车
+                    <td class="sugPics">
+                        <img src="{% static '/images/xc.png' %}" style="width: 40px;">
+                    </td>
+                    <td onmouseover="xcOver(this)" onmouseout="xcOut(this)">
+                        洗车建议
                         <br>
                         {{ suggest.洗车建议.0 }}
+                    </td>
+                    <td class="sugPics">
+
                     </td>
                     <td class="lastTd">
 
@@ -131,19 +223,13 @@
 
                     </td>
 
-
-
                 </tr>
             </table>
 
 
         </div>
-        {% for k,v in suggest.items %}
-            {{ k }}：{{ v.0 }} <br/>
-            {{ v.1 }}<br/>
-        {% endfor %}
     {% else %}
-        Something Happened!!!
+    Something Happened!!!
     {% endifequal %}
 
-{% endblock %}
+    {% endblock %}

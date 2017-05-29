@@ -119,10 +119,16 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 .suggestion td {
     border-right: 1px solid rgba(255, 255, 255, 0.7);
     font-family: "Microsoft YaHei";
-    width: 200px;
-    height: 100px;
+    width: 100px;
+    height: 150px;
     color: white;
+}
+.suggestion  .sugPics {
     text-align: center;
+    width: 50px;
+    border-right: 0px;
+
+
 }
 
 .suggestion .lastTd {
@@ -162,9 +168,13 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 
 }
 .preWeaInfo table {
-     border-top: 1px solid rgba(255, 255, 255, 0.7);
+     /*border-top: 1px solid rgba(255, 255, 255, 0.7);*/
+    border-collapse: collapse;
 }
 
+.preWeaInfo tr {
+     border-top: 1px solid rgba(255, 255, 255, 0.7);
+}
 .preWeaInfo td {
     width: 200px;
     height: 100px;
@@ -172,6 +182,8 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
     color: white;
     text-align: center;
 }
+
+
 
 .user_nav {
     font-size: 15px;
