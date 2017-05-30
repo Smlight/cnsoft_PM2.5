@@ -11,7 +11,7 @@
     <link href="{% static '/css/global.css' %}" rel="stylesheet" type="text/css">
 </head>
 
-<body id="header" style="width: 1519px;padding-top: 200px">
+<body id="header"  background="{% static '/images/back.png' %}" style="background-attachment :fixed;padding-top: 210px;" >
 
 <div class="container" id="mainContainer">
 
@@ -41,7 +41,28 @@
             </form>
 
         </div>
+
     </div><!-- end of div.wrap-->
+    <div class="footer">
+        <div class="wp">
+            <p class="p1">
+
+                <a rel="nofollow" class="f_steer" href="/suggest"
+                   target="_blank">意见反馈</a>
+                <span class="pipe">|</span>
+
+                <a rel="nofollow" class="f_steer" href="mailto:zy-140@163.com"
+                >联系我们</a>
+                <span class="pipe">|</span>
+                <a rel="nofollow" class="f_steer" href="/tq/?city={{ city_str }}"
+                   target="_self">返回首页</a>
+
+            </p>
+            <p class="p2">
+                <span class="copyright">版权所有&nbsp;&#169;&nbsp;</span>
+            </p>
+        </div>
+    </div>
 
 
 </div><!-- end of container-->
