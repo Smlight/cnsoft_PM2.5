@@ -72,7 +72,7 @@ def tq(request):
             llist = [str((x + 8) % 24) + u'时' for x in llist]
             dlist = [round(x, 0) for x in dlist]
             tmax, tmin = max(dlist), min(dlist)
-            tmp = int((tmax - tmin) / 3.0 + 0.5)
+            tmp = max(int((tmax - tmin) / 3.0 + 0.5), 1)
             tmax, tmin = tmax + tmp, tmin - tmp
         except Exception as e:
             pass
