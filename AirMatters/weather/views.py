@@ -72,8 +72,8 @@ def tq(request):
             llist = [str((x + 8) % 24) + u'时' for x in llist]
             dlist = [round(x, 0) for x in dlist]
             tmax, tmin = max(dlist), min(dlist)
-            tmax, tmin = tmax + (tmax - tmin) / 3.0, tmin - (tmax - tmin) / 3.0
-            tmax, tmin = int(tmax + 0.5), int(tmin)
+            tmp = int((tmax - tmin) / 3.0 + 0.5)
+            tmax, tmin = tmax + tmp, tmin - tmp
         except Exception as e:
             pass
         return render(request, 'tq.html', {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note,
