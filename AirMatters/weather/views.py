@@ -11,8 +11,6 @@ from weather.models import UserProfile
 #             u'Hangzhou': Hangzhou, u'Tianjin': Tianjin, u'Chengdu': Chengdu, u'Nanjing': Nanjing, u'Xian': Xian,
 #             u'Wuhan': Wuhan}
 
-import requests
-import time
 
 CITYS_CN = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'南京', u'Xian': u'西安', u'Wuhan': u'武汉'}
@@ -24,6 +22,7 @@ from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.template import RequestContext
+from django.views.decorators.csrf import csrf_protect
 
 
 def city_dete(city_str):
@@ -177,6 +176,7 @@ def userlogout(request):
     return render(request, 'login.html')
 
 
+@csrf_protect
 def register(request):
     errors = []
     try:
@@ -191,31 +191,37 @@ def register(request):
             byEmail = request.POST.get('byEmail', '')
             if userpwd != userpwd2:
                 errors.append("两次输入的密码不一致!")
-                return render_to_response("register.html", RequestContext(request,
-                                                                          {'username': username, 'userEmail': userEmail,
-                                                                           'errors': errors}))
+                return render(request, "register.html",
+                              {'username': username, 'userEmail': userEmail, 'errors': errors})
+
             filterResult = User.objects.filter(username=username)
             if len(filterResult) > 0:
                 errors.append("用户名已存在")
-                return render_to_response("register.html", RequestContext(request,
-                                                                          {'username': username, 'userEmail': userEmail,
-                                                                           'errors': errors}))
+                return render(request, "register.html",
+                              {'username': username, 'userEmail': userEmail, 'errors': errors})
             user = User()
             user.username = username
             user.set_password(userpwd)
             user.email = userEmail
             user.save()
-
-            profile = UserProfile()
-            profile.user_id = user.id
+            profile = UserProfile.objects.get(user_id=user.id)
             profile.phone = userPhone
-            profile.noNotice = notice
-            profile.byPhone = byPhone
-            profile.byEmail = byEmail
+            if notice != "on":
+                if byPhone != "on":
+                    profile.byPhone = False
+                else:
+                    profile.byPhone = True
+                if byEmail != "on":
+                    profile.byEmail = False
+                else:
+                    profile.byEmail = True
+            else:
+                profile.noNotice = True
             profile.save()
     except Exception as e:
+        print(e)
         errors.append(str(e))
-        return render_to_response("register.html", RequestContext(request, {'errors': errors}))
+        return render(request, "register.html", {'errors': errors})
     return render(request, 'register.html')
 
 

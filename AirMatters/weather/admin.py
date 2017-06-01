@@ -4,6 +4,7 @@ from weather.models import PMBeijing, PMShanghai, PMGuangzhou, PMShenzhen, PMHan
 from weather.models import Realtime, Forecast
 from weather.models import UserProfile
 from django.contrib.auth.models import User
+from django.contrib import admin
 
 # Register your models here.
 
@@ -21,15 +22,17 @@ admin.site.register(PMWuhan)
 admin.site.register(Realtime)
 admin.site.register(Forecast)
 
+admin.site.register(UserProfile)
+
 
 # Register your models here.
 class ProfileInline(admin.StackedInline):
     model = UserProfile
-    verbose_name = 'profile'
+    max_num = 1
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    inlines = (ProfileInline,)
+    inlines = (ProfileInline, )
 
 admin.site.unregister(User)
 admin.site.register(User, UserProfileAdmin)

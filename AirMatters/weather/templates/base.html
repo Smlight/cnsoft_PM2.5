@@ -28,7 +28,8 @@
 
     <div class="mini_login" id="mini_login">
         <!-- 表单 -->
-        <form action="" method="post">
+        <form action="/userlogin/" method="post">
+            {% csrf_token %}
             <div class="item firstLine" id="firstLine">
                 <span class="pop_title">登录</span>
                 <span class="login_close" id="close_minilogin">×</span>
@@ -49,7 +50,7 @@
                 </table>
             </div>
             {#            <br>#}
-            <input href="javascript:void(0)" type="button" class="btn_login" value=" 登录 ">
+            <input href="javascript:void(0)" type="submit" class="btn_login" value=" 登录 ">
 
             <input type="button" id="cancelLogin" value=" 取消 ">
 
@@ -65,8 +66,9 @@
 
     <div class="mini_register" id="mini_register">
         <!-- 表单 -->
-        <form action="" method="post">
-            <div class="item firstLine" id="firstLine">
+        <form action="/register/" method="post">
+            {% csrf_token %}
+            <div class="item firstLine" id="AtFirstLine">
                 <span class="pop_title">注册</span>
                 <span class="register_close" id="close_miniregister">×</span>
             </div>
@@ -127,7 +129,7 @@
             <input type="checkbox" name="noNotice">不想收到通知
             <br>
 
-            <input type="button" class="btn_register" value=" 注册 ">
+            <input type="submit"  class="btn_register" id="register" value=" 注册 ">
 
             <input type="button" id="cancelRegister" value=" 取消 ">
         </form>

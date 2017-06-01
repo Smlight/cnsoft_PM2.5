@@ -127,3 +127,5 @@ ADMINS = (
     ('Shiwei Zhang', '2074638138@qq.com'),
     ('Jing Hong', '674958229@qq.com')
 )
+
+AUTH_PROFILE_MODULE = 'weather.UserProfile'

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.db.models.signals import post_save
 
 # 城市每小时PM2.5抽象类
 class CHPM25(models.Model):
@@ -119,10 +119,22 @@ class Forecast(Daily):
 
 # 用户扩展类
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, unique=True, verbose_name='user')
-    phone = models.CharField(max_length=20)
-    noNotice = models.BooleanField()
-    byPhone = models.BooleanField()
-    byEmail = models.BooleanField()
+    user = models.OneToOneField(User)
+    phone = models.CharField(max_length=20, default='0')
+    noNotice = models.BooleanField(default=False)
+    byPhone = models.BooleanField(default=False)
+    byEmail = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.user.username
+
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        profile = UserProfile()
+        profile.user = instance
+        profile.save()
+
+post_save.connect(create_user_profile, sender=User)
 
 
