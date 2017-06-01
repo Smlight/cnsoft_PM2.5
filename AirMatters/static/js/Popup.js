@@ -2,7 +2,8 @@
  * Created by Administrator on 2017/5/28.
  */
 function login(){
-    document.getElementById("LoginHref").onclick = showMinLogin;
+    //document.getElementById("LoginHref").onclick = showMinLogin;
+    showMinLogin();
     document.getElementById("close_minilogin").onclick = closeLogin;
     document.getElementById("cancelLogin").onclick = closeLogin;
     /* 显示登录窗口 */
@@ -28,10 +29,11 @@ function login(){
 }
 
 function register(){
-    document.getElementById("RegisterHref").onclick = showMinRegister;
+    // document.getElementById("RegisterHref").onclick = showMinRegister;
+    showMinRegister();
     document.getElementById("close_miniregister").onclick = closeRegister;
      document.getElementById("cancelRegister").onclick = closeRegister;
-    /* 显示登录窗口 */
+    /* 显示注册窗口 */
     function showMinRegister(){
         var mini_register= document.getElementsByClassName("mini_register")[0];
         var cover = document.getElementsByClassName("cover")[0];
@@ -43,7 +45,7 @@ function register(){
         cover.style.position = "fixed";
     }
 
-    /* 关闭登录窗口 */
+    /* 关闭注册窗口 */
     function closeRegister(){
         var mini_register = document.getElementsByClassName("mini_register")[0];
         var cover = document.getElementsByClassName("cover")[0];

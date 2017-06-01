@@ -161,13 +161,19 @@ def pm25pred(request):
 
 
 def userlogin(request):
-    if request.method == "post":
-        username = request.POST.get("userName")
-        userpwd = request.POST.get("userPwd")
-        user = authenticate(username=username, password=userpwd)
-        if user:
-            login(request, user)
-            return redirect('/noticeWay.html')
+    try:
+        if request.method == 'POST':
+            username = request.POST.get("userName")
+            userpwd = request.POST.get("userPwd")
+            print(username)
+            print(userpwd)
+            user = authenticate(username=username, password=userpwd)
+            if user:
+                login(request, user)
+                return render(request, 'noticeWay.html')
+    except Exception as e:
+        print(e)
+        return render(request, 'login.html')
     return render(request, 'login.html')
 
 
