@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
+
 # 城市每小时PM2.5抽象类
 class CHPM25(models.Model):
     time = models.DateTimeField()  # 时间
@@ -32,40 +33,22 @@ class HPM25(models.Model):
 # PM2.5天气具体类，共十个城市
 class PMBeijing(HPM25):  # 北京
     pass
-
-
 class PMShanghai(HPM25):  # 上海
     pass
-
-
 class PMGuangzhou(HPM25):  # 广州
     pass
-
-
 class PMShenzhen(HPM25):  # 深圳
     pass
-
-
 class PMHangzhou(HPM25):  # 杭州
     pass
-
-
 class PMTianjin(HPM25):  # 天津
     pass
-
-
 class PMChengdu(HPM25):  # 成都
     pass
-
-
 class PMNanjing(HPM25):  # 南京
     pass
-
-
 class PMXian(HPM25):  # 西安
     pass
-
-
 class PMWuhan(HPM25):  # 武汉
     pass
 
@@ -135,6 +118,5 @@ def create_user_profile(sender, instance, created, **kwargs):
         profile.user = instance
         profile.save()
 
+
 post_save.connect(create_user_profile, sender=User)
-
-

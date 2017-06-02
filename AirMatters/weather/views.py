@@ -120,16 +120,15 @@ def pm25(request):
         return HttpResponseRedirect(request.path + '?city=' + ncity_str)
     city_note = CITYS_CN[city_str]
     try:
-        nowdb = CITYS_PMDB[city_str]
-        now = Realtime.objects.filter(city=city_str).earliest("time")
-        rightTime = nowdb.objects.earliest("time").time
-        qset = nowdb.objects.filter(timeSlot=0)
-        l = []
-        for r in qset:
-            l.append(r)
+        llist = []
+        dlist = []
+        for k, v in CITYS_CN.items():
+            now = Realtime.objects.filter(city=k).earliest("time")
+            llist.append(v)
+            dlist.append(now.pm25)
         return render(request, 'pm25.html',
-                      {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'now': now,
-                       'time': rightTime, 'list': l})
+                      {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'llist': llist,
+                       'dlist': dlist})
     except Exception as e:
         print(e)
         return render(request, 'pm25.html', {'status_note': u"BAD", 'city_str': city_str, 'city_note': city_note})

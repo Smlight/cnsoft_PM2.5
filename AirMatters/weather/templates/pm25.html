@@ -1,24 +1,62 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}实时PM2.5{% endblock %}
+{% block title %}各城市PM2.5对比{% endblock %}
 {% block content %}
     {% ifequal status_note 'OK' %}
-        <div class="city">
-            <img src="{% static '/images/pos.png' %}" style="width: 40px;">{{ city_note }}
+        <script src={% static '/js/Chart.js' %}></script>
+        <div class="pm25Pic" style="width: 900px;">
+            <canvas id="pm25barchart"></canvas>
         </div>
-        <span class="time">更新于{{ time | date:"Y-m-d H:i:s" }}</span>
-        <p>
-            PM2.5：{{ now.pm25 }} <br/>
-            能见度：{{ now.vis }} <br/>
-            AQI：{{ now.aqi }} {{ now.aqi_str }} <br/>
-            显示趋势图<br><br>
-            {% for row in list %}
-                站点：{{ row.station }} &nbsp;
-                PM2.5：{{ row.pm25 }}
-                <br/>
-            {% endfor %}
-        </p>
+        {% autoescape off %}
+            <script>
+                var ctx = document.getElementById("pm25barchart").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'horizontalBar',
+                    data: {
+                        labels: {{ llist }},
+                        datasets: [{
+                            label: '平均PM2.5',
+                            data: {{ dlist }},
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            </script>
+        {% endautoescape %}
     {% else %}
         粗问题辣，啥都木有。
     {% endifequal %}
