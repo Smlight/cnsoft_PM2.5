@@ -107,6 +107,7 @@ class UserProfile(models.Model):
     noNotice = models.BooleanField(default=False)
     byPhone = models.BooleanField(default=False)
     byEmail = models.BooleanField(default=False)
+    userCity = models.CharField(max_length=20, default='0')
 
     def __unicode__(self):
         return self.user.username

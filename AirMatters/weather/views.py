@@ -207,6 +207,7 @@ def register(request):
             notice = request.POST.get('noNotice', '')
             byPhone = request.POST.get('byPhone', '')
             byEmail = request.POST.get('byEmail', '')
+            userCity = request.POST.get('userCity', '')
             username = checkregi(username, userpwd, userpwd2)
 
             user = User()
@@ -216,6 +217,7 @@ def register(request):
             user.save()
             profile = UserProfile.objects.get(user_id=user.id)
             profile.phone = userPhone
+            profile.userCity = userCity
             if notice != "on":
                 if byPhone != "on":
                     profile.byPhone = False
@@ -238,10 +240,58 @@ def register(request):
 
 
 def password(request):
+    if request.method == 'POST':
+        try:
+            username = request.user.username
+            oldPwd = request.POST.get('userPwd')
+            newPwd1 = request.POST.get('userNewPwd')
+            newPwd2 = request.POST.get('userNewPwd2')
+            user = authenticate(username=username, password=oldPwd)
+            if user:
+                if newPwd1 == newPwd2:
+                    u = User.objects.get(username=username)
+                    u.set_password(newPwd1)
+                    u.save()
+                else:
+                    raise Exception('两次输入的新密码不一致')
+            else:
+                raise Exception('原密码错误')
+        except Exception as e:
+            print(e)
     return render(request, 'password.html')
 
 
 def noticeWay(request):
+    if request.method == 'POST':
+        try:
+            phone = request.POST.get('phone')
+            email = request.POST.get('email')
+            notice = request.POST.get('noNotice')
+            byPhone = request.POST.get('byPhone')
+            byEmail = request.POST.get('byEmail')
+            userCity = request.POST.get('userCity')
+
+            username = request.user.username
+            user = User.objects.get(username=username)
+            profile = UserProfile.objects.get(user_id=user.id)
+            profile.userCity = userCity
+            if phone:
+                profile.phone = phone
+            if email:
+                user.email = email
+            if notice == 'on':
+                profile.noNotice = True
+                profile.byEmail = False
+                profile.byPhone = False
+            else:
+                if byEmail:
+                    profile.byEmail = True
+                if byPhone:
+                    profile.byPhone = True
+            user.save()
+            profile.save()
+        except Exception as e:
+            print(e)
     return render(request, 'noticeWay.html')
 
 
