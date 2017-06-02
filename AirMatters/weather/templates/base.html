@@ -8,7 +8,7 @@
     <meta http-equiv="Cache-Control" content="no-transform ">
     <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible">
     <title>{% block title %}{% endblock %}</title>
-    <meta content="今日天气、明日天气和未来几天的气象报告，并且为用户提供生活指数、健康指数、交通指数、旅游指数，及各类天气预报资讯" name="description">
+    <meta content="今日天气、明日天气和未来几天的气象报告，并且为用户提供生活指数、健康指数、旅游指数，及各类天气预报资讯" name="description">
     <meta content="天气，天气预报，天气预报查询，天气预报查询一周" name="keywords">
     <meta name="applicable-device" content="pc">
     <link href="{% static '/css/global.css' %}" rel="stylesheet" type="text/css">
@@ -21,15 +21,25 @@
 <body id="header" background="{% static '/images/back.png' %}" style="background-attachment :fixed">
 
 <div class="user_nav">
-    当前用户为：
-    {#            {% user.name %}#}
-    {#            {% ifequal user.isLogin %}#}
-    <a href="javascript:void(0)" id="LoginHref" onclick="login()">登录</a>
+
+    {% if user.is_authenticated %}
+        当前用户为：{{ user.username }}
+        <div class="cover"></div>
+        <a href="/password">个人中心</a>
+        <span class="pipe">|</span>
+        <a href="/userlogout">退出登录</a>
+    {% else %}
+        <a href="javascript:void(0)" id="LoginHref" onclick="login()">登录</a>
+        <span class="pipe">|</span>
+        <a href="javascript:void(0)" id="RegisterHref" onclick="register()">注册</a>
+        <div class="cover"></div>
+    {% endif %}
 
     <div class="mini_login" id="mini_login">
         <!-- 表单 -->
         <form action="/userlogin/" method="post">
             {% csrf_token %}
+            <input type="hidden" name="forw" value="{{ request.get_full_path }}">
             <div class="item firstLine" id="firstLine">
                 <span class="pop_title">登录</span>
                 <span class="login_close" id="close_minilogin">×</span>
@@ -51,23 +61,15 @@
             </div>
             {#            <br>#}
             <button href="javascript:void(0)" type="submit" class="btn_login" value=" submit ">提交</button>
-
             <button type="reset" id="cancelLogin" value=" cancel ">取消</button>
-
         </form>
-
     </div>
-    <div class="cover"></div>
-
-
-    <span class="pipe">|</span>
-
-    <a href="javascript:void(0)" id="RegisterHref" onclick="register()">注册</a>
-
     <div class="mini_register" id="mini_register">
+        {{ request.session.error }}
         <!-- 表单 -->
         <form action="/register/" method="post">
             {% csrf_token %}
+            <input type="hidden" name="forw" value="/noticeWay">
             <div class="item firstLine" id="AtFirstLine">
                 <span class="pop_title">注册</span>
                 <span class="register_close" id="close_miniregister">×</span>
@@ -103,7 +105,6 @@
                     </tr>
                     <tr>
                         <td> 常用城市：</td>
-
                         <td align="center"><select name="userCity">
                             <option value="Beijing">北京</option>
                             <option value="Shanghai">上海</option>
@@ -117,46 +118,25 @@
                             <option value="Wuhan">武汉</option>
                         </select></td>
                     </tr>
-
-
                 </table>
             </div>
-
 
             想要收到通知的方式：
             <input type="checkbox" name="byEmail">电子邮箱
             <input type="checkbox" name="byPhone">手机
             <input type="checkbox" name="noNotice">不想收到通知
             <br>
-
-            <button type="submit"  class="btn_register" id="register" value="submit">注册</button>
-
+            <button type="submit" class="btn_register" id="register" value="submit">注册</button>
             <button type="reset" id="cancelRegister" value="cancel">取消</button>
         </form>
-
     </div>
-    <div class="cover"></div>
-
-    {#            {% else %}#}
-
-    <a href="/password" target="_blank">信息管理</a>
-    <span class="pipe">|</span>
-
-    <a href="" onclick="alert('退出登录成功!')">退出登录</a>
-    {#            {% endifequal %}#}
-    {#        注释的内容为判断用户是否登录的语句 变量补全后可不用注释#}
-    {#            退出登录方式为弹窗告知退出 然后将user.isLogin置False#}
 
 </div>
 
 <div class="container" id="mainContainer">
     <div class="head_w">
-
-
         <div class="head">
-
             <span class="logo">
-
                 <img alt="Logo" height="90px" src="{% static '/images/logo.png' %}">
             </span>
         </div>
@@ -175,11 +155,11 @@
                 </li>
                 <li>
                     <a {% ifequal request.path "/pm25/" %}class="current" {% endifequal %}
-                       href="/pm25/?city={{ city_str }}"> 实时PM2.5 </a>
+                       href="/pm25/?city={{ city_str }}"> 各城市PM2.5对比 </a>
                 </li>
                 <li>
                     <a {% ifequal request.path "/pm25pred/" %}class="current" {% endifequal %}
-                       href="/pm25pred/?city={{ city_str }}"> PM2.5预报 </a>
+                       href="/pm25pred/?city={{ city_str }}"> 实时PM2.5及预报 </a>
                 </li>
             </ul>
         </div>
@@ -225,25 +205,22 @@
         </div>
     </div><!-- end of div.wrap-->
     <br>
-<br>
-<br>
-<br>
-<br>
-<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
     <div class="footer">
         <div class="wp">
             <p class="p1">
 
-                <a rel="nofollow" class="f_steer" href="/suggest"
-                   target="_blank">意见反馈</a>
+                <a rel="nofollow" class="f_steer" href="/suggest" target="_blank">意见反馈</a>
                 <span class="pipe">|</span>
 
-                <a rel="nofollow" class="f_steer" href="mailto:zy-140@163.com"
-                >联系我们</a>
+                <a rel="nofollow" class="f_steer" href="mailto:zy-140@163.com">联系我们</a>
                 <span class="pipe">|</span>
-                <a rel="nofollow" class="f_steer" href="/tq/?city={{ city_str }}"
-                   target="_self">返回首页</a>
+                <a rel="nofollow" class="f_steer" href="/tq/?city={{ city_str }}" target="_self">返回首页</a>
 
             </p>
             <p class="p2">
@@ -252,7 +229,6 @@
         </div>
     </div>
 </div><!-- end of container-->
-
 
 
 </body>

@@ -17,12 +17,12 @@ CITYS_CN = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广�
 CITYS_ID = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'CN101190101', u'Xian': u'CN101110101', u'Wuhan': u'武汉'}
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def city_dete(city_str):
@@ -161,32 +161,45 @@ def pm25pred(request):
 
 
 def userlogin(request):
-    try:
-        if request.method == 'POST':
+    if request.method == 'POST':
+        try:
             username = request.POST.get("userName")
             userpwd = request.POST.get("userPwd")
-            print(username)
-            print(userpwd)
+            # print(username)
+            # print(userpwd)
             user = authenticate(username=username, password=userpwd)
             if user:
                 login(request, user)
-                return render(request, 'noticeWay.html')
-    except Exception as e:
-        print(e)
-        return render(request, 'login.html')
-    return render(request, 'login.html')
+        except Exception as e:
+            print(e)
+        return HttpResponseRedirect(request.POST.get('forw', '/tq/'))
+    else:
+        return Http404
 
 
 def userlogout(request):
     logout(request)
-    return render(request, 'login.html')
+    return HttpResponseRedirect('/tq/')
+
+
+def checkregi(username, userpwd, userpwd2):
+    if username == '':
+        raise Exception('用户名为空')
+    if userpwd == '':
+        raise Exception('密码为空')
+    if userpwd != userpwd2:
+        raise Exception('两次输入的密码不一致')
+    try:
+        qres = User.objects.get(username=username)
+    except ObjectDoesNotExist as e:
+        return username
+    raise Exception('用户名已存在')
 
 
 @csrf_protect
 def register(request):
-    errors = []
-    try:
-        if request.method == 'POST':
+    if request.method == 'POST':
+        try:
             username = request.POST.get('userName', '')
             userpwd = request.POST.get('userPwd', '')
             userpwd2 = request.POST.get('userPwd2', '')
@@ -195,16 +208,8 @@ def register(request):
             notice = request.POST.get('noNotice', '')
             byPhone = request.POST.get('byPhone', '')
             byEmail = request.POST.get('byEmail', '')
-            if userpwd != userpwd2:
-                errors.append("两次输入的密码不一致!")
-                return render(request, "register.html",
-                              {'username': username, 'userEmail': userEmail, 'errors': errors})
+            username = checkregi(username, userpwd, userpwd2)
 
-            filterResult = User.objects.filter(username=username)
-            if len(filterResult) > 0:
-                errors.append("用户名已存在")
-                return render(request, "register.html",
-                              {'username': username, 'userEmail': userEmail, 'errors': errors})
             user = User()
             user.username = username
             user.set_password(userpwd)
@@ -224,11 +229,13 @@ def register(request):
             else:
                 profile.noNotice = True
             profile.save()
-    except Exception as e:
-        print(e)
-        errors.append(str(e))
-        return render(request, "register.html", {'errors': errors})
-    return render(request, 'register.html')
+        except Exception as e:
+            print(e)
+            request.session['error'] = str(e)
+            return render(request, 'register.html')
+        return userlogin(request)
+    else:
+        return Http404
 
 
 def password(request):

@@ -20,20 +20,18 @@
 <body id="header" background="{% static '/images/back.png' %}" style="background-attachment :fixed">
 
 <div class="user_nav">
-    当前用户为：
-    {#            {% user.name %}#}
-    {#            {% ifequal user.isLogin %}#}
-
-    {#            {% else %}#}
-
-    <a href="/password" target="_blank">信息管理</a>
-    <span class="pipe">|</span>
-
-    <a href="" onclick="alert('退出登录成功!')">退出登录</a>
-    {#            {% endifequal %}#}
-    {#        注释的内容为判断用户是否登录的语句 变量补全后可不用注释#}
-    {#            退出登录方式为弹窗告知退出 然后将user.isLogin置False#}
-
+    {% if user.is_authenticated %}
+        当前用户为：{{ user.username }}
+        <div class="cover"></div>
+        <a href="/password">个人中心</a>
+        <span class="pipe">|</span>
+        <a href="/userlogout">退出登录</a>
+    {% else %}
+        <a href="javascript:void(0)" id="LoginHref" onclick="login()">登录</a>
+        <span class="pipe">|</span>
+        <a href="javascript:void(0)" id="RegisterHref" onclick="register()">注册</a>
+        <div class="cover"></div>
+    {% endif %}
 </div>
 
 <div class="container" id="mainContainer">
