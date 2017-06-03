@@ -1,43 +1,45 @@
 {% extends "base2.html" %}
 {% block title %}修改通知方式{% endblock %}
 {% block content %}
-<p>
 
-<form action="/noticeWay/" method="post">
-    {% csrf_token %}
-    <table><br>
-        <tr>
-            <td>修改城市：</td>
-            <td align="center">
-                <select name="userCity">
-                    <option value="Beijing">北京</option>
-                    <option value="Shanghai">上海</option>
-                    <option value="Guangzhou">广州</option>
-                    <option value="Shenzhen">深圳</option>
-                    <option value="Hangzhou">杭州</option>
-                    <option value="Tianjin">天津</option>
-                    <option value="Chengdu">成都</option>
-                    <option value="Nanjing">南京</option>
-                    <option value="Xian">西安</option>
-                    <option value="Wuhan">武汉</option>
-                </select>
-            </td>
+    <form action="/noticeWay/" method="post">
+        {% csrf_token %}<br>
+        <table>
+            <tr>
+                <td>修改城市：</td>
+                <td align="center">
+                    <select name="userCity">
+                        <option value="Beijing">北京</option>
+                        <option value="Shanghai">上海</option>
+                        <option value="Guangzhou">广州</option>
+                        <option value="Shenzhen">深圳</option>
+                        <option value="Hangzhou">杭州</option>
+                        <option value="Tianjin">天津</option>
+                        <option value="Chengdu">成都</option>
+                        <option value="Nanjing">南京</option>
+                        <option value="Xian">西安</option>
+                        <option value="Wuhan">武汉</option>
+                    </select>
+                </td>
 
-        </tr>
+            </tr>
+            <tr>
+                <td> 修改邮箱账号：</td>
+                <td><input type="text" name="email"></td>
+            </tr>
+            <tr>
+                <td> 修改手机号码：</td>
+                <td><input type="text" name="phone"></td>
+            </tr>
+        </table>
 
-    </table>
+        修改通知方式：
+        <input type="checkbox" name="byEmail">电子邮箱
+        <input type="checkbox" name="byPhone">手机
+        <input type="checkbox" name="noNotice">不想收到通知
+        <br>
+        <button type="submit" value="submit" name="submit">提交</button>
+        <button type="reset" value="cancel" name="cancel">取消</button>
+    </form>
 
-    <br>修改手机号码：<input type="text" name="phone">
-    <br>修改邮箱账号：<input type="text" name="email">\
-    <br>
-    修改通知方式：
-    <input type="checkbox" name="byEmail">电子邮箱
-    <input type="checkbox" name="byPhone">手机
-    <input type="checkbox" name="noNotice">不想收到通知
-    <br>
-    <button type="submit" value="submit" name="submit">提交</button>
-    <button type="reset" value="cancel" name="cancel">取消</button>
-</form>
-
-</p>
 {% endblock %}

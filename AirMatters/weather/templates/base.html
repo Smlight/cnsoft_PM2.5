@@ -64,70 +64,7 @@
         </form>
     </div>
     <div class="mini_register" id="mini_register">
-        {{ request.session.error }}
-        <!-- 表单 -->
-        <form action="/register/" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="forw" value="/noticeWay">
-            <div class="item firstLine" id="AtFirstLine">
-                <span class="pop_title">注册</span>
-                <span class="register_close" id="close_miniregister">×</span>
-            </div>
-            <div class="registerContent">
-                <table>
-                    <tr>
-                        <td> 用户名：</td>
-                        <td><input type="text" name="userName"></td>
-                    </tr>
-                    <tr>
-
-                        <td>密码：</td>
-                        <td><input type="password" name="userPwd"></td>
-
-                    </tr>
-                    <tr>
-                        <td>重复密码：</td>
-                        <td><input type="password" name="userPwd2"></td>
-                        {#                    判断密码是否相同#}
-                    </tr>
-                    <tr>
-
-                        <td> 电子邮箱：</td>
-                        <td><input type="text" name="userEmail"></td>
-
-                    </tr>
-                    <tr>
-
-                        <td> 手机：</td>
-                        <td><input type="text" name="userPhone"></td>
-
-                    </tr>
-                    <tr>
-                        <td> 常用城市：</td>
-                        <td align="center"><select name="userCity">
-                            <option value="Beijing">北京</option>
-                            <option value="Shanghai">上海</option>
-                            <option value="Guangzhou">广州</option>
-                            <option value="Shenzhen">深圳</option>
-                            <option value="Hangzhou">杭州</option>
-                            <option value="Tianjin">天津</option>
-                            <option value="Chengdu">成都</option>
-                            <option value="Nanjing">南京</option>
-                            <option value="Xian">西安</option>
-                            <option value="Wuhan">武汉</option>
-                        </select></td>
-                    </tr>
-                </table>
-            </div>
-
-            想要收到通知的方式：
-            <input type="checkbox" name="byEmail">电子邮箱
-            <input type="checkbox" name="byPhone">手机
-            <input type="checkbox" name="noNotice">不想收到通知
-            <br>
-            <button type="submit" class="btn_register" id="register" value="submit">注册</button>
-            <button type="reset" id="cancelRegister" value="cancel">取消</button>
-        </form>
+        {% include "register.html" %}
     </div>
 
 </div>

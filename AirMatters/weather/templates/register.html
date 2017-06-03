@@ -1,21 +1,13 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>js制作带有遮罩弹出层实现登录小窗口</title>
 
-</head>
-<body>
-
-
-
-<h1>该页面已废弃！</h1>
-
-<form action="" method="post">
-            <div class="item firstLine" id="firstLine">
+        <!-- 表单 -->
+        <form action="/register/" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="forw" value="/noticeWay">
+            <div class="item firstLine" id="AtFirstLine">
                 <span class="pop_title">注册</span>
                 <span class="register_close" id="close_miniregister">×</span>
             </div>
+            {{ request.session.error }}
             <div class="registerContent">
                 <table>
                     <tr>
@@ -31,23 +23,17 @@
                     <tr>
                         <td>重复密码：</td>
                         <td><input type="password" name="userPwd2"></td>
-                        {#                    判断密码是否相同#}
                     </tr>
                     <tr>
-
                         <td> 电子邮箱：</td>
                         <td><input type="text" name="userEmail"></td>
-
                     </tr>
                     <tr>
-
                         <td> 手机：</td>
                         <td><input type="text" name="userPhone"></td>
-
                     </tr>
                     <tr>
                         <td> 常用城市：</td>
-
                         <td align="center"><select name="userCity">
                             <option value="Beijing">北京</option>
                             <option value="Shanghai">上海</option>
@@ -61,22 +47,14 @@
                             <option value="Wuhan">武汉</option>
                         </select></td>
                     </tr>
-
-
                 </table>
             </div>
-
 
             想要收到通知的方式：
             <input type="checkbox" name="byEmail">电子邮箱
             <input type="checkbox" name="byPhone">手机
             <input type="checkbox" name="noNotice">不想收到通知
             <br>
-
-            <input type="button" class="btn_register" value=" 注册 ">
-
-            <input type="button" id="cancelRegister" value=" 取消 ">
+            <button type="submit" id="register" value="submit">注册</button>
+            <button type="reset" id="cancelRegister" value="cancel">取消</button>
         </form>
-
-</body>
-</html>
