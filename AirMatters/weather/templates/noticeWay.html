@@ -6,7 +6,7 @@
         {% csrf_token %}<br>
         <table>
             <tr>
-                <td>修改城市：</td>
+                <td align="right">修改城市：</td>
                 <td align="center">
                     <select name="userCity">
                         <option value="Beijing">北京</option>
@@ -39,7 +39,7 @@
         <input type="checkbox" name="noNotice">不想收到通知
         <br>
         <button type="submit" value="submit" name="submit">提交</button>
-        <button type="reset" value="cancel" name="cancel">取消</button>
+        <button type="reset" value="cancel" name="cancel">清空</button>
     </form>
 
 {% endblock %}

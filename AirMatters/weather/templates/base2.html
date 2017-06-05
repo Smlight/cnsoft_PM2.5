@@ -48,7 +48,7 @@
         <!-- nav_mod -->
         <div class="nav_mod">
             <ul>
-                <li>
+               <li>
                     <a {% ifequal request.path "/tq/" %}class="current" {% endifequal %}
                        href="/tq/?city={{ city_str }}"> 实时天气 </a>
                 </li>
@@ -56,13 +56,13 @@
                     <a {% ifequal request.path "/tqpred/" %}class="current" {% endifequal %}
                        href="/tqpred/?city={{ city_str }}"> 天气预报 </a>
                 </li>
-                <li>
+                <li style="width: 150px;">
                     <a {% ifequal request.path "/pm25/" %}class="current" {% endifequal %}
-                       href="/pm25/?city={{ city_str }}"> 实时PM2.5 </a>
+                           href="/pm25/?city={{ city_str }}" style="width: 150px;"> 各城市PM2.5对比 </a>
                 </li>
-                <li>
+                <li style="width: 150px;">
                     <a {% ifequal request.path "/pm25pred/" %}class="current" {% endifequal %}
-                       href="/pm25pred/?city={{ city_str }}"> PM2.5预报 </a>
+                           href="/pm25pred/?city={{ city_str }}" style="width: 150px;"> 实时PM2.5及预报 </a>
                 </li>
             </ul>
         </div>

@@ -282,7 +282,8 @@ button {
     color: white;
 	font: 15px/100% Arial, Helvetica, sans-serif;
 	padding: .4em 2em .55em;
-    margin-right: 3em;
+    margin-left: 2em;
+    margin-right: 1em;
     background-color: rgba(0,0,0,0.4);
 	text-shadow: 0 1px 1px rgba(0,0,0,.3);
     border-radius: .5em;
@@ -406,6 +407,20 @@ button:active {
     opacity: 0.5;
 }
 
+
+.pm25Pic {
+    background-color: rgba(0,0,0,0.5);
+    /*width: 1200px;*/
+}
+.citycmp {
+    font-family: "Microsoft YaHei";
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    padding-left: 30px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
 .container {
     min-width: 1000px;
 

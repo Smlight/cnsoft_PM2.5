@@ -5,13 +5,18 @@
 {% block content %}
     {% ifequal status_note 'OK' %}
         <script src={% static '/js/Chart.js' %}></script>
-        <div class="pm25Pic" style="width: 900px;">
-            <canvas id="pm25barchart"></canvas>
+        <div class="pm25Pic">
+            <div class="citycmp">
+                各城市对比
+            </div>
+            <canvas id="pm25barchart" ></canvas>
         </div>
         {% autoescape off %}
             <script>
                 var ctx = document.getElementById("pm25barchart").getContext('2d');
                 var myChart = new Chart(ctx, {
+{#                    scaleFontSize : 20,#}
+{#                    scaleFontColor : "#fff",#}
                     type: 'horizontalBar',
                     data: {
                         labels: {{ llist }},
@@ -19,16 +24,16 @@
                             label: '平均PM2.5',
                             data: {{ dlist }},
                             backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
+                                'rgba(255, 99, 132, 0.5)',
+                                'rgba(54, 162, 235, 0.5)',
+                                'rgba(255, 206, 86, 0.5)',
+                                'rgba(75, 192, 192, 0.5)',
+                                'rgba(153, 102, 255, 0.5)',
+                                'rgba(54, 162, 235, 0.5)',
+                                'rgba(255, 206, 86, 0.5)',
+                                'rgba(75, 192, 192, 0.5)',
+                                'rgba(153, 102, 255, 0.5)',
+                                'rgba(255, 159, 64, 0.5)'
                             ],
                             borderColor: [
                                 'rgba(255,99,132,1)',
@@ -42,9 +47,13 @@
                                 'rgba(153, 102, 255, 1)',
                                 'rgba(255, 159, 64, 1)'
                             ],
-                            borderWidth: 1
+                            borderWidth: 1,
+{#                            scaleFontSize: 16,#}
+{#                            scaleFontColor: "#ffffff"#}
+
                         }]
                     },
+
                     options: {
                         scales: {
                             yAxes: [{
@@ -54,7 +63,7 @@
                             }]
                         }
                     }
-                });
+                })
             </script>
         {% endautoescape %}
     {% else %}
