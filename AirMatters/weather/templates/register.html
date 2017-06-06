@@ -13,12 +13,31 @@
                     }
                 });
         });
+        var form = document.getElementById("registerForm");
+        var byEmail = form.elements[7];
+        var byPhone = form.elements[8];
+        var noNotice = form.elements[9];
+        $(byEmail).change(function () {
+            if (byEmail.checked) {
+                noNotice.checked=false;
+            }
+        });
+        $(byPhone).change(function () {
+            if (byPhone.checked) {
+                noNotice.checked=false;
+            }
+        });
+        $(noNotice).change(function () {
+            if (noNotice.checked) {
+                byEmail.checked=false;
+                byPhone.checked=false;
+            }
+        });
     });
 </script>
 
 <form id="registerForm">
     {% csrf_token %}
-    <input type="hidden" name="forw" value="/noticeWay">
     <div class="item firstLine" id="AtFirstLine">
         <span class="pop_title">注册</span>
         <span class="register_close" id="close_miniregister">×</span>
