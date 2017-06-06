@@ -35,7 +35,7 @@ def city_dete(city_str):
 
 def redi(request):
     # auto city detected shall be added
-    return HttpResponseRedirect('/tq/')
+    return HttpResponseRedirect('/tq')
 
 
 def tq(request):
@@ -164,35 +164,34 @@ def userlogin(request):
         try:
             username = request.POST.get("userName")
             userpwd = request.POST.get("userPwd")
-            # print(username)
-            # print(userpwd)
             user = authenticate(username=username, password=userpwd)
             if user:
                 login(request, user)
         except Exception as e:
             print(e)
-        return HttpResponseRedirect(request.POST.get('forw', '/tq/'))
+            return render(request, 'error.html', {'data': e})
+        return render(request, 'error.html', {'data': 'OK'})
     else:
         return Http404
 
 
 def userlogout(request):
     logout(request)
-    return HttpResponseRedirect('/tq/')
+    return HttpResponseRedirect('/tq')
 
 
 def checkregi(username, userpwd, userpwd2):
-    if username == '':
-        raise Exception('用户名为空')
-    if userpwd == '':
-        raise Exception('密码为空')
-    if userpwd != userpwd2:
-        raise Exception('两次输入的密码不一致')
     try:
         qres = User.objects.get(username=username)
+        raise Exception('用户名已存在')
     except ObjectDoesNotExist as e:
+        if username == '':
+            raise Exception('用户名为空')
+        if userpwd == '':
+            raise Exception('密码为空')
+        if userpwd != userpwd2:
+            raise Exception('两次输入的密码不一致')
         return username
-    raise Exception('用户名已存在')
 
 
 @csrf_protect
@@ -232,8 +231,7 @@ def register(request):
             profile.save()
         except Exception as e:
             print(e)
-            request.session['error'] = str(e)
-            return render(request, 'register.html')
+            return render(request, 'error.html', {'data': e})
         return userlogin(request)
     else:
         return Http404

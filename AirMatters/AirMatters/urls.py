@@ -22,18 +22,18 @@ from weather.views import redi, tq, tqpred, pm25, pm25pred, userlogin, userlogou
     suggest
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin', admin.site.urls),
     url(r'^$', redi, name="webroot"),
-    url(r'^tq/$', tq, name="tq"),
-    url(r'^tqpred/$', tqpred, name="tqpred"),
-    url(r'^pm25/$', pm25, name="pm25"),
-    url(r'^pm25pred/$', pm25pred, name="pm25pred"),
-    url(r'^userlogin/$', userlogin, name="userlogin"),
-    url(r'^userlogout/$', userlogout, name="userlogout"),
-    url(r'^register/$', register, name="register"),
-    url(r'^password/$', password, name="password"),
-    url(r'^noticeWay/$', noticeWay, name="noticeWay"),
-    url(r'^suggest/$', suggest, name="suggest"),
+    url(r'^tq$', tq, name="tq"),
+    url(r'^tqpred$', tqpred, name="tqpred"),
+    url(r'^pm25$', pm25, name="pm25"),
+    url(r'^pm25pred$', pm25pred, name="pm25pred"),
+    url(r'^userlogin$', userlogin, name="userlogin"),
+    url(r'^userlogout$', userlogout, name="userlogout"),
+    url(r'^register$', register, name="register"),
+    url(r'^password$', password, name="password"),
+    url(r'^noticeWay$', noticeWay, name="noticeWay"),
+    url(r'^suggest$', suggest, name="suggest"),
 
 ]
 
@@ -132,7 +132,7 @@ def tq_update():
                 fore.pm25 = -1
                 fore.save()
         cnt += 1
-        print(cnt, flag)
+        # print(cnt, flag)
     Timer(600, tq_update).start()
 
 
@@ -242,7 +242,7 @@ def pm25pred_update():
                 else:
                     pred.pm25 = -1
                 pred.save()
-                # print(cnt, x)
+            print(cnt, x)
     Timer(600, pm25pred_update).start()
 
 
