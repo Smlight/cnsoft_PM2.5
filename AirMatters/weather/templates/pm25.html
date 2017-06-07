@@ -15,8 +15,6 @@
             <script>
                 var ctx = document.getElementById("pm25barchart").getContext('2d');
                 var myChart = new Chart(ctx, {
-{#                    scaleFontSize : 20,#}
-{#                    scaleFontColor : "#fff",#}
                     type: 'horizontalBar',
                     data: {
                         labels: {{ llist }},
@@ -24,33 +22,30 @@
                             label: '平均PM2.5',
                             data: {{ dlist }},
                             backgroundColor: [
-                                'rgba(255, 99, 132, 0.5)',
-                                'rgba(54, 162, 235, 0.5)',
-                                'rgba(255, 206, 86, 0.5)',
-                                'rgba(75, 192, 192, 0.5)',
-                                'rgba(153, 102, 255, 0.5)',
-                                'rgba(54, 162, 235, 0.5)',
-                                'rgba(255, 206, 86, 0.5)',
-                                'rgba(75, 192, 192, 0.5)',
-                                'rgba(153, 102, 255, 0.5)',
-                                'rgba(255, 159, 64, 0.5)'
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(153, 102, 255, 0.7)',
+                                'rgba(227, 160, 93, 0.7)',
+                                'rgba(101, 147, 74 , 0.7)',
+                                'rgba(127, 255, 170, 0.7)',
+                                'rgba(255, 206, 86, 0.7)',
+                                'rgba(186, 85, 211, 0.7)',
+                                'rgba(75, 192, 192, 0.7)',
+                                'rgba(255, 192, 203, 0.7)'
                             ],
                             borderColor: [
                                 'rgba(255,99,132,1)',
                                 'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
                                 'rgba(153, 102, 255, 1)',
-                                'rgba(54, 162, 235, 1)',
+                                'rgba(227, 160, 93, 1)',
+                                'rgba(101, 147, 74 , 1)',
+                                'rgba(127, 255, 170, 1)',
                                 'rgba(255, 206, 86, 1)',
+                                'rgba(186, 85, 211, 1)',
                                 'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
+                                'rgba(255, 192, 203, 1)'
                             ],
-                            borderWidth: 1,
-{#                            scaleFontSize: 16,#}
-{#                            scaleFontColor: "#ffffff"#}
-
+                            borderWidth: 1
                         }]
                     },
 
@@ -59,7 +54,9 @@
                             xAxes: [{
                                 ticks: {
                                     beginAtZero: true
+
                                 }
+
                             }]
                         }
                     }

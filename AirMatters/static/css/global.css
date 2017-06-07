@@ -75,9 +75,10 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 
 .weatherPic {
     background-color: rgba(0, 0, 0, 0.5);
-    padding-left: 20px;
-    padding-top: 10px;
-
+    padding-left: 30px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-right: 30px;
 }
 
 .sixhpred {
@@ -136,13 +137,18 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 }
 
 .predtable {
+    padding-top: 20px;
+
     font-size: 1.5em;
     color: white;
     text-align: center;
+    font-family: "Microsoft YaHei";
+
 }
 
 .predtable tr {
     border: solid 1px;
+    height: 40px;
 
 }
 
@@ -410,7 +416,10 @@ button:active {
 
 .pm25Pic {
     background-color: rgba(0,0,0,0.5);
-    /*width: 1200px;*/
+    padding-left: 30px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-right: 30px;
 }
 .citycmp {
     font-family: "Microsoft YaHei";
