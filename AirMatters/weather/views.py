@@ -23,6 +23,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
 from django.core.exceptions import ObjectDoesNotExist
+import re
 
 
 def city_dete(city_str):
@@ -142,15 +143,24 @@ def pm25pred(request):
     city_note = CITYS_CN[city_str]
     try:
         preddb = CITYS_PMDB[city_str]
-        qset = preddb.objects.all()
+        qset = preddb.objects.filter(timeSlot=0)
         tab = {}
         up_time = None
-        for r in qset:
+        for i in qset:
+            tab[i.station] = []
             if not up_time:
-                up_time = r.time
-            if not tab.get(r.station):
-                tab[r.station] = []
-            tab.setdefault(r.station, []).append(r.pm25)
+                up_time = i.time
+            tab.setdefault(i.station, []).append(i.pm25)
+        for i in range(1, 7):
+            for k in tab:
+                q = preddb.objects.filter(station=k, timeSlot=i)
+                if q:
+                    if not up_time:
+                        up_time = q.time
+                    # tab[k].append(q.pm25)
+                    tab.setdefault(k, []).append(q[0].pm25)
+                else:
+                    tab.setdefault(k, []).append("—")
         return render(request, 'pm25pred.html',
                       {'status_note': u"OK", 'city_str': city_str, 'city_note': city_note, 'time': up_time,
                        'dict': tab})
@@ -180,7 +190,7 @@ def userlogout(request):
     return HttpResponseRedirect('/tq')
 
 
-def checkregi(username, userpwd, userpwd2):
+def checkregi(username, userpwd, userpwd2, userEmail, userPhone):
     try:
         qres = User.objects.get(username=username)
         raise Exception('用户名已存在')
@@ -191,6 +201,12 @@ def checkregi(username, userpwd, userpwd2):
             raise Exception('密码为空')
         if userpwd != userpwd2:
             raise Exception('两次输入的密码不一致')
+        if re.match(r'^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){0,4}@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){0,4}$', userEmail)is None:
+            raise Exception('您的邮箱输入有误')
+        p = re.compile('^0\d{2,3}\d{7,8}$|^1[358]\d{9}$|^147\d{8}')
+        phonematch = p.match(userPhone)
+        if phonematch is None:
+            raise Exception('您的电话有误')
         return username
 
 
@@ -207,7 +223,7 @@ def register(request):
             byPhone = request.POST.get('byPhone', '')
             byEmail = request.POST.get('byEmail', '')
             userCity = request.POST.get('userCity', '')
-            username = checkregi(username, userpwd, userpwd2)
+            username = checkregi(username, userpwd, userpwd2, userEmail, userPhone)
 
             user = User()
             user.username = username
