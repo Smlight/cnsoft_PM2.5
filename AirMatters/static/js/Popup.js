@@ -13,8 +13,8 @@ function login(){
         mini_login.style.display = "block";
         cover.style.display = "block";
 
-        mini_login.style.left = (window.screen.availWidth- mini_login.scrollWidth) / 2 + "px";
-        mini_login.style.top = (window.screen.availHeight-mini_login.scrollHeight) / 2 + "px";
+        mini_login.style.left = (window.screen.availWidth - mini_login.scrollWidth) / 2 + "px";
+        mini_login.style.top = (window.screen.availHeight - 1.5*mini_login.scrollHeight) / 2 + "px";
         cover.style.position = "fixed";
     }
 
@@ -41,7 +41,7 @@ function register(){
         cover.style.display = "block";
 
         mini_register.style.left = (window.screen.availWidth - mini_register.scrollWidth) / 2 + "px";
-        mini_register.style.top = (window.screen.availHeight - mini_register.scrollHeight) / 2 + "px";
+        mini_register.style.top = (window.screen.availHeight - 1.25*mini_register.scrollHeight) / 2 + "px";
         cover.style.position = "fixed";
     }
 

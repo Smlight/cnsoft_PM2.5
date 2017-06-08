@@ -319,6 +319,12 @@ button:active {
     position: fixed;
     z-index: 999;
     background: white;
+    height: 270px;
+
+     border-radius: .5em;
+    -moz-border-radius: .5em;
+    -webkit-border-radius: .5em;
+
 
 }
 
@@ -328,6 +334,8 @@ button:active {
     height: 48px;
     line-height: 48px;
     padding: 0 20px;
+
+
 }
 
 /* 登录窗第一行*/
@@ -336,6 +344,10 @@ button:active {
     background: #f7f7f7;
     font-size: 18px;
     font-weight: bold;
+
+     border-radius: .5em;
+    -moz-border-radius: .5em;
+    -webkit-border-radius: .5em;
 
 }
 
@@ -350,11 +362,33 @@ button:active {
     /*background: white;*/
     padding: 0px;
     margin: 0px;
+
 }
 
 .mini_login .loginContent {
     padding-left: 50px;
+    padding-top: 15px;
+
 }
+
+.mini_login  button{
+    margin-top: 20px;
+    background-color: rgba(50, 118, 58, 0.7);
+
+}
+
+.mini_login  button:hover{
+    margin-top: 20px;
+    background-color: rgba(50, 118, 58, 1);
+
+}
+
+.mini_login .error {
+    height: 1px;
+    padding-bottom: 30px;
+    font-size: 15px;
+}
+
 
 /*注册弹窗*/
 .mini_register {
@@ -362,6 +396,11 @@ button:active {
     position: fixed;
     z-index: 999;
     background: white;
+    height: 540px;
+
+    border-radius: .5em;
+    -moz-border-radius: .5em;
+    -webkit-border-radius: .5em;
 
 }
 
@@ -379,6 +418,10 @@ button:active {
     background: #f7f7f7;
     font-size: 18px;
     font-weight: bold;
+
+      border-radius: .5em;
+    -moz-border-radius: .5em;
+    -webkit-border-radius: .5em;
 
 }
 
@@ -398,8 +441,26 @@ button:active {
 
 .mini_register .registerContent {
     padding-left: 100px;
+    padding-top: 20px;
 }
 
+.mini_register  button{
+    margin-top: 20px;
+    background-color: rgba(50, 118, 58, 0.7);
+
+}
+
+.mini_register  button:hover{
+    margin-top: 20px;
+    background-color: rgba(50, 118, 58, 1);
+
+}
+
+.mini_register .error {
+    height: 1px;
+    padding-bottom: 25px;
+    font-size: 15px;
+}
 /* 遮罩层样式 */
 .cover {
     display: none;
