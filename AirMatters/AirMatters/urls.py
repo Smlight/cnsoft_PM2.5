@@ -43,9 +43,11 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 import time
 from threading import Timer, RLock
-from weather.models import Realtime, Forecast
+from weather.models import Realtime, Forecast, User, UserProfile
 from datetime import datetime, timedelta, tzinfo
 import requests
+from django.conf import settings
+from django.core.mail import send_mail
 
 he_key = "88cef94b40a4461ea933dfc44c41f3a2"  # 和风天气API key
 
@@ -246,7 +248,24 @@ def pm25pred_update():
     Timer(600, pm25pred_update).start()
 
 
+def sendEmail():
+        userEmail = []
+        for k, v in CITYS_ID.items():
+            o = Realtime.objects.filter(city=k).earliest("time")
+            # 测试时可以把100调为小数值 因为基本没有城市会超过100
+            if o.pm25 >= 100:
+                profile = UserProfile.objects.filter(userCity=k)
+                for x in profile:
+                    u = User.objects.get(id=x.user_id)
+                    userEmail.append(u.email)
+                    print(u.email)
+        subject = '正经队的pm25'
+        content = '您所在的城市pm25超过100！出门请注意防护!'
+        send_mail(subject, content, 'ceshi10086test@126.com', userEmail)
+
+
 Timer(0, tq_update).start()
 Timer(0, tqpred_update).start()
 Timer(0, pm25_update).start()
 Timer(0, pm25pred_update).start()
+Timer(0, sendEmail).start()

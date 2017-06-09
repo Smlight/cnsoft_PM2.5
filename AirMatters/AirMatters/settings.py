@@ -130,3 +130,11 @@ ADMINS = (
 )
 
 AUTH_PROFILE_MODULE = 'weather.UserProfile'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp.126.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'ceshi10086test@126.com'
+EMAIL_HOST_PASSWORD = 'aaa1234'
+DEFAULT_FROM_EMAIL = 'pm25'
