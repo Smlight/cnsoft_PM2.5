@@ -187,7 +187,7 @@ def userlogin(request):
 
 def userlogout(request):
     logout(request)
-    return HttpResponseRedirect('/tq')
+    return render(request, 'error.html', {'data': 'OK'})
 
 
 def checkregi(username, userpwd, userpwd2, userEmail, userPhone):

@@ -4,7 +4,7 @@
         $("#login").click(function () {
             $.post("/userlogin", $("#loginForm").serialize(),
                 function (data) {
-                    console.log(data);
+{#                    console.log(data);#}
                     if (data === "OK") {
                         document.getElementById("lerrorLine").innerHTML = "登录成功，请等待页面刷新";
                         location.reload();
@@ -36,7 +36,7 @@
         </table>
     </div>
     {#            <br>#}
-     <div id="lerrorLine" class="error" style="color: red">
+    <div id="lerrorLine" class="error" style="color: red">
 
     </div>
     <button type="button" class="btn_login" id="login">登录</button>

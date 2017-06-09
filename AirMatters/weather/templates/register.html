@@ -4,7 +4,7 @@
         $("#register").click(function () {
             $.post("/register", $("#registerForm").serialize(),
                 function (data) {
-                    console.log(data);
+{#                    console.log(data);#}
                     if (data === "OK") {
                         document.getElementById("errorLine").innerHTML = "注册成功，请等待页面刷新";
                         location.reload();

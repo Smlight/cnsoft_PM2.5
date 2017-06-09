@@ -26,7 +26,13 @@
         <div class="cover"></div>
         <a href="/password">个人中心</a>
         <span class="pipe">|</span>
-        <a href="/userlogout">退出登录</a>
+        <script>
+            function logout() {
+                $.get("/userlogout");
+                location.reload();
+            }
+        </script>
+        <a href="javascript:void(0)" onclick="logout()">退出登录</a>
     {% else %}
         <a href="javascript:void(0)" id="LoginHref" onclick="login()">登录</a>
         <span class="pipe">|</span>
