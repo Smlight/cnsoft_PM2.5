@@ -60,32 +60,32 @@
     <div class="wrap" id="wrap">
         <!-- nav_mod -->
         <div class="nav_mod">
-{#            <div class="nav_mod_2">#}
-                <ul>
-                    <li>
-                        <a {% ifequal request.path "/tq" %}class="current" {% endifequal %}
-                           href="/tq?city={{ city_str }}"> 实时天气 </a>
-                    </li>
-                    <li>
-                        <a {% ifequal request.path "/tqpred" %}class="current" {% endifequal %}
-                           href="/tqpred?city={{ city_str }}"> 天气预报 </a>
-                    </li>
-                    <li style="width: 150px;">
-                        <a {% ifequal request.path "/pm25" %}class="current" {% endifequal %}
-                           href="/pm25?city={{ city_str }}" style="width: 152px;"> 各城市PM2.5对比 </a>
-                    </li>
-                     <li style="width: 150px;">
-                        <a {% ifequal request.path "/pm25pred" %}class="current" {% endifequal %}
-                           href="/pm25pred?city={{ city_str }}" style="width: 152px;"> 实时PM2.5及预报 </a>
-                    </li>
-                </ul>
-
-{#            </div>#}
+            <ul>
+                <li>
+                    <a {% ifequal request.path "/tq" %}class="current" {% endifequal %}
+                       href="/tq?city={{ city_str }}"> 实时天气 </a>
+                </li>
+                <li>
+                    <a {% ifequal request.path "/tqpred" %}class="current" {% endifequal %}
+                       href="/tqpred?city={{ city_str }}"> 天气预报 </a>
+                </li>
+                <li style="width: 150px;">
+                    <a {% ifequal request.path "/pm25" %}class="current" {% endifequal %}
+                       href="/pm25?city={{ city_str }}" style="width: 152px;"> 各城市PM2.5对比 </a>
+                </li>
+                <li style="width: 150px;">
+                    <a {% ifequal request.path "/pm25pred" %}class="current" {% endifequal %}
+                       href="/pm25pred?city={{ city_str }}" style="width: 152px;"> 实时PM2.5及预报 </a>
+                </li>
+            </ul>
 
         </div>
         <!-- /nav_mod -->
         <br/>
-        <div class="nav_mod">
+
+        <div class="nav_mod" id="city_nav " {% ifequal request.path "/password" %} style="display: none" {% else %}
+             style="display: block" {% endifequal %} >
+
             <ul>
                 <li><a {% ifequal city_str "Beijing" %}class="current" {% endifequal %}
                        href="?city=Beijing">北京</a>

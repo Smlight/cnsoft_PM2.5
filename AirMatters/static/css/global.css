@@ -233,10 +233,12 @@ p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h
 }
 
 .nav_mod_vertical li a:hover {
-    background-color: rgba(50, 118, 58, 0.5);
+    ;
+    background-color: rgba(50, 118, 58, 0.5) !important;
     border-color: rgba(50, 118, 58, 0.5);
     text-decoration: none;
     color: white
+
 }
 
 .nav_mod_vertical li a.current {
