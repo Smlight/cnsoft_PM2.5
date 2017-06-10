@@ -41,9 +41,13 @@ def redi(request):
 def tq(request):
     "Realtime weather information and hourly forecast"
     city_str = request.GET.get('city')
-    ncity_str = city_dete(city_str)
-    if city_str != ncity_str:
-        return HttpResponseRedirect(request.path + '?city=' + ncity_str)
+    if city_str is None:
+        city_str = request.session['city']
+    else:
+        ncity_str = city_dete(city_str)
+        if city_str != ncity_str:
+            request.session['city'] = ncity_str
+            return HttpResponseRedirect(request.path)
     city_note = CITYS_CN[city_str]
     try:
         qset = Realtime.objects.filter(city=city_str)
@@ -85,9 +89,13 @@ def tq(request):
 
 def tqpred(request):
     city_str = request.GET.get('city')
-    ncity_str = city_dete(city_str)
-    if city_str != ncity_str:
-        return HttpResponseRedirect(request.path + '?city=' + ncity_str)
+    if city_str is None:
+        city_str = request.session['city']
+    else:
+        ncity_str = city_dete(city_str)
+        if city_str != ncity_str:
+            request.session['city'] = ncity_str
+            return HttpResponseRedirect(request.path)
     city_note = CITYS_CN[city_str]
     try:
         qset = Forecast.objects.filter(city=city_str)
@@ -115,9 +123,13 @@ CITYS_PMDB = {u'Beijing': PMBeijing, u'Shanghai': PMShanghai, u'Guangzhou': PMGu
 def pm25(request):
     "Realtime pm2.5 information and hourly forecast"
     city_str = request.GET.get('city')
-    ncity_str = city_dete(city_str)
-    if city_str != ncity_str:
-        return HttpResponseRedirect(request.path + '?city=' + ncity_str)
+    if city_str is None:
+        city_str = request.session['city']
+    else:
+        ncity_str = city_dete(city_str)
+        if city_str != ncity_str:
+            request.session['city'] = ncity_str
+            return HttpResponseRedirect(request.path)
     city_note = CITYS_CN[city_str]
     try:
         llist = []
@@ -136,9 +148,13 @@ def pm25(request):
 
 def pm25pred(request):
     city_str = request.GET.get('city')
-    ncity_str = city_dete(city_str)
-    if city_str != ncity_str:
-        return HttpResponseRedirect(request.path + '?city=' + ncity_str)
+    if city_str is None:
+        city_str = request.session['city']
+    else:
+        ncity_str = city_dete(city_str)
+        if city_str != ncity_str:
+            request.session['city'] = ncity_str
+            return HttpResponseRedirect(request.path)
     city_note = CITYS_CN[city_str]
     try:
         preddb = CITYS_PMDB[city_str]
@@ -256,6 +272,9 @@ def register(request):
 
 
 def password(request):
+    query = UserProfile.objects.get(user=request.user)
+    city_str = query.userCity
+    city_note = CITYS_CN[city_str]
     if request.method == 'POST':
         try:
             username = request.user.username
@@ -265,16 +284,26 @@ def password(request):
             user = authenticate(username=username, password=oldPwd)
             if user:
                 if newPwd1 == newPwd2:
+                    if oldPwd == newPwd1:
+                        raise Exception('新密码与原密码相同')
                     u = User.objects.get(username=username)
                     u.set_password(newPwd1)
                     u.save()
+                    tmp_c = request.session['city']
+                    logout(request)
+                    user = authenticate(username=username, password=newPwd1)
+                    login(request, user)
+                    request.session['city'] = tmp_c
                 else:
                     raise Exception('两次输入的新密码不一致')
             else:
                 raise Exception('原密码错误')
         except Exception as e:
             print(e)
-    return render(request, 'password.html')
+            return render(request, 'error.html', {'data': e})
+        return render(request, 'error.html', {'data': 'OK'})
+    else:
+        return render(request, 'password.html', {'city_str': city_str, 'city_note': city_note})
 
 
 def noticeWay(request):
@@ -291,6 +320,7 @@ def noticeWay(request):
             user = User.objects.get(username=username)
             profile = UserProfile.objects.get(user_id=user.id)
             profile.userCity = userCity
+            request.session['city'] = userCity
             if phone:
                 profile.phone = phone
             if email:
@@ -308,7 +338,10 @@ def noticeWay(request):
             profile.save()
         except Exception as e:
             print(e)
-    return render(request, 'noticeWay.html')
+            return render(request, 'error.html', {'data': e})
+        return render(request, 'error.html', {'data': '更新成功！'})
+    else:
+        return Http404
 
 
 def suggest(request):
