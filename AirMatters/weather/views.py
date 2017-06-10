@@ -1,16 +1,9 @@
 # -*- encoding:utf-8 -*-
 
-from django.shortcuts import render
-# from weather.models import Beijing, Shanghai, Guangzhou, Shenzhen, Hangzhou, Tianjin, Chengdu, Nanjing, Xian, Wuhan
 from weather.models import PMBeijing, PMShanghai, PMGuangzhou, PMShenzhen, PMHangzhou, PMTianjin, PMChengdu, PMNanjing, \
     PMXian, PMWuhan
 from weather.models import Realtime, Forecast
 from weather.models import UserProfile
-
-# CITYS_DB = {u'Beijing': Beijing, u'Shanghai': Shanghai, u'Guangzhou': Guangzhou, u'Shenzhen': Shenzhen,
-#             u'Hangzhou': Hangzhou, u'Tianjin': Tianjin, u'Chengdu': Chengdu, u'Nanjing': Nanjing, u'Xian': Xian,
-#             u'Wuhan': Wuhan}
-
 
 CITYS_CN = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'南京', u'Xian': u'西安', u'Wuhan': u'武汉'}
@@ -36,7 +29,13 @@ def city_dete(city_str):
 
 def redi(request):
     # auto city detected shall be added
-    return HttpResponseRedirect('/tq')
+    if request.user.is_authenticated():
+        query = UserProfile.objects.get(user=request.user)
+        request.session['city'] = query.userCity
+        return HttpResponseRedirect('/tq')
+    else:
+        request.session['city'] = 'Beijing'
+        return HttpResponseRedirect('/tq')
 
 
 def tq(request):
@@ -175,8 +174,10 @@ def userlogin(request):
             username = request.POST.get("userName")
             userpwd = request.POST.get("userPwd")
             user = authenticate(username=username, password=userpwd)
-            if user:
+            if user is not None:
                 login(request, user)
+            else:
+                raise Exception('账号密码有误')
         except Exception as e:
             print(e)
             return render(request, 'error.html', {'data': e})
@@ -201,7 +202,8 @@ def checkregi(username, userpwd, userpwd2, userEmail, userPhone):
             raise Exception('密码为空')
         if userpwd != userpwd2:
             raise Exception('两次输入的密码不一致')
-        if re.match(r'^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){0,4}@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){0,4}$', userEmail)is None:
+        if re.match(r'^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){0,4}@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){0,4}$',
+                    userEmail) is None:
             raise Exception('您的邮箱输入有误')
         p = re.compile('^0\d{2,3}\d{7,8}$|^1[358]\d{9}$|^147\d{8}')
         phonematch = p.match(userPhone)
