@@ -315,7 +315,14 @@ def noticeWay(request):
             byPhone = request.POST.get('byPhone')
             byEmail = request.POST.get('byEmail')
             userCity = request.POST.get('userCity')
-
+            print(request.user.userprofile.byEmail)
+            if re.match(r'^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){0,4}@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){0,4}$',
+                        email) is None:
+                raise Exception('您的邮箱输入有误')
+            p = re.compile('^0\d{2,3}\d{7,8}$|^1[358]\d{9}$|^147\d{8}')
+            phonematch = p.match(phone)
+            if phonematch is None:
+                raise Exception('您的电话有误')
             username = request.user.username
             user = User.objects.get(username=username)
             profile = UserProfile.objects.get(user_id=user.id)
