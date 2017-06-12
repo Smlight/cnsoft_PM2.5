@@ -9,7 +9,7 @@ CITYS_CN = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广�
             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'南京', u'Xian': u'西安', u'Wuhan': u'武汉'}
 CITYS_ID = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州', u'Shenzhen': u'深圳', u'Hangzhou': u'杭州',
             u'Tianjin': u'天津', u'Chengdu': u'成都', u'Nanjing': u'CN101190101', u'Xian': u'CN101110101', u'Wuhan': u'武汉'}
-
+CITYS_LIST = ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen', 'Hangzhou', 'Tianjin', 'Chengdu', 'Nanjing', 'Xian', 'Wuhan']
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
@@ -134,7 +134,8 @@ def pm25(request):
     try:
         llist = []
         dlist = []
-        for k, v in CITYS_CN.items():
+        for k in CITYS_LIST:
+            v = CITYS_CN[k]
             now = Realtime.objects.filter(city=k).earliest("time")
             llist.append(v)
             dlist.append(now.pm25)
