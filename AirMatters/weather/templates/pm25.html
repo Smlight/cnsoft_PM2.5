@@ -22,16 +22,67 @@
                             label: '平均PM2.5',
                             data: {{ dlist }},
                             backgroundColor: [
+                                {%  ifequal city_str  'Beijing' %}
+                                'rgba(255, 99, 132, 1)',
+                                {% else %}
                                 'rgba(255, 99, 132, 0.6)',
-                                'rgba(54, 162, 235, 0.6)',
-                                'rgba(153, 102, 255, 0.6)',
-                                'rgba(227, 160, 93, 0.6)',
-                                'rgba(101, 147, 74 , 0.6)',
-                                'rgba(127, 255, 170, 0.6)',
-                                'rgba(255, 206, 86, 0.6)',
-                                'rgba(186, 85, 211, 0.6)',
-                                'rgba(75, 192, 192, 0.6)',
-                                'rgba(255, 192, 203, 0.6)'
+                                {% endifequal %}
+
+                                {%  ifequal city_str  'Shanghai' %}
+                                    'rgba(54, 162, 235, 1)',
+                                {% else %}
+                                    'rgba(54, 162, 235, 0.6)',
+                                 {% endifequal %}
+
+                                {%  ifequal city_str  'Guangzhou' %}
+                                    'rgba(153, 102, 255, 1)',
+                                {% else %}
+                                    'rgba(153, 102, 255, 0.6)',
+                                {% endifequal %}
+
+                                {%  ifequal city_str  'Shenzhen' %}
+                                    'rgba(227, 160, 93, 1)',
+                                {% else %}
+                                    'rgba(227, 160, 93, 0.6)',
+                                {% endifequal %}
+
+                                {%  ifequal city_str  'Hangzhou' %}
+                                    'rgba(101, 147, 74 , 1)',
+                                {% else %}
+                                    'rgba(101, 147, 74 , 0.6)',
+                                {% endifequal %}
+
+                                {%  ifequal city_str  'Tianjing' %}
+                                    'rgba(127, 255, 170, 1)',
+                                {% else %}
+                                    'rgba(127, 255, 170, 0.6)',
+                                {% endifequal %}
+
+                                {%  ifequal city_str  'Chengdu' %}
+                                    'rgba(255, 206, 86, 1)',
+                                {% else %}
+                                    'rgba(255, 206, 86, 0.6)',
+                                {% endifequal %}
+
+                                {%  ifequal city_str  'Nanjing' %}
+                                    'rgba(186, 85, 211, 1)',
+                                {% else %}
+                                    'rgba(186, 85, 211, 0.6)',
+                                {% endifequal %}
+
+                                {%  ifequal city_str  'Xian' %}
+                                    'rgba(75, 192, 192, 1)',
+                                {% else %}
+                                    'rgba(75, 192, 192, 0.6)',
+                                {% endifequal %}
+
+                                {%  ifequal city_str  'Wuhan' %}
+                                    'rgba(255, 192, 203, 1)',
+                                {% else %}
+                                    'rgba(255, 192, 203, 0.6)',
+                                {% endifequal %}
+
+
                             ],
                             borderColor: [
                                 'rgba(255,99,132,1)',
