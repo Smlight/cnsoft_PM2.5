@@ -19,10 +19,7 @@
                         {{ now.wind_dir }}&nbsp;{{ now.wind_sc }}
                     </span>
         </div>
-        {#        <br>{{ llsit }}#}
-        {#        <br>{{ dlist }}#}
         <br>
-        <script src={% static '/js/Chart.js' %}></script>
         <div class="weatherPic" style="width: 900px;">
             <div class="sixhpred">
                 今日预报
@@ -31,9 +28,9 @@
             <canvas id="tqlinechart"></canvas>
         </div>
         {% autoescape off %}
-        <script>
-            var ctx = document.getElementById("tqlinechart");
-            var chart = new Chart(ctx, {
+            <script>
+                var ctx = document.getElementById("tqlinechart");
+                var chart = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: {{ llsit }},
@@ -57,8 +54,8 @@
                                 pointHoverBorderWidth: 3,
                                 pointRadius: 1,
                                 pointHitRadius: 10,
-{#                                scaleFontSize: 16,#}
-{#                                scaleFontColor: "#ffffff",#}
+                                {#                                scaleFontSize: 16,#}
+                                {#                                scaleFontColor: "#ffffff",#}
                                 data: {{ dlist }},
                                 spanGaps: false
                             }
@@ -66,7 +63,6 @@
                     },
                     options: {
                         scales: {
-
                             yAxes: [{
                                 ticks: {
                                     min: {{ tmin }},
@@ -76,9 +72,8 @@
                             }]
                         }
                     }
-                })
-            ;
-        </script>
+                });
+            </script>
         {% endautoescape %}
         <br><br>
         <div class="suggestion">
@@ -89,7 +84,7 @@
                 <tr>
 
                     <script>
-{#                        修改显示的代码#}
+                        {#                        修改显示的代码#}
                         function zwxOver(obj) {
                             obj.innerHTML = "{{ suggest.紫外线指数.1  }}";
                             obj.style.fontSize = "15px";
@@ -231,7 +226,7 @@
 
         </div>
     {% else %}
-    Something Happened!!!
+        Something Happened!!!
     {% endifequal %}
 
-    {% endblock %}
+{% endblock %}

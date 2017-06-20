@@ -4,7 +4,6 @@
 {% block title %}各城市PM2.5对比{% endblock %}
 {% block content %}
     {% ifequal status_note 'OK' %}
-        <script src={% static '/js/Chart.js' %}></script>
         <div class="pm25Pic">
             <div class="citycmp">
                 各城市对比
@@ -81,8 +80,6 @@
                                 {% else %}
                                     'rgba(255, 192, 203, 0.6)',
                                 {% endifequal %}
-
-
                             ],
                             borderColor: [
                                 'rgba(255,99,132,1)',
@@ -99,15 +96,12 @@
                             borderWidth: 1
                         }]
                     },
-
                     options: {
                         scales: {
                             xAxes: [{
                                 ticks: {
                                     beginAtZero: true
-
                                 }
-
                             }]
                         }
                     }

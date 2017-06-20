@@ -322,12 +322,9 @@ button:active {
     z-index: 999;
     background: white;
     height: 270px;
-
      border-radius: .5em;
     -moz-border-radius: .5em;
     -webkit-border-radius: .5em;
-
-
 }
 
 .mini_login .item {
@@ -336,8 +333,6 @@ button:active {
     height: 48px;
     line-height: 48px;
     padding: 0 20px;
-
-
 }
 
 /* 登录窗第一行*/
@@ -350,7 +345,6 @@ button:active {
      border-radius: .5em;
     -moz-border-radius: .5em;
     -webkit-border-radius: .5em;
-
 }
 
 .mini_login .item .login_close {

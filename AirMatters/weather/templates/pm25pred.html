@@ -26,20 +26,86 @@
             <tbody>
             {% for sta, list in dict.items %}
                 <tr>
-                    <td>{{ sta }} </td>
+                    <td onclick="draw('{{ sta }}',{{ list }})">{{ sta }}</td>
                     {% for x in list %}
-                        <td>
-                            {% ifnotequal x -1 %}
-                                {{ x }}
-                            {% else %}
-                                ？
-                            {% endifnotequal %}
-                        </td>
+                        <td>{{ x }}</td>
                     {% endfor %}
                 </tr>
             {% endfor %}</tbody>
         </table>
     </div>
-    {#        显示趋势图#}
-    <pre>{{ suggest }} </pre>
+    <script>
+        function draw(sta, data) {
+            var content = document.getElementsByClassName("content")[0];
+            var pmcharpic = document.createElement("div");
+            pmcharpic.style.width = "900px";
+            pmcharpic.id = "pmcharpic";
+            var firstLine = document.createElement("div");
+            var title = document.createElement("span");
+            var biaoti = document.createTextNode(sta + "实时PM2.5及预测");
+            var closet = document.createElement("span");
+            closet.id = "close_pic";
+            var chacha = document.createTextNode("×");
+            var pmlinechart = document.createElement("canvas");
+            closet.appendChild(chacha);
+            closet.onclick = removethis;
+            title.appendChild(biaoti);
+            firstLine.appendChild(title);
+            firstLine.appendChild(closet);
+            pmcharpic.appendChild(firstLine);
+            pmcharpic.appendChild(pmlinechart);
+            content.appendChild(pmcharpic);
+            pmcharpic.style.cssText = "position: fixed;text-align:center;top:100px;z-index: 999;background: #cec;width: 1000px;border-radius: .5em;-moz-border-radius: .5em;-webkit-border-radius: .5em;";
+            firstLine.style.cssText = "color: #000;font-size: 2em;font-weight: bold;border-radius: .5em;-moz-border-radius: .5em;-webkit-border-radius: .5em;";
+
+            closet.style.cssText = "display: inline-block;float: right;margin-right: 5px;cursor: pointer;";
+            var chart = new Chart(pmlinechart, {
+                type: 'line',
+                data: {
+                    labels: ['实时', '1小时内', '1-2小时', '2-3小时', '3-4小时', '4-5小时', '5-6小时'],
+                    datasets: [
+                        {
+                            label: "PM2.5",
+                            fill: false,
+                            lineTension: 0.1,
+                            backgroundColor: "rgba(255, 206, 86, 0.6)",
+                            borderColor: "rgba(255, 206, 86, 1)",
+                            borderCapStyle: 'butt',
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "rgba(255, 206, 86, 1)",
+                            pointBackgroundColor: "#fff",
+                            pointBorderWidth: 6,
+                            pointHoverRadius: 6,
+                            pointHoverBackgroundColor: "rgba(255, 206, 86, 1)",
+                            pointHoverBorderColor: "rgba(220,220,220,1)",
+                            pointHoverBorderWidth: 3,
+                            pointRadius: 1,
+                            pointHitRadius: 10,
+                            data: data,
+                            spanGaps: false
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+            if (pmcharpic) {
+                console.log(pmcharpic);
+            }
+        }
+        function removethis() {
+            var ele = document.getElementById('pmcharpic');
+            var parentEle = ele.parentNode;
+            parentEle.removeChild(ele);
+        }
+    </script>
 {% endblock %}
