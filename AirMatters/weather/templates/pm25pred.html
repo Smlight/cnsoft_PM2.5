@@ -9,7 +9,10 @@
     <span class="time">更新于{{ time | date:"Y-m-d H:i:s" }}</span>
     <div class="predtable">
         <span style="font-size: 1.8em">{{ city_note }}各站点PM2.5数据</span>
-        <br><br>
+
+        <br>
+        (点击站点名称可查看未来6小时PM2.5趋势图)
+        <br>
         <table rules="rows" width="98%">
             <thead>
             <tr>
@@ -26,7 +29,8 @@
             <tbody>
             {% for sta, list in dict.items %}
                 <tr>
-                    <td onclick="draw('{{ sta }}',{{ list }})">{{ sta }}</td>
+                    <td class="pmtd" onclick="draw('{{ sta }}',{{ list }})">{{ sta }}</td>
+
                     {% for x in list %}
                         <td>{{ x }}</td>
                     {% endfor %}
@@ -34,12 +38,15 @@
             {% endfor %}</tbody>
         </table>
     </div>
+
     <script>
         function draw(sta, data) {
+
             var content = document.getElementsByClassName("content")[0];
             var pmcharpic = document.createElement("div");
             pmcharpic.style.width = "900px";
             pmcharpic.id = "pmcharpic";
+
             var firstLine = document.createElement("div");
             var title = document.createElement("span");
             var biaoti = document.createTextNode(sta + "实时PM2.5及预测");
@@ -47,6 +54,9 @@
             closet.id = "close_pic";
             var chacha = document.createTextNode("×");
             var pmlinechart = document.createElement("canvas");
+
+            title.style.fontFamily = "Microsoft YaHei";
+
             closet.appendChild(chacha);
             closet.onclick = removethis;
             title.appendChild(biaoti);
@@ -55,10 +65,9 @@
             pmcharpic.appendChild(firstLine);
             pmcharpic.appendChild(pmlinechart);
             content.appendChild(pmcharpic);
-            pmcharpic.style.cssText = "position: fixed;text-align:center;top:100px;z-index: 999;background: #cec;width: 1000px;border-radius: .5em;-moz-border-radius: .5em;-webkit-border-radius: .5em;";
-            firstLine.style.cssText = "color: #000;font-size: 2em;font-weight: bold;border-radius: .5em;-moz-border-radius: .5em;-webkit-border-radius: .5em;";
-
-            closet.style.cssText = "display: inline-block;float: right;margin-right: 5px;cursor: pointer;";
+            pmcharpic.style.cssText = "position: fixed;text-align:center;top:100px;z-index: 999;background:	#F0FFFF;width: 1000px;border-radius: .5em;-moz-border-radius: .5em;-webkit-border-radius: .5em;padding-left:30px;padding-top:20px;padding-right:30px;padding-bottom:15px";
+            firstLine.style.cssText = "color: black;font-size: 2em;font-weight: bold;border-radius: .5em;-moz-border-radius: .5em;-webkit-border-radius: .5em;";
+            closet.style.cssText = "color:grey;display: inline-block;float: right;margin-right: 5px;cursor: pointer;";
             var chart = new Chart(pmlinechart, {
                 type: 'line',
                 data: {
@@ -79,12 +88,14 @@
                             pointBorderWidth: 6,
                             pointHoverRadius: 6,
                             pointHoverBackgroundColor: "rgba(255, 206, 86, 1)",
-                            pointHoverBorderColor: "rgba(220,220,220,1)",
+                            pointHoverBorderColor: "rgba(218,165,32,1)",
                             pointHoverBorderWidth: 3,
                             pointRadius: 1,
                             pointHitRadius: 10,
                             data: data,
+
                             spanGaps: false
+
                         }
                     ]
                 },
@@ -92,6 +103,13 @@
                     scales: {
                         yAxes: [{
                             ticks: {
+                                fontColor: "black",
+                                beginAtZero: true
+                            }
+                        }],
+                         xAxes: [{
+                            ticks: {
+                                fontColor: "black",
                                 beginAtZero: true
                             }
                         }]
@@ -101,11 +119,16 @@
             if (pmcharpic) {
                 console.log(pmcharpic);
             }
+            var cover = document.getElementsByClassName("cover")[0];
+            cover.style.display = "block";
+            cover.style.position = "fixed";
         }
         function removethis() {
             var ele = document.getElementById('pmcharpic');
             var parentEle = ele.parentNode;
             parentEle.removeChild(ele);
+            var cover = document.getElementsByClassName("cover")[0];
+            cover.style.display = "none";
         }
     </script>
 {% endblock %}

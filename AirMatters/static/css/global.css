@@ -498,6 +498,14 @@ button:active {
 
 }
 
+
+.pmtd {
+    cursor: pointer;
+}
+.pmtd:hover{
+    color: #f60;
+}
+
 .container {
     min-width: 1000px;
 
