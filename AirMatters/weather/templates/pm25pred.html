@@ -9,7 +9,6 @@
     <span class="time">更新于{{ time | date:"Y-m-d H:i:s" }}</span>
     <div class="predtable">
         <span style="font-size: 1.8em">{{ city_note }}各站点PM2.5数据</span>
-
         <br>
         (点击站点名称可查看未来6小时PM2.5趋势图)
         <br>
@@ -29,8 +28,7 @@
             <tbody>
             {% for sta, list in dict.items %}
                 <tr>
-                    <td class="pmtd" onclick="draw('{{ sta }}',{{ list }})">{{ sta }}</td>
-
+                    <td class="pmtd" onclick="draw('{{ sta }}',{{ list }})" style="cursor: pointer;">{{ sta }}</td>
                     {% for x in list %}
                         <td>{{ x }}</td>
                     {% endfor %}
@@ -65,7 +63,7 @@
             pmcharpic.appendChild(firstLine);
             pmcharpic.appendChild(pmlinechart);
             content.appendChild(pmcharpic);
-            pmcharpic.style.cssText = "position: fixed;text-align:center;top:100px;z-index: 999;background:	#F0FFFF;width: 1000px;border-radius: .5em;-moz-border-radius: .5em;-webkit-border-radius: .5em;padding-left:30px;padding-top:20px;padding-right:30px;padding-bottom:15px";
+            pmcharpic.style.cssText = "position: fixed;text-align: center;top: 100px;z-index: 999;background: #F0FFFF;width: 940px;border-radius: .5em;-moz-border-radius: .5em;-webkit-border-radius: .5em;padding-left:30px;padding-top:20px;padding-right:30px;padding-bottom:15px";
             firstLine.style.cssText = "color: black;font-size: 2em;font-weight: bold;border-radius: .5em;-moz-border-radius: .5em;-webkit-border-radius: .5em;";
             closet.style.cssText = "color:grey;display: inline-block;float: right;margin-right: 5px;cursor: pointer;";
             var chart = new Chart(pmlinechart, {
@@ -93,13 +91,16 @@
                             pointRadius: 1,
                             pointHitRadius: 10,
                             data: data,
-
                             spanGaps: false
-
                         }
                     ]
                 },
                 options: {
+                    legend: {
+                        labels: {
+                            fontColor: 'black'
+                        }
+                    },
                     scales: {
                         yAxes: [{
                             ticks: {
@@ -107,7 +108,7 @@
                                 beginAtZero: true
                             }
                         }],
-                         xAxes: [{
+                        xAxes: [{
                             ticks: {
                                 fontColor: "black",
                                 beginAtZero: true
@@ -116,9 +117,6 @@
                     }
                 }
             });
-            if (pmcharpic) {
-                console.log(pmcharpic);
-            }
             var cover = document.getElementsByClassName("cover")[0];
             cover.style.display = "block";
             cover.style.position = "fixed";
